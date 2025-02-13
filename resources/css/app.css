@@ -1,6 +1,54 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+:root {
+    --bs-body-bg: #121212;
+    --bs-body-color: #e0e0e0;
+
+    --bs-primary: #1e88e5;
+    --bs-secondary: #757575;
+    --bs-success: #43a047;
+    --bs-info: #29b6f6;
+    --bs-warning: #ffa726;
+    --bs-danger: #e53935;
+    --bs-light: #bdbdbd;
+    --bs-dark: #212121;
+
+    --bs-primary-rgb: 30, 136, 229;
+    --bs-secondary-rgb: 117, 117, 117;
+    --bs-success-rgb: 67, 160, 71;
+    --bs-info-rgb: 41, 182, 246;
+    --bs-warning-rgb: 255, 167, 38;
+    --bs-danger-rgb: 229, 57, 53;
+    --bs-light-rgb: 189, 189, 189;
+    --bs-dark-rgb: 33, 33, 33;
+
+    --bs-link-color: #64b5f6;
+    --bs-link-hover-color: #1e88e5;
+
+    --bs-border-color: #333;
+    --bs-btn-border-radius: 6px;
+
+    --bs-card-bg: #1e1e1e;
+    --bs-card-border-color: #333;
+    --bs-card-color: #e0e0e0;
+
+    --bs-modal-bg: #1e1e1e;
+    --bs-modal-border-color: #333;
+    --bs-modal-header-bg: #252525;
+    --bs-modal-footer-bg: #252525;
+
+    --bs-tooltip-bg: rgba(255, 255, 255, 0.8);
+    --bs-tooltip-color: #000;
+
+    --bs-table-bg: #1c1c1c;
+    --bs-table-border-color: #333;
+}
+
+.color-primary {
+    color: #336699;
+}
+
 .float-container {
     position: fixed;
     bottom: 20px;

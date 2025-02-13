@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <div class="hero-bg"></div>
+        {{-- <div class="hero-bg"></div> --}}
         <section class="featured">
             <div class="row mb-2">
                 <div class="col-lg-12">
-                    <h2 class="featured_title fs-3">Komik Unggulan </h2>
+                    <h2 class="featured_title fs-4 fw-bold"><span class="color-primary">Komik </span>Unggulan </h2>
                 </div>
             </div>
             <div class="row g-2">
@@ -57,7 +57,7 @@
         <div class="row">
             <div class="col-12 col-md-8">
                 <section class="latest-project">
-                    <h1 class="fs-3 mb-3">Update Project</h1>
+                    <h1 class="fs-4 fw-bold mb-3"><span class="color-primary">Project</span> Update</h1>
                     <div class="row g-2">
                         <div class="col-6 col-md-3">
                             <a href="" class="text-decoration-none">
@@ -172,7 +172,7 @@
                 </section>
 
                 <section class="latest-update">
-                    <h1 class="fs-3 mb-3">Update Terbaru</h1>
+                    <h1 class="fs-4 mb-3 fw-bold"><span class="color-primary">Latest</span> Update</h1>
                     <div class="row g-2">
                         @foreach ($latestUpdate as $update)
                             <div class="col-6 col-md-3">
@@ -214,7 +214,7 @@
 
             <div class="col-12 col-md-4">
                 <section class="trendings">
-                    <h1 class="fs-3 mt-3 mt-md-0 mb-3"><i class="bi bi-fire"></i> Trending</h1>
+                    <h1 class="fs-4 fw-bold mt-3 mt-md-0 mb-3"><i class="bi bi-fire"></i> Trending</h1>
                     <ul class="nav nav-pills mb-3" id="trendingPills" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active d-flex align-items-center" id="today-pill"
@@ -336,7 +336,7 @@
                     </div>
                 </section>
                 <section class="genres mt-4">
-                    <h1 class="fs-3 mt-3 mt-md-0 mb-3 text-light"><i class="bi bi-grid"></i> Genre</h1>
+                    <h1 class="fs-4 fw-bold mt-3 mt-md-0 mb-3"><i class="bi bi-grid"></i> Genre</h1>
                     <div class="genre-list bg-dark">
                         <div class="row row-cols-2 row-cols-sm-3 g-2">
                             @foreach ($genres as $genre)
