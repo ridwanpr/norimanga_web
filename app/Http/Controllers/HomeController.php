@@ -12,7 +12,7 @@ class HomeController extends Controller
     public function index()
     {
         $latestUpdate = Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
-            ->select('manga.title', 'manga.slug', 'manga_detail.cover')
+            ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type')
             ->orderBy('manga.updated_at', 'desc')
             ->take(16)
             ->get()

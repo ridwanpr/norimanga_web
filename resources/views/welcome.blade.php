@@ -177,10 +177,32 @@
                         @foreach ($latestUpdate as $update)
                             <div class="col-6 col-md-3">
                                 <a href="" class="text-decoration-none">
-                                    <div class="image-container mb-2">
+                                    <div class="position-relative">
                                         <img src="{{ $update->cover }}" onerror="this.src='https://placehold.co/250x300';"
                                             class="img-fluid rounded fixed-size-latest"
                                             alt="{{ $update->title }} cover image">
+                                        @switch($update->type)
+                                            @case('Manga')
+                                                <div
+                                                    class="position-absolute top-0 start-0 bg-danger text-white d-flex align-items-center p-1 rounded-br">
+                                                    <small class="comic-type">Manga</small>
+                                                </div>
+                                            @break
+
+                                            @case('Manhwa')
+                                                <div
+                                                    class="position-absolute top-0 start-0 bg-success text-white d-flex align-items-center p-1 rounded-br">
+                                                    <small class="comic-type">Manhwa</small>
+                                                </div>
+                                            @break
+
+                                            @case('Manhua')
+                                                <div
+                                                    class="position-absolute top-0 start-0 bg-warning text-white d-flex align-items-center p-1 rounded-br">
+                                                    <small class="comic-type">Manhua</small>
+                                                </div>
+                                            @break
+                                        @endswitch
                                         <div class="image-title">
                                             {{ \Str::limit($update->title, 40, '...') }}
                                         </div>
