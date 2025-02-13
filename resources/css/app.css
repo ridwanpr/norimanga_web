@@ -1,0 +1,6 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+}

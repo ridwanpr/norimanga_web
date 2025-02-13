@@ -1,0 +1,239 @@
+@extends('layouts.app')
+@section('content')
+    <div class="container">
+        <div class="hero-bg"></div>
+        <section class="featured">
+            <div class="row mb-2">
+                <div class="col-lg-12">
+                    <h2 class="featured_title fs-3">Komik Unggulan </h2>
+                </div>
+            </div>
+            <div class="row g-2">
+                <div class="col-4 col-md-2">
+                    <div class="image-container">
+                        <img src="https://placehold.co/500x600" class="img-fluid rounded fixed-size-img" alt="">
+                        <div class="image-title">Title Here</div>
+                    </div>
+                </div>
+                <div class="col-4 col-md-2">
+                    <div class="image-container">
+                        <img src="https://placehold.co/500x600" class="img-fluid rounded fixed-size-img" alt="">
+                        <div class="image-title">Title Here</div>
+                    </div>
+                </div>
+                <div class="col-4 col-md-2">
+                    <div class="image-container">
+                        <img src="https://placehold.co/500x600" class="img-fluid rounded fixed-size-img" alt="">
+                        <div class="image-title">Title Here</div>
+                    </div>
+                </div>
+                <div class="col-4 col-md-2">
+                    <div class="image-container">
+                        <img src="https://placehold.co/500x600" class="img-fluid rounded fixed-size-img" alt="">
+                        <div class="image-title">Title Here</div>
+                    </div>
+                </div>
+                <div class="col-4 col-md-2">
+                    <div class="image-container">
+                        <img src="https://placehold.co/500x600" class="img-fluid rounded fixed-size-img" alt="">
+                        <div class="image-title">Title Here</div>
+                    </div>
+                </div>
+                <div class="col-4 col-md-2">
+                    <div class="image-container">
+                        <img src="https://placehold.co/500x600" class="img-fluid rounded fixed-size-img" alt="">
+                        <div class="image-title">Title Here</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="my-4 bg-body-tertiary p-3">
+            <h1 class="fs-5 mb-3">Nori.my – Portal Baca Manga, Manhwa & Manhua Bahasa Indonesia</h1>
+            <p class="mb-0">Selamat datang di Nori.my, situs baca komik online gratis yang menyediakan koleksi manga,
+                manhwa, dan manhua
+                terbaru dalam bahasa Indonesia.
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <section class="latest-update">
+                    <h1 class="fs-3 mb-3">Update Terbaru</h1>
+                    <div class="row g-2">
+                        @foreach ($latestUpdate as $update)
+                            <div class="col-6 col-md-3">
+                                <a href="" class="text-decoration-none">
+                                    <div class="image-container mb-2">
+                                        <img src="{{ $update->cover }}" onerror="this.src='https://placehold.co/250x300';"
+                                            class="img-fluid rounded fixed-size-latest"
+                                            alt="{{ $update->title }} cover image">
+                                        <div class="image-title">
+                                            {{ \Str::limit($update->title, 40, '...') }}
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="text-decoration-none">
+                                    <div
+                                        class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                        <small>Chapter 2</small>
+                                        <small class="text-secondary">2 days</small>
+                                    </div>
+                                </a>
+                                <a href="#" class="text-decoration-none">
+                                    <div
+                                        class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                        <small>Chapter 1</small>
+                                        <small class="text-secondary">4 days</small>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+
+                        <div class="col-12">
+                            <div class="d-flex justify-content-center">
+                                <a href="#" class="btn btn-grey mt-3 mb-2">Lihat Semua</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <section class="trendings">
+                    <h1 class="fs-3 mt-3 mt-md-0 mb-3"><i class="bi bi-fire"></i> Trending</h1>
+                    <ul class="nav nav-pills mb-3" id="trendingPills" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active d-flex align-items-center" id="today-pill" data-bs-toggle="pill"
+                                data-bs-target="#today" type="button" role="tab" aria-controls="today"
+                                aria-selected="true">
+                                <i class="bi bi-calendar-date me-2"></i> Today
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link d-flex align-items-center" id="daily-pill" data-bs-toggle="pill"
+                                data-bs-target="#daily" type="button" role="tab" aria-controls="daily"
+                                aria-selected="false">
+                                <i class="bi bi-calendar-day me-2"></i> Weekly
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link d-flex align-items-center" id="weekly-pill" data-bs-toggle="pill"
+                                data-bs-target="#weekly" type="button" role="tab" aria-controls="weekly"
+                                aria-selected="false">
+                                <i class="bi bi-calendar-week me-2"></i> Monthly
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="trendingPillsContent">
+                        <div class="tab-pane fade show active" id="today" role="tabpanel"
+                            aria-labelledby="today-pill">
+                            <div class="card mb-1">
+                                <div class="row g-0">
+                                    <div class="col-4">
+                                        <img src="https://placehold.co/500x600"
+                                            class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
+                                    </div>
+                                    <div class="col-8 d-flex align-items-center">
+                                        <div class="card-body">
+                                            <h5 class="card-title m-0">Manga Title</h5>
+                                            <p class="card-text m-0">
+                                                <small class="text-secondary">Genres:</small>&nbsp;
+                                                <small class="text-light">Action, Adventure, Comedy</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-1">
+                                <div class="row g-0">
+                                    <div class="col-4">
+                                        <img src="https://placehold.co/500x600"
+                                            class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
+                                    </div>
+                                    <div class="col-8 d-flex align-items-center">
+                                        <div class="card-body">
+                                            <h5 class="card-title m-0">Manga Title</h5>
+                                            <p class="card-text m-0">
+                                                <small class="text-secondary">Genres:</small>&nbsp;
+                                                <small class="text-light">Action, Adventure, Comedy</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-1">
+                                <div class="row g-0">
+                                    <div class="col-4">
+                                        <img src="https://placehold.co/500x600"
+                                            class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
+                                    </div>
+                                    <div class="col-8 d-flex align-items-center">
+                                        <div class="card-body">
+                                            <h5 class="card-title m-0">Manga Title</h5>
+                                            <p class="card-text m-0">
+                                                <small class="text-secondary">Genres:</small>&nbsp;
+                                                <small class="text-light">Action, Adventure, Comedy</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-1">
+                                <div class="row g-0">
+                                    <div class="col-4">
+                                        <img src="https://placehold.co/500x600"
+                                            class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
+                                    </div>
+                                    <div class="col-8 d-flex align-items-center">
+                                        <div class="card-body">
+                                            <h5 class="card-title m-0">Manga Title</h5>
+                                            <p class="card-text m-0">
+                                                <small class="text-secondary">Genres:</small>&nbsp;
+                                                <small class="text-light">Action, Adventure, Comedy</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-1">
+                                <div class="row g-0">
+                                    <div class="col-4">
+                                        <img src="https://placehold.co/500x600"
+                                            class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
+                                    </div>
+                                    <div class="col-8 d-flex align-items-center">
+                                        <div class="card-body">
+                                            <h5 class="card-title m-0">Manga Title</h5>
+                                            <p class="card-text m-0">
+                                                <small class="text-secondary">Genres:</small>&nbsp;
+                                                <small class="text-light">Action, Adventure, Comedy</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="daily" role="tabpanel" aria-labelledby="daily-pill">
+                            <!-- Add weekly trending manga cards here using the same card structure -->
+                        </div>
+                        <div class="tab-pane fade" id="weekly" role="tabpanel" aria-labelledby="weekly-pill">
+                            <!-- Add monthly trending manga cards here using the same card structure -->
+                        </div>
+                    </div>
+                </section>
+                <section class="genres mt-4">
+                    <h1 class="fs-3 mt-3 mt-md-0 mb-3 text-light"><i class="bi bi-grid"></i> Genre</h1>
+                    <div class="genre-list bg-dark">
+                        <div class="row row-cols-2 row-cols-sm-3 g-2">
+                            @foreach ($genres as $genre)
+                                <div class="col">
+                                    <a href="#" class="genre-item">{{ $genre->name }}</a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </div>
+@endsection
