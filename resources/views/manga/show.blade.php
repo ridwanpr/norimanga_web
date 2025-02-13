@@ -77,4 +77,115 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <div class="row mt-4">
+            <div>
+                <h1 class="fs-4 mb-3 fw-bold">Chapter List</h1>
+            </div>
+            <div class="col-12 col-md-8">
+                <input type="text" id="chapterSearch" class="form-control mb-3" placeholder="Search Chapter...">
+                <div class="chapter-list border rounded p-3" style="max-height: 450px; overflow-y: auto;">
+                    <div class="row g-2" id="chapterContainer">
+                        @for ($i = 1; $i <= 100; $i++)
+                            <div class="col-6 col-md-3">
+                                <a href="#" class="btn border w-100">Chapter {{ $i }}</a>
+                            </div>
+                        @endfor
+                    </div>
+                </div>
+
+                <div class="comments">
+                    <h1 class="fs-4 mb-3 fw-bold mt-3">Komentar</h1>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4 mt-4 mt-md-0">
+                <h1 class="fs-4 mb-3 fw-bold">Baca Juga</h1>
+                <div class="card mb-1">
+                    <div class="row g-0">
+                        <div class="col-4">
+                            <img src="https://placehold.co/500x600" class="img-fluid rounded-start fixed-size-trending"
+                                alt="Manga title">
+                        </div>
+                        <div class="col-8 d-flex align-items-center">
+                            <div class="card-body">
+                                <h5 class="card-title m-0">Manga Title</h5>
+                                <p class="card-text m-0">
+                                    <small class="text-secondary">Genres:</small>&nbsp;
+                                    <small class="text-light">Action, Adventure, Comedy</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-1">
+                    <div class="row g-0">
+                        <div class="col-4">
+                            <img src="https://placehold.co/500x600" class="img-fluid rounded-start fixed-size-trending"
+                                alt="Manga title">
+                        </div>
+                        <div class="col-8 d-flex align-items-center">
+                            <div class="card-body">
+                                <h5 class="card-title m-0">Manga Title</h5>
+                                <p class="card-text m-0">
+                                    <small class="text-secondary">Genres:</small>&nbsp;
+                                    <small class="text-light">Action, Adventure, Comedy</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-1">
+                    <div class="row g-0">
+                        <div class="col-4">
+                            <img src="https://placehold.co/500x600" class="img-fluid rounded-start fixed-size-trending"
+                                alt="Manga title">
+                        </div>
+                        <div class="col-8 d-flex align-items-center">
+                            <div class="card-body">
+                                <h5 class="card-title m-0">Manga Title</h5>
+                                <p class="card-text m-0">
+                                    <small class="text-secondary">Genres:</small>&nbsp;
+                                    <small class="text-light">Action, Adventure, Comedy</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-1">
+                    <div class="row g-0">
+                        <div class="col-4">
+                            <img src="https://placehold.co/500x600" class="img-fluid rounded-start fixed-size-trending"
+                                alt="Manga title">
+                        </div>
+                        <div class="col-8 d-flex align-items-center">
+                            <div class="card-body">
+                                <h5 class="card-title m-0">Manga Title</h5>
+                                <p class="card-text m-0">
+                                    <small class="text-secondary">Genres:</small>&nbsp;
+                                    <small class="text-light">Action, Adventure, Comedy</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+@push('js')
+    <script>
+        document.getElementById('chapterSearch').addEventListener('keyup', function() {
+            let searchValue = this.value.toLowerCase();
+            let chapters = document.querySelectorAll('#chapterContainer .col-6');
+
+            chapters.forEach(chapter => {
+                let text = chapter.textContent.toLowerCase();
+                chapter.style.display = text.includes(searchValue) ? '' : 'none';
+            });
+        });
+    </script>
+@endpush

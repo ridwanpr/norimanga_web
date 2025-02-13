@@ -26,6 +26,7 @@
         </a>
     </div>
     @include('layouts.footer')
+    @stack('js')
 </body>
 
 </html>
