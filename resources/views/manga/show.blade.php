@@ -24,15 +24,13 @@
     <div class="bg-body-tertiary py-5">
         <div class="container">
             <div class="row">
-                <!-- Image Column -->
                 <div class="col-12 col-md-2 mb-3 mb-md-0 text-center">
                     <img src="https://placehold.co/250x300" alt="Manga cover" class="img-fluid rounded shadow-sm cover-img">
                     <div class="mt-3">
-                        <button class="btn bg-primary custom-full-width">Bookmark</button>
+                        <button class="btn bg-primary custom-full-width"><i
+                                class="bi bi-bookmark-fill me-2"></i>Bookmark</button>
                     </div>
                 </div>
-
-                <!-- Synopsis Column -->
                 <div class="col-12 col-md-6 mb-3 mb-md-0">
                     <h2 class="h4 mb-3">Synopsis</h2>
                     <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, harum natus?
@@ -49,8 +47,6 @@
                         <a href="#" class="btn bg-primary me-2 watch-now-btn">Last Chapter</a>
                     </div>
                 </div>
-
-                <!-- Details Column -->
                 <div class="col-12 col-md-4">
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
@@ -96,6 +92,7 @@
 
                 <div class="comments">
                     <h1 class="fs-4 mb-3 fw-bold mt-3">Komentar</h1>
+                    <div></div>
                 </div>
             </div>
 

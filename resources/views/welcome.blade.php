@@ -61,7 +61,7 @@
                     <div class="row g-2">
                         <div class="col-6 col-md-3">
                             <a href="" class="text-decoration-none">
-                                <div class="image-container mb-2">
+                                <div class="image-container mb-1">
                                     <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
                                         alt="">
                                     <div class="image-title">
@@ -87,7 +87,7 @@
 
                         <div class="col-6 col-md-3">
                             <a href="" class="text-decoration-none">
-                                <div class="image-container mb-2">
+                                <div class="image-container mb-1">
                                     <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
                                         alt="">
                                     <div class="image-title">
@@ -113,7 +113,7 @@
 
                         <div class="col-6 col-md-3">
                             <a href="" class="text-decoration-none">
-                                <div class="image-container mb-2">
+                                <div class="image-container mb-1">
                                     <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
                                         alt="">
                                     <div class="image-title">
@@ -139,7 +139,7 @@
 
                         <div class="col-6 col-md-3">
                             <a href="" class="text-decoration-none">
-                                <div class="image-container mb-2">
+                                <div class="image-container mb-1">
                                     <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
                                         alt="">
                                     <div class="image-title">
@@ -179,7 +179,7 @@
                                 <a href="" class="text-decoration-none">
                                     <div class="position-relative">
                                         <img src="{{ $update->cover }}" onerror="this.src='https://placehold.co/250x300';"
-                                            class="img-fluid rounded fixed-size-latest"
+                                            class="img-fluid rounded mb-1 fixed-size-latest"
                                             alt="{{ $update->title }} cover image">
                                         @switch($update->type)
                                             @case('Manga')
