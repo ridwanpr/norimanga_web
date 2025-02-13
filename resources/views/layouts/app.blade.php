@@ -15,6 +15,15 @@
     <main class="py-4">
         @yield('content')
     </main>
+
+    <div class="float-container">
+        <a href="" target="_blank" class="float-button trakteer">
+            Trakteer
+        </a>
+        <a href="" target="_blank" class="float-button saweria">
+            Saweria
+        </a>
+    </div>
     @include('layouts.footer')
 </body>
 

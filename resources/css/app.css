@@ -1,6 +1,66 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+.float-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.float-button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+
+.float-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.trakteer {
+    background-color: #be1e2d;
+}
+
+.saweria {
+    background-color: #ffb800;
+    color: #000;
+}
+
+@media screen and (max-width: 768px) {
+    .float-container {
+        flex-direction: column;
+        gap: 8px;
+        right: 10px;
+    }
+
+    .float-container {
+        transition: transform 0.3s;
+    }
+
+    .float-container.hidden {
+        transform: translateY(200%);
+    }
+
+    .float-button {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}
+
 .navbar {
     background-color: rgba(0, 0, 0, 0.2) !important;
 }
