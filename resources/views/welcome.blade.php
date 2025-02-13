@@ -47,11 +47,13 @@
                 </div>
             </div>
         </section>
-        <div class="my-4 bg-body-tertiary p-3">
-            <h1 class="fs-5 mb-3">Nori.my – Portal Baca Manga, Manhwa & Manhua Bahasa Indonesia</h1>
-            <p class="mb-0">Selamat datang di Nori.my, situs baca komik online gratis yang menyediakan koleksi manga,
-                manhwa, dan manhua
-                terbaru dalam bahasa Indonesia.
+        <div class="my-4 bg-dark p-4 rounded shadow-sm">
+            <h1 class="fs-5 mb-3 text-primary">Nori.my – Portal Baca Manga, Manhwa & Manhua Bahasa Indonesia</h1>
+            <p class="mb-0">
+                Selamat datang di Nori.my, situs baca komik online gratis yang menyediakan koleksi manga, manhwa, dan manhua terbaru dalam bahasa Indonesia.
+            </p>
+            <p class="mb-0">
+                Dukung kami dengan donasi melalui <span class="badge bg-danger">Trakteer</span> dan <span class="badge bg-warning text-dark">Saweria</span>
             </p>
         </div>
         <div class="row">
