@@ -56,6 +56,121 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-8">
+                <section class="latest-project">
+                    <h1 class="fs-3 mb-3">Update Project</h1>
+                    <div class="row g-2">
+                        <div class="col-6 col-md-3">
+                            <a href="" class="text-decoration-none">
+                                <div class="image-container mb-2">
+                                    <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
+                                        alt="">
+                                    <div class="image-title">
+                                        Title Here
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <div
+                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                    <small>Chapter 2</small>
+                                    <small class="text-secondary">2 days</small>
+                                </div>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <div
+                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                    <small>Chapter 1</small>
+                                    <small class="text-secondary">4 days</small>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-6 col-md-3">
+                            <a href="" class="text-decoration-none">
+                                <div class="image-container mb-2">
+                                    <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
+                                        alt="">
+                                    <div class="image-title">
+                                        Title Here
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <div
+                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                    <small>Chapter 2</small>
+                                    <small class="text-secondary">2 days</small>
+                                </div>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <div
+                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                    <small>Chapter 1</small>
+                                    <small class="text-secondary">4 days</small>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-6 col-md-3">
+                            <a href="" class="text-decoration-none">
+                                <div class="image-container mb-2">
+                                    <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
+                                        alt="">
+                                    <div class="image-title">
+                                        Title Here
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <div
+                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                    <small>Chapter 2</small>
+                                    <small class="text-secondary">2 days</small>
+                                </div>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <div
+                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                    <small>Chapter 1</small>
+                                    <small class="text-secondary">4 days</small>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-6 col-md-3">
+                            <a href="" class="text-decoration-none">
+                                <div class="image-container mb-2">
+                                    <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
+                                        alt="">
+                                    <div class="image-title">
+                                        Title Here
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <div
+                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                    <small>Chapter 2</small>
+                                    <small class="text-secondary">2 days</small>
+                                </div>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <div
+                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                    <small>Chapter 1</small>
+                                    <small class="text-secondary">4 days</small>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="d-flex justify-content-center">
+                                <a href="#" class="btn btn-grey mt-2 mb-3">Lihat Semua</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="latest-update">
                     <h1 class="fs-3 mb-3">Update Terbaru</h1>
                     <div class="row g-2">
@@ -102,9 +217,9 @@
                     <h1 class="fs-3 mt-3 mt-md-0 mb-3"><i class="bi bi-fire"></i> Trending</h1>
                     <ul class="nav nav-pills mb-3" id="trendingPills" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active d-flex align-items-center" id="today-pill" data-bs-toggle="pill"
-                                data-bs-target="#today" type="button" role="tab" aria-controls="today"
-                                aria-selected="true">
+                            <button class="nav-link active d-flex align-items-center" id="today-pill"
+                                data-bs-toggle="pill" data-bs-target="#today" type="button" role="tab"
+                                aria-controls="today" aria-selected="true">
                                 <i class="bi bi-calendar-date me-2"></i> Today
                             </button>
                         </li>
