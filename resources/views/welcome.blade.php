@@ -214,7 +214,7 @@
                                 </a>
                                 @foreach ($update->chapters as $chapter)
                                     <a href="{{ route('manga.reader', [$update->slug, $chapter->slug]) }}"
-                                        class="text-decoration-none">
+                                        class="text-decoration-none small">
                                         <div
                                             class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
                                             <small>{{ $chapter->title }}</small>
