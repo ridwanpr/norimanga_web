@@ -14,6 +14,17 @@
                 font-size: 13px;
             }
         }
+
+        #scrollProgressBar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 5px;
+            background: #007bff;
+            transition: width 0.1s linear;
+            z-index: 9999;
+        }
     </style>
 @endpush
 
@@ -49,18 +60,18 @@
         </div>
         <div class="nav-ch-section mt-4">
             <div class="d-flex justify-content-between gap-2">
-                <a href="#" class="btn bg-primary">
+                <a href="#" class="btn btn-grey">
                     <i class="bi bi-chevron-left"> Prev</i>
                 </a>
                 <div class="d-flex gap-2 justify-content-between">
-                    <a href="#" class="btn bg-primary">
+                    <a href="#" class="btn btn-grey">
                         <i class="bi bi-list"></i>
                     </a>
-                    <a href="javascript:void(0)" class="btn bg-primary">
+                    <a href="javascript:void(0)" class="btn btn-grey">
                         <i class="bi bi-gear"></i>
                     </a>
                 </div>
-                <a href="#" class="btn bg-primary">
+                <a href="#" class="btn btn-grey">
                     <i class="bi bi-chevron-right"> Next</i>
                 </a>
             </div>
@@ -79,16 +90,7 @@
     <button id="backToTop" class="btn btn-grey position-fixed" style="bottom: 20px; left: 20px; display: none;">
         <i class="bi bi-chevron-up"></i>
     </button>
-    <div id="scrollProgressBar"
-        style="
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 5px;
-    background: #007bff;
-    transition: width 0.1s linear;
-    z-index: 9999;">
+    <div id="scrollProgressBar">
     </div>
 @endsection
 @push('js')
