@@ -54,9 +54,10 @@
 </nav>
 <div class="container my-3">
     <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control me-2" type="search" placeholder="Cari Komik" aria-label="Search">
         <button class="btn btn-grey" type="submit">
             <i class="bi bi-search"></i>
         </button>
     </form>
 </div>
+<hr>
