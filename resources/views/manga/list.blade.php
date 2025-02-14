@@ -49,7 +49,7 @@
         <div class="comic-list">
             @foreach ($comics as $letter => $titles)
                 <div id="{{ $letter }}" class="mt-3">
-                    <h2 class="fs-6 fw-bold border-bottom pb-1 text-white">{{ $letter }}</h2>
+                    <h2 class="fs-6 fw-bold border-bottom pb-1 text-primary">{{ $letter }}</h2>
                     <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-1">
                         @foreach ($titles as $comic)
                             <div class="col">
