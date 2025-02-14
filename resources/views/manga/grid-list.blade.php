@@ -50,7 +50,7 @@
             </form>
         </div>
         <div class="row g-2">
-            @for ($i = 0; $i < 18; $i++)
+            @for ($i = 0; $i < 24; $i++)
                 <div class="col-6 col-md-2">
                     <a href="" class="text-decoration-none">
                         <div class="image-container position-relative mb-1">
