@@ -21,7 +21,7 @@
                 </div>
                 <div class="col">
                     <select name="year" id="year" class="form-select">
-                        <option value="">Tahun</option>
+                        <option value="">&nbsp;Tahun</option>
                         <option value="2022">2022</option>
                         <option value="2021">2021</option>
                         <option value="2020">2020</option>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="col">
                     <select name="type" id="type" class="form-select">
-                        <option value="">Tipe</option>
+                        <option value="">&nbsp;Tipe</option>
                         <option value="manga">Manga</option>
                         <option value="manhwa">Manhwa</option>
                         <option value="manhua">Manhua</option>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col">
                     <select name="status" id="status" class="form-select">
-                        <option value="">Status</option>
+                        <option value="">&nbsp;Status</option>
                         <option value="completed">Completed</option>
                         <option value="ongoing">Ongoing</option>
                     </select>
@@ -74,15 +74,6 @@
     <script>
         $(document).ready(function() {
             $('#genre').select2({
-                theme: 'bootstrap-5'
-            });
-            $('#year').select2({
-                theme: 'bootstrap-5'
-            });
-            $('#type').select2({
-                theme: 'bootstrap-5'
-            });
-            $('#status').select2({
                 theme: 'bootstrap-5'
             });
         });
