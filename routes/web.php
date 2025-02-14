@@ -13,5 +13,4 @@ Route::get('daftar-komik/text', [MangaListController::class, 'textList'])->name(
 Route::get('komik/{slug}', [MangaController::class, 'show'])->name('manga.show');
 Route::get('komik/{slug}/{chapter_slug}', [MangaController::class, 'reader'])->name('manga.reader');
 
-
-Route::view('list', 'manga.grid-list');
+Route::view('reader', 'manga.reader');
