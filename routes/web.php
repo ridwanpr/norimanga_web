@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('daftar-komik', [MangaListController::class, 'gridList'])->name('manga.grid-list');
 Route::get('komik/{slug}', [MangaController::class, 'show'])->name('manga.show');
-Route::view('reader', 'manga.reader');
+Route::get('komik/{slug}/{chapter_slug}', [MangaController::class, 'reader'])->name('manga.reader');
+
 Route::view('text-list', 'manga.list');
 Route::view('list', 'manga.grid-list');

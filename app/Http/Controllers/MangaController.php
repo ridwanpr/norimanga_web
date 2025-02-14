@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Manga;
+use App\Models\MangaChapter;
 use App\Models\MangaDetail;
 use Illuminate\Http\Request;
 
@@ -17,5 +18,14 @@ class MangaController extends Controller
         $manga->detail->cover = str_replace('.s3.tebi.io', '', $manga->detail->cover);
 
         return view('manga.show', compact('manga'));
+    }
+
+    public function reader($slug, $chapter_slug)
+    {
+        $chapter = MangaChapter::where('slug', $chapter_slug)
+            ->with('manga')
+            ->firstOrFail();
+
+        return view('manga.reader', compact('chapter'));
     }
 }

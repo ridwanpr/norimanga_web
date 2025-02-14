@@ -33,7 +33,8 @@
         <div class="top-section">
             <div class="text-center mb-3">
                 <h1 class="title fs-4 fw-bold">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, explicabo?
+                    {{ $chapter->manga->title }} .
+                    {{ $chapter->title }}
                 </h1>
             </div>
             <nav aria-label="breadcrumb">
@@ -42,19 +43,19 @@
                         <a href="#" class="text-white text-decoration-none">Beranda</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="#" class="text-white text-decoration-none">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate veritatis pariatur quia eum
-                            nulla! Accusantium.
+                        <a href="{{ route('manga.show', $chapter->manga->slug) }}" class="text-white text-decoration-none">
+                            {{ $chapter->manga->title }}
                         </a>
                     </li>
                     <li class="breadcrumb-item active text-white" aria-current="page">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, iure?
+                        {{ $chapter->title }}
                     </li>
                 </ol>
             </nav>
             <p>
-                Baca manga terbaru [Judul] ID Chapter [No Ch] di Nori. Manga [Judul] ID selalu
-                diperbarui di Nori.my. Jangan lupa untuk membaca pembaruan manga lainnya. Daftar koleksi manga Nori ada
+                Baca manga terbaru {{ $chapter->manga->title }} ID {{ $chapter->title }} di Nori. Komik manga
+                {{ $chapter->manga->title }} Bahas Indo selalu
+                diperbarui di Nori.my. Jangan lupa untuk membaca pembaruan komik lainnya. Daftar koleksi komik Nori ada
                 di menu Daftar Komik.
             </p>
             <div class="alert alert-warning w-100" role="alert">
@@ -108,7 +109,12 @@
             </div>
         </div>
         <div class="tags mt-4 py-0 px-1 bg-dark rounded">
-            <small class="text-light">Tags: Lorem ipsum dolor sit amet consectetur adipisicing elit.</small>
+            <small class="text-light">Tags: baca manga {{ $chapter->manga->title }} {{ $chapter->title }} bahasa Indonesia,
+                komik {{ $chapter->manga->title }} {{ $chapter->title }} bahasa Indonesia, baca
+                {{ $chapter->manga->title }} {{ $chapter->title }} online, {{ $chapter->manga->title }}
+                {{ $chapter->title }} bab, {{ $chapter->manga->title }} {{ $chapter->title }} chapter,
+                {{ $chapter->manga->title }} {{ $chapter->title }} high quality, {{ $chapter->manga->title }}
+                {{ $chapter->title }} manga scan, {{ now()->format('F d, Y') }}, Nori.my</small>
         </div>
         <div class="comments mt-4 pb-1 pt-0 px-2 bg-dark rounded">
             <h1 class="fs-4 mb-3 fw-bold mt-3">Komentar</h1>

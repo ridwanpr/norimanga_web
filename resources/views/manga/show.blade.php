@@ -110,7 +110,8 @@
                     <div class="row g-2" id="chapterContainer">
                         @foreach ($manga->chapters as $chapter)
                             <div class="col-6 col-md-3">
-                                <a href="" class="btn border w-100">{{ $chapter->title }}</a>
+                                <a href="{{ route('manga.reader', [$manga->slug, $chapter->slug]) }}"
+                                    class="btn border w-100">{{ $chapter->title }}</a>
                             </div>
                         @endforeach
                     </div>
