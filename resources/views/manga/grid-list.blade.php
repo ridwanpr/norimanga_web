@@ -53,11 +53,19 @@
             @for ($i = 0; $i < 18; $i++)
                 <div class="col-6 col-md-2">
                     <a href="" class="text-decoration-none">
-                        <div class="image-container mb-1">
+                        <div class="image-container position-relative mb-1">
                             <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
                                 alt="">
                             <div class="image-title">
                                 Title Here
+                            </div>
+                            <div
+                                class="position-absolute top-0 start-0 bg-danger text-white d-flex align-items-center p-1 rounded-br">
+                                <small class="comic-type">Manga</small>
+                            </div>
+                            <div
+                                class="position-absolute top-50 start-0 bg-dark text-white d-flex align-items-center p-1 rounded-bl opacity-75">
+                                <small class="comic-type">Chapter 2</small>
                             </div>
                         </div>
                     </a>
