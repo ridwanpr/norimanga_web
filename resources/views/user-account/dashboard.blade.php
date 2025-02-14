@@ -1,4 +1,12 @@
 @extends('layouts.app')
+@push('css')
+    <style>
+        .alert:hover {
+            cursor: pointer;
+            opacity: 0.75;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="container">
         <div class="row mb-2">
@@ -65,7 +73,7 @@
                                     <label for="password" class="form-label">New Password</label>
                                     <input type="password" class="form-control" id="password" name="password">
                                     <div id="passwordHelpBlock" class="form-text">
-                                        Kosongkan jika Anda tidak ingin mengubah kata sandi Anda.
+                                        Kosongkan jika tidak ingin mengubah password
                                     </div>
                                 </div>
                             </div>

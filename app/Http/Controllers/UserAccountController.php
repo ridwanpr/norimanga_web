@@ -20,7 +20,7 @@ class UserAccountController extends Controller
             'name' => 'required|string|max:50',
             'email' => 'required|email|unique:users,email,' . $id,
             'old_password' => 'required|current_password',
-            'password' => 'nullable|confirmed|min:8',
+            'password' => 'nullable|min:8',
         ]);
 
         $user = User::findOrFail($id);
