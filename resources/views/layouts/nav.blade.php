@@ -4,7 +4,7 @@
             style="font-family: 'Nunito', sans-serif;
                font-weight: 800;
                font-size: 2rem;
-               color: #336699;">
+               color: #1e88e5;">
             Nori
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
