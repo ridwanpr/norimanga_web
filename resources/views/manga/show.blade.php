@@ -14,6 +14,10 @@
             width: 100%;
         }
 
+        .genre-text {
+            font-size: 14px;
+        }
+
         @media (min-width: 768px) {
             .cover-img {
                 width: 100%;
@@ -23,6 +27,10 @@
         @media (max-width: 767px) {
             .watch-now-btn {
                 width: 100%;
+            }
+
+            .genre-text {
+                font-size: 13px;
             }
         }
 
@@ -61,8 +69,12 @@
                         @endforeach
                     </ul>
                     <div class="d-flex mt-3">
-                        <a href="#" class="btn bg-primary me-2 watch-now-btn">Chapter 1</a>
-                        <a href="#" class="btn bg-primary me-2 watch-now-btn">Last Chapter</a>
+                        @if ($manga->chapters->isNotEmpty())
+                            <a href="{{ route('manga.reader', [$manga->slug, $manga->chapters->first()->slug]) }}"
+                                class="btn bg-primary me-2 watch-now-btn">Chapter 1</a>
+                            <a href="{{ route('manga.reader', [$manga->slug, $manga->chapters->last()->slug]) }}"
+                                class="btn bg-primary me-2 watch-now-btn">Last Chapter</a>
+                        @endif
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
@@ -152,7 +164,7 @@
                                     <h5 class="card-title m-0"><a href="{{ route('manga.show', $item->slug) }}"
                                             class="text-decoration-none fs-6">{{ Str::limit($item->title, 40, '...') }}</a>
                                     </h5>
-                                    <p class="card-text m-0">
+                                    <p class="card-text genre-text m-0">
                                         <small class="text-secondary">Genres:</small>&nbsp;
                                         <small class="text-light">
                                             @foreach ($item->genres as $genre)

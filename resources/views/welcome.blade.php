@@ -1,4 +1,17 @@
 @extends('layouts.app')
+@push('css')
+    <style>
+        .sidebar-text {
+            font-size: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-text {
+                font-size: 13px;
+            }
+        }
+    </style>
+@endpush
 @section('content')
     <div class="container py-1">
         {{-- <div class="hero-bg"></div> --}}
@@ -274,9 +287,10 @@
                                             </div>
                                             <div class="col-8 d-flex align-items-center">
                                                 <div class="card-body">
-                                                    <h5 class="card-title m-0">{{ Str::limit($daily->title, 40, '...') }}
+                                                    <h5 class="card-title sidebar-text m-0">
+                                                        {{ Str::limit($daily->title, 40, '...') }}
                                                     </h5>
-                                                    <p class="card-text m-0">
+                                                    <p class="card-text sidebar-text m-0">
                                                         <small class="text-secondary">Genres:</small>&nbsp;
                                                         <small class="text-light">Action, Adventure, Comedy</small>
                                                     </p>
@@ -297,10 +311,10 @@
                                                     class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
                                             </div>
                                             <div class="col-8 d-flex align-items-center">
-                                                <div class="card-body">
+                                                <div class="card-body sidebar-text">
                                                     <h5 class="card-title m-0">{{ Str::limit($weekly->title, 40, '...') }}
                                                     </h5>
-                                                    <p class="card-text m-0">
+                                                    <p class="card-text sidebar-text m-0">
                                                         <small class="text-secondary">Genres:</small>&nbsp;
                                                         <small class="text-light">Action, Adventure, Comedy</small>
                                                     </p>
@@ -322,10 +336,10 @@
                                             </div>
                                             <div class="col-8 d-flex align-items-center">
                                                 <div class="card-body">
-                                                    <h5 class="card-title m-0">
+                                                    <h5 class="card-title sidebar-text m-0">
                                                         {{ Str::limit($monthly->title, 40, '...') }}
                                                     </h5>
-                                                    <p class="card-text m-0">
+                                                    <p class="card-text sidebar-text m-0">
                                                         <small class="text-secondary">Genres:</small>&nbsp;
                                                         <small class="text-light">Action, Adventure, Comedy</small>
                                                     </p>
