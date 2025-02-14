@@ -28,11 +28,11 @@
                         <i class="bi bi-journal-bookmark-fill me-2 text-warning"></i>Daftar Komik
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="bi bi-explicit-fill me-2 text-danger"></i>NSFW
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="bi bi-bookmark-star-fill me-2 text-success"></i>Bookmark
@@ -44,11 +44,20 @@
                     </a>
                 </li>
             </ul>
-            <div class="d-flex align-items-center mt-2 mt-md-0">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-box-arrow-in-right me-2"></i>Login/Register
-                </a>
-            </div>
+            @guest
+                <div class="d-flex align-items-center mt-2 mt-md-0">
+                    <a class="nav-link" href="{{ route('login') }}">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login/Register
+                    </a>
+                </div>
+            @endguest
+            @auth
+                <div class="d-flex align-items-center mt-2 mt-md-0">
+                    <a class="nav-link" href="{{ route('my-account') }}">
+                        <i class="bi bi-person-circle me-2"></i>My Account
+                    </a>
+                </div>
+            @endauth
         </div>
     </div>
 </nav>

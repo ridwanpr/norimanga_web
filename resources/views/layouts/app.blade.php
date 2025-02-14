@@ -28,6 +28,19 @@
     <button id="backToTop" class="btn btn-grey position-fixed" style="bottom: 20px; left: 20px; display: none;">
         <i class="bi bi-chevron-up"></i>
     </button>
+
+    @if ($errors->any())
+        <script>
+            window.LaravelErrors = @json($errors->all());
+        </script>
+    @endif
+
+    @if (session('success'))
+        <script>
+            window.LaravelSuccessMessage = @json(session('success'));
+        </script>
+    @endif
+
     @include('layouts.footer')
     @stack('js')
 </body>
