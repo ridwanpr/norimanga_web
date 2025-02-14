@@ -21,7 +21,7 @@
 @endpush
 
 @section('content')
-    <div class="bg-body-tertiary py-2 py-md-5">
+    <div class="bg-body-tertiary py-3 py-md-5">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-2 mb-3 mb-md-0 text-center">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6 mb-3 mb-md-0">
-                    <h2 class="h4 mb-3">Synopsis</h2>
+                    <h2 class="h4 mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h2>
                     <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, harum natus?
                         Deleniti
                         dolorem assumenda dicta, nisi consectetur eos at nihil! Voluptatibus, quod expedita. Quisquam,
@@ -50,7 +50,6 @@
                 <div class="col-12 col-md-4">
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
-                            <h1 class="card-title h3 mb-4">Manga Title</h1>
                             <ul class="list-unstyled">
                                 <li class="mb-2"><strong>Type:</strong> <span class="text-muted">Manga</span></li>
                                 <li class="mb-2"><strong>Author:</strong> <span class="text-muted">John Doe</span></li>

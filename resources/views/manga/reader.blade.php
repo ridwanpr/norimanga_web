@@ -29,7 +29,7 @@
 @endpush
 
 @section('content')
-    <div class="container py-3 py-md-5 pb-md-2">
+    <div class="container">
         <div class="top-section">
             <div class="text-center mb-3">
                 <h1 class="title fs-4 fw-bold">
