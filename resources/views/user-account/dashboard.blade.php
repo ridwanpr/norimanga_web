@@ -39,7 +39,7 @@
                 </a>
                 <a href="" class="text-decoration-none">
                     <div class="alert alert-success mt-3 w-100" role="alert">
-                        <i class="bi bi-bar-chart-fill text-success"></i> Klik disini untuk lihat <strong>Statistik
+                        <i class="bi bi-bar-chart-fill text-success"></i> Klik disini untuk lihat <strong>Riwayat Baca</strong> dan <strong>Statistik
                             Akun</strong> anda.
                     </div>
                 </a>

@@ -69,6 +69,10 @@ img:hover {
         height: 190px;
         object-fit: cover;
     }
+    
+    .card-title {
+        font-size: 14px;
+    }
 }
 
 .image-container {

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Manga;
+use App\Models\MangaView;
 use App\Models\MangaDetail;
 use App\Models\MangaChapter;
 use Illuminate\Http\Request;
@@ -15,6 +17,8 @@ class MangaController extends Controller
         $manga = Manga::where('slug', $slug)
             ->with('detail', 'genres', 'chapters')
             ->firstOrFail();
+
+        $ip = request()->ip();
 
         $alsoRead = Cache::remember("alsoRead_{$manga->id}", now()->addHours(2), function () {
             return Manga::with('genres')
@@ -29,8 +33,20 @@ class MangaController extends Controller
                 });
         });
 
-
         $manga->detail->cover = str_replace('.s3.tebi.io', '', $manga->detail->cover);
+
+        $lastView = MangaView::where('manga_id', $manga->id)
+            ->where('ip', $ip)
+            ->where('created_at', '>=', Carbon::now()->subHour())
+            ->exists();
+
+        if (!$lastView) {
+            MangaView::create([
+                'manga_id' => $manga->id,
+                'ip' => $ip,
+                'created_at' => now(),
+            ]);
+        }
 
         return view('manga.show', compact('manga', 'alsoRead'));
     }

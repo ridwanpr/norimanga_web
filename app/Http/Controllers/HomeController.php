@@ -6,6 +6,7 @@ use App\Models\Genre;
 use App\Models\Manga;
 use App\Models\MangaChapter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
@@ -26,8 +27,32 @@ class HomeController extends Controller
                 return $manga;
             });
 
+        $trendingDaily = Cache::remember('trending_daily', now()->endOfDay()->subHour(), function () {
+            return Manga::trending('daily')->with('detail')->take(5)->get()
+                ->map(function ($manga) {
+                    $manga->detail->cover = str_replace('.s3.tebi.io', '', $manga->detail->cover);
+                    return $manga;
+                });
+        });
+
+        $trendingWeekly = Cache::remember('trending_weekly', now()->endOfWeek()->subHour(), function () {
+            return Manga::trending('weekly')->with('detail')->take(5)->get()
+                ->map(function ($manga) {
+                    $manga->detail->cover = str_replace('.s3.tebi.io', '', $manga->detail->cover);
+                    return $manga;
+                });
+        });
+
+        $trendingMonthly = Cache::remember('trending_monthly', now()->endOfMonth()->subHour(), function () {
+            return Manga::trending('monthly')->with('detail')->take(5)->get()
+                ->map(function ($manga) {
+                    $manga->detail->cover = str_replace('.s3.tebi.io', '', $manga->detail->cover);
+                    return $manga;
+                });
+        });
+
         $genres = Genre::select('name', 'slug')->orderBy('name')->get();
 
-        return view('welcome', compact('latestUpdate', 'genres'));
+        return view('welcome', compact('latestUpdate', 'genres', 'trendingDaily', 'trendingWeekly', 'trendingMonthly'));
     }
 }

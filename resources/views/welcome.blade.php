@@ -264,97 +264,77 @@
                     <div class="tab-content" id="trendingPillsContent">
                         <div class="tab-pane fade show active" id="today" role="tabpanel"
                             aria-labelledby="today-pill">
-                            <div class="card mb-1">
-                                <div class="row g-0">
-                                    <div class="col-4">
-                                        <img src="https://placehold.co/500x600"
-                                            class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
-                                    </div>
-                                    <div class="col-8 d-flex align-items-center">
-                                        <div class="card-body">
-                                            <h5 class="card-title m-0">Manga Title</h5>
-                                            <p class="card-text m-0">
-                                                <small class="text-secondary">Genres:</small>&nbsp;
-                                                <small class="text-light">Action, Adventure, Comedy</small>
-                                            </p>
+                            @foreach ($trendingDaily as $daily)
+                                <a href="{{ route('manga.show', $daily->slug) }}" class="text-decoration-none">
+                                    <div class="card mb-1">
+                                        <div class="row g-0">
+                                            <div class="col-4">
+                                                <img src="{{ $daily->detail->cover }}"
+                                                    class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
+                                            </div>
+                                            <div class="col-8 d-flex align-items-center">
+                                                <div class="card-body">
+                                                    <h5 class="card-title m-0">{{ Str::limit($daily->title, 40, '...') }}
+                                                    </h5>
+                                                    <p class="card-text m-0">
+                                                        <small class="text-secondary">Genres:</small>&nbsp;
+                                                        <small class="text-light">Action, Adventure, Comedy</small>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="card mb-1">
-                                <div class="row g-0">
-                                    <div class="col-4">
-                                        <img src="https://placehold.co/500x600"
-                                            class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
-                                    </div>
-                                    <div class="col-8 d-flex align-items-center">
-                                        <div class="card-body">
-                                            <h5 class="card-title m-0">Manga Title</h5>
-                                            <p class="card-text m-0">
-                                                <small class="text-secondary">Genres:</small>&nbsp;
-                                                <small class="text-light">Action, Adventure, Comedy</small>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-1">
-                                <div class="row g-0">
-                                    <div class="col-4">
-                                        <img src="https://placehold.co/500x600"
-                                            class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
-                                    </div>
-                                    <div class="col-8 d-flex align-items-center">
-                                        <div class="card-body">
-                                            <h5 class="card-title m-0">Manga Title</h5>
-                                            <p class="card-text m-0">
-                                                <small class="text-secondary">Genres:</small>&nbsp;
-                                                <small class="text-light">Action, Adventure, Comedy</small>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-1">
-                                <div class="row g-0">
-                                    <div class="col-4">
-                                        <img src="https://placehold.co/500x600"
-                                            class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
-                                    </div>
-                                    <div class="col-8 d-flex align-items-center">
-                                        <div class="card-body">
-                                            <h5 class="card-title m-0">Manga Title</h5>
-                                            <p class="card-text m-0">
-                                                <small class="text-secondary">Genres:</small>&nbsp;
-                                                <small class="text-light">Action, Adventure, Comedy</small>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-1">
-                                <div class="row g-0">
-                                    <div class="col-4">
-                                        <img src="https://placehold.co/500x600"
-                                            class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
-                                    </div>
-                                    <div class="col-8 d-flex align-items-center">
-                                        <div class="card-body">
-                                            <h5 class="card-title m-0">Manga Title</h5>
-                                            <p class="card-text m-0">
-                                                <small class="text-secondary">Genres:</small>&nbsp;
-                                                <small class="text-light">Action, Adventure, Comedy</small>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                </a>
+                            @endforeach
                         </div>
                         <div class="tab-pane fade" id="daily" role="tabpanel" aria-labelledby="daily-pill">
-                            <!-- Add weekly trending manga cards here using the same card structure -->
+                            @foreach ($trendingWeekly as $weekly)
+                                <a href="{{ route('manga.show', $weekly->slug) }}" class="text-decoration-none">
+                                    <div class="card mb-1">
+                                        <div class="row g-0">
+                                            <div class="col-4">
+                                                <img src="{{ $weekly->detail->cover }}"
+                                                    class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
+                                            </div>
+                                            <div class="col-8 d-flex align-items-center">
+                                                <div class="card-body">
+                                                    <h5 class="card-title m-0">{{ Str::limit($weekly->title, 40, '...') }}
+                                                    </h5>
+                                                    <p class="card-text m-0">
+                                                        <small class="text-secondary">Genres:</small>&nbsp;
+                                                        <small class="text-light">Action, Adventure, Comedy</small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
                         </div>
                         <div class="tab-pane fade" id="weekly" role="tabpanel" aria-labelledby="weekly-pill">
-                            <!-- Add monthly trending manga cards here using the same card structure -->
+                            @foreach ($trendingMonthly as $monthly)
+                                <a href="{{ route('manga.show', $monthly->slug) }}" class="text-decoration-none">
+                                    <div class="card mb-1">
+                                        <div class="row g-0">
+                                            <div class="col-4">
+                                                <img src="{{ $monthly->detail->cover }}"
+                                                    class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
+                                            </div>
+                                            <div class="col-8 d-flex align-items-center">
+                                                <div class="card-body">
+                                                    <h5 class="card-title m-0">
+                                                        {{ Str::limit($monthly->title, 40, '...') }}
+                                                    </h5>
+                                                    <p class="card-text m-0">
+                                                        <small class="text-secondary">Genres:</small>&nbsp;
+                                                        <small class="text-light">Action, Adventure, Comedy</small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
                         </div>
                     </div>
                 </section>
