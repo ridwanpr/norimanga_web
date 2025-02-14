@@ -54,7 +54,7 @@
             @auth
                 <div class="d-flex align-items-center mt-2 mt-md-0">
                     <a class="nav-link" href="{{ route('my-account') }}">
-                        <i class="bi bi-person-circle me-2"></i>My Account
+                        <i class="bi bi-person-circle me-2"></i><span class="text-primary">My</span> Account
                     </a>
                 </div>
             @endauth

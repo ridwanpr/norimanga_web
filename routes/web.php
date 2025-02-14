@@ -15,10 +15,15 @@ Route::get('daftar-komik/text', [MangaListController::class, 'textList'])->name(
 Route::get('komik/{slug}', [MangaController::class, 'show'])->name('manga.show');
 Route::get('komik/{slug}/{chapter_slug}', [MangaController::class, 'reader'])->name('manga.reader');
 
-Route::get('login', [AuthController::class, 'login'])->name('login');
-Route::get('register', [AuthController::class, 'register'])->name('register');
-Route::post('login', [AuthController::class, 'postLogin'])->name('login.post');
-Route::post('register', [AuthController::class, 'postRegister'])->name('register.post');
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::middleware('guest')->group(function () {
+    Route::get('login', [AuthController::class, 'login'])->name('login');
+    Route::get('register', [AuthController::class, 'register'])->name('register');
+    Route::post('login', [AuthController::class, 'postLogin'])->name('login.post');
+    Route::post('register', [AuthController::class, 'postRegister'])->name('register.post');
+});
 
-Route::get('my-account', [UserAccountController::class, 'myAccount'])->name('my-account');
+Route::group(['middleware' => ['auth', 'checkRoles:user']], function () {
+    Route::get('my-account', [UserAccountController::class, 'myAccount'])->name('my-account');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::put('update-profile/{id}', [UserAccountController::class, 'updateProfile'])->name('update-profile');
+});
