@@ -66,7 +66,7 @@
             </p>
             <div class="alert alert-warning w-100" role="alert">
                 <i class="bi bi-exclamation-triangle-fill text-warning"></i> <strong>Perhatian!</strong> Jika
-                menemukan gambar yang error atau rusak, <a href="#" class="alert-link">laporkan</a> kepada kami.
+                menemukan gambar yang error, rusak atau tidak tampil. <a href="#" class="alert-link">Laporkan</a> kepada kami.
             </div>
         </div>
         <div class="nav-ch-section mt-4">
@@ -89,12 +89,13 @@
         </div>
     </div>
     <div class="container p-0 px-md-2">
-        <div class="reader mt-2 mt-md-4" id="reader">
+        <div class="reader mt-3 mt-md-4" id="reader">
             <div class="reader-container d-flex flex-column align-items-center">
-                <img src="https://placehold.co/500x600" class="img-fluid w-100" alt="chapter page">
-                <img src="https://placehold.co/500x600" class="img-fluid w-100" alt="chapter page">
-                <img src="https://placehold.co/500x600" class="img-fluid w-100" alt="chapter page">
-                <img src="https://placehold.co/500x600" class="img-fluid w-100" alt="chapter page">
+                @foreach ($images as $image)
+                    <img src="{{ $image }}" class="img-fluid w-100"
+                        alt="{{ $chapter->manga->title }} {{ $chapter->title }}"
+                        onerror="this.onerror=null;this.src='{{ asset('assets/img/no-image.png') }}'">
+                @endforeach
             </div>
         </div>
     </div>
@@ -105,7 +106,7 @@
                     <i class="bi bi-chevron-left"> Prev</i>
                 </a>
                 <div class="d-flex gap-2 justify-content-between">
-                    <a href="#" class="btn btn-grey">
+                    <a href="{{ route('manga.show', $chapter->manga->slug) }}" class="btn btn-grey">
                         <i class="bi bi-list"></i>
                     </a>
                 </div>
@@ -115,7 +116,8 @@
             </div>
         </div>
         <div class="tags mt-4 py-0 px-1 bg-dark rounded">
-            <small class="text-light">Tags: baca manga {{ $chapter->manga->title }} {{ $chapter->title }} bahasa Indonesia,
+            <small class="text-light">Tags: baca manga {{ $chapter->manga->title }} {{ $chapter->title }} bahasa
+                Indonesia,
                 komik {{ $chapter->manga->title }} {{ $chapter->title }} bahasa Indonesia, baca
                 {{ $chapter->manga->title }} {{ $chapter->title }} online, {{ $chapter->manga->title }}
                 {{ $chapter->title }} bab, {{ $chapter->manga->title }} {{ $chapter->title }} chapter,

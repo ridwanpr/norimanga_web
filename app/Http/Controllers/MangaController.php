@@ -41,6 +41,8 @@ class MangaController extends Controller
             ->with('manga')
             ->firstOrFail();
 
-        return view('manga.reader', compact('chapter'));
+        $images = $chapter->getFormattedImages();
+
+        return view('manga.reader', compact('chapter', 'images'));
     }
 }

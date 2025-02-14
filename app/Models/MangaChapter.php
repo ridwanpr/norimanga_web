@@ -22,4 +22,12 @@ class MangaChapter extends Model
     {
         return $this->belongsTo(Manga::class, 'manga_id');
     }
+
+    public function getFormattedImages(): array
+    {
+        $images = json_decode($this->image, true) ?? [];
+        return array_map(function ($url) {
+            return str_replace(['.s3.tebi.io', 'my./'], ['', 'my/'], $url);
+        }, $images);
+    }
 }
