@@ -5,7 +5,7 @@
         <section class="featured">
             <div class="row mb-2">
                 <div class="col-lg-12">
-                    <h2 class="featured_title fs-4 fw-bold"><span class="color-primary">Komik </span>Unggulan </h2>
+                    <h2 class="featured_title fs-4 fw-bold"><span class="text-primary">Komik </span>Unggulan </h2>
                 </div>
             </div>
             <div class="row g-2">
@@ -59,7 +59,7 @@
         <div class="row">
             <div class="col-12 col-md-8">
                 <section class="latest-project">
-                    <h1 class="fs-4 fw-bold mb-3"><span class="color-primary">Project</span> Update</h1>
+                    <h1 class="fs-4 fw-bold mb-3"><span class="text-primary">Project</span> Update</h1>
                     <div class="row g-2">
                         <div class="col-6 col-md-3">
                             <a href="" class="text-decoration-none">
@@ -174,7 +174,7 @@
                 </section>
 
                 <section class="latest-update">
-                    <h1 class="fs-4 mb-3 fw-bold"><span class="color-primary">Latest</span> Update</h1>
+                    <h1 class="fs-4 mb-3 fw-bold"><span class="text-primary">Latest</span> Update</h1>
                     <div class="row g-2">
                         @foreach ($latestUpdate as $update)
                             <div class="col-6 col-md-3">
