@@ -25,6 +25,12 @@
             transition: width 0.1s linear;
             z-index: 9999;
         }
+
+        img:hover {
+            filter: none;
+            transform: none;
+            opacity: 1;
+        }
     </style>
 @endpush
 
