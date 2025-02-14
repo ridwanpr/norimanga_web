@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -26,6 +27,20 @@ return new class extends Migration
             $table->unsignedBigInteger('role_id')->nullable()->default(2);
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
         });
+
+        User::create([
+            'name' => 'Nori',
+            'email' => 'admin@nori.my',
+            'password' => bcrypt('@Nedoeci202'),
+            'role_id' => 1,
+        ]);
+
+        User::create([
+            'name' => 'Ridwan',
+            'email' => 'pratamaridwan111@gmail.com',
+            'password' => bcrypt('@Nedoeci202'),
+            'role_id' => 2,
+        ]);
     }
 
     /**

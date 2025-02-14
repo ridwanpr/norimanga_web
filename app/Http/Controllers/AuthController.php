@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +39,11 @@ class AuthController extends Controller
             'password' => bcrypt($validated['password']),
             'role_id' => Role::USER,
         ]);
+
+        $randomString = Str::random(5);
+
+        $user->slug = strtolower("{$user->name}{$randomString}{$user->id}");
+        $user->save();
 
         Auth::login($user);
 

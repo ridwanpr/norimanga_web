@@ -53,8 +53,10 @@
             @endguest
             @auth
                 <div class="d-flex align-items-center mt-2 mt-md-0">
-                    <a class="nav-link" href="{{ route('my-account') }}">
-                        <i class="bi bi-person-circle me-2"></i><span class="text-primary">My</span> Account
+                    <a class="nav-link"
+                        href="{{ auth()->user()->role_id == 2 ? route('my-account') : route('dashboard') }}">
+                        <i class="bi bi-person-circle me-2"></i><span class="text-primary">My</span>
+                        {{ auth()->user()->role_id == 2 ? 'Account' : 'Dashboard' }}
                     </a>
                 </div>
             @endauth

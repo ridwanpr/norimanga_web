@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MangaController;
@@ -22,8 +23,15 @@ Route::middleware('guest')->group(function () {
     Route::post('register', [AuthController::class, 'postRegister'])->name('register.post');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+});
+
 Route::group(['middleware' => ['auth', 'checkRoles:user']], function () {
     Route::get('my-account', [UserAccountController::class, 'myAccount'])->name('my-account');
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     Route::put('update-profile/{id}', [UserAccountController::class, 'updateProfile'])->name('update-profile');
+});
+
+Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
