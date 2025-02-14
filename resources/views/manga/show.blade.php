@@ -4,6 +4,13 @@
         .cover-img {
             object-fit: cover;
             height: 235px;
+            width: 160px;
+        }
+
+        @media (min-width: 768px) {
+            .cover-img {
+                width: 100%;
+            }
         }
 
         @media (max-width: 767px) {
@@ -25,22 +32,25 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-2 mb-3 mb-md-0 text-center">
-                    <img src="https://placehold.co/250x300" alt="Manga cover" class="img-fluid rounded shadow-sm cover-img">
+                    <img src="{{ $manga->detail->cover }}" alt="Manga cover" class="img-fluid rounded shadow-sm cover-img">
                     <div class="mt-3">
                         <button class="btn bg-primary custom-full-width"><i
                                 class="bi bi-bookmark-fill me-2"></i>Bookmark</button>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 mb-3 mb-md-0">
-                    <h2 class="h4 mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h2>
-                    <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, harum natus?
-                        Deleniti
-                        dolorem assumenda dicta, nisi consectetur eos at nihil! Voluptatibus, quod expedita. Quisquam,
-                        voluptatum.</p>
+                    <h2 class="h4 mb-3">{{ $manga->title }}</h2>
+                    <p class="text-muted">{{ $manga->detail->synopsis }}</p>
                     <ul class="list-unstyled d-flex flex-wrap mb-0">
-                        <li class="me-3 text-primary bg-primary bg-opacity-10 rounded-3 px-2 py-1">Action</li>
-                        <li class="me-3 text-success bg-success bg-opacity-10 rounded-3 px-2 py-1">Adventure</li>
-                        <li class="me-3 text-warning bg-warning bg-opacity-10 rounded-3 px-2 py-1">Comedy</li>
+                        @foreach ($manga->genres as $genre)
+                            @php
+                                $colors = ['bg-primary', 'bg-success', 'bg-info', 'bg-warning', 'bg-danger'];
+                                $color = $colors[$loop->index % 5];
+                            @endphp
+                            <li
+                                class="me-3 mt-2 mb-1 {{ $color }} {{ $color }} bg-opacity-10 rounded-3 px-2 py-1">
+                                {{ $genre->name }}</li>
+                        @endforeach
                     </ul>
                     <div class="d-flex mt-3">
                         <a href="#" class="btn bg-primary me-2 watch-now-btn">Chapter 1</a>
@@ -51,12 +61,29 @@
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
                             <ul class="list-unstyled">
-                                <li class="mb-2"><strong>Type:</strong> <span class="text-muted">Manga</span></li>
-                                <li class="mb-2"><strong>Author:</strong> <span class="text-muted">John Doe</span></li>
-                                <li class="mb-2"><strong>Artist:</strong> <span class="text-muted">John Doe</span></li>
-                                <li class="mb-2"><strong>Year:</strong> <span class="text-muted">2024</span>
+                                <li class="mb-2"><strong>Type:</strong> <span
+                                        class="text-muted">{{ $manga->detail->type ?? '-' }}</span></li>
+                                <li class="mb-2"><strong>Author:</strong> <span
+                                        class="text-muted">{{ $manga->detail->author ?? '-' }}</span></li>
+                                <li class="mb-2"><strong>Artist:</strong> <span
+                                        class="text-muted">{{ $manga->detail->artist ?? '-' }}</span></li>
+                                <li class="mb-2"><strong>Year:</strong> <span
+                                        class="text-muted">{{ $manga->detail->release_year ?? '-' }}</span>
                                 </li>
-                                <li class="mb-2"><strong>Status:</strong> <span class="badge bg-success">Ongoing</span>
+                                <li class="mb-2">
+                                    <strong>Status:</strong>
+                                    <span
+                                        class="badge 
+                                        {{ $manga->detail->status === 'Ongoing'
+                                            ? 'bg-primary'
+                                            : ($manga->detail->status === 'Completed'
+                                                ? 'bg-success'
+                                                : ($manga->detail->status === 'Dropped'
+                                                    ? 'bg-danger'
+                                                    : 'bg-secondary')) }}">
+                                        {{ $manga->detail->status ?? '-' }}
+                                    </span>
+                                </li>
                                 </li>
                                 <li class="mb-2">
                                     <strong>Rating:</strong>
@@ -81,11 +108,11 @@
                 <input type="text" id="chapterSearch" class="form-control mb-3" placeholder="Search Chapter...">
                 <div class="chapter-list border rounded p-3" style="max-height: 450px; overflow-y: auto;">
                     <div class="row g-2" id="chapterContainer">
-                        @for ($i = 1; $i <= 100; $i++)
+                        @foreach ($manga->chapters as $chapter)
                             <div class="col-6 col-md-3">
-                                <a href="#" class="btn border w-100">Chapter {{ $i }}</a>
+                                <a href="" class="btn border w-100">{{ $chapter->title }}</a>
                             </div>
-                        @endfor
+                        @endforeach
                     </div>
                 </div>
 

@@ -14,19 +14,17 @@
                 <div class="col">
                     <select name="genre" id="genre" class="form-select">
                         <option value="">Genre</option>
-                        <option value="1">Action</option>
-                        <option value="2">Adventure</option>
-                        <option value="3">Comedy</option>
+                        @foreach ($genres as $genre)
+                            <option value="{{ $genre->slug }}">{{ $genre->name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col">
                     <select name="year" id="year" class="form-select">
                         <option value="">&nbsp;Tahun</option>
-                        <option value="2022">2022</option>
-                        <option value="2021">2021</option>
-                        <option value="2020">2020</option>
-                        <option value="2019">2019</option>
-                        <option value="2018">2018</option>
+                        @for ($year = date('Y'); $year >= 2005; $year--)
+                            <option value="{{ $year }}">{{ $year }}</option>
+                        @endfor
                     </select>
                 </div>
                 <div class="col">
@@ -50,27 +48,27 @@
             </form>
         </div>
         <div class="row g-2">
-            @for ($i = 0; $i < 24; $i++)
+            @foreach ($latestUpdate as $manga)
                 <div class="col-6 col-md-2">
-                    <a href="" class="text-decoration-none">
+                    <a href="{{ route('manga.show', $manga->slug) }}" class="text-decoration-none">
                         <div class="image-container position-relative mb-1">
-                            <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
-                                alt="">
+                            <img src="{{ $manga->cover }}" class="img-fluid rounded fixed-size-latest"
+                                alt="{{ $manga->title }}">
                             <div class="image-title">
-                                Title Here
+                                {{ $manga->title }}
                             </div>
                             <div
-                                class="position-absolute top-0 start-0 bg-danger text-white d-flex align-items-center p-1 rounded-br">
-                                <small class="comic-type">Manga</small>
+                                class="position-absolute top-0 start-0 bg-{{ $manga->type === 'Manga' ? 'danger' : ($manga->type === 'Manhwa' ? 'success' : 'warning') }} text-white d-flex align-items-center p-1 rounded-br">
+                                <small class="comic-type">{{ $manga->type }}</small>
                             </div>
                             <div
                                 class="position-absolute top-50 start-0 bg-dark text-white d-flex align-items-center p-1 rounded-bl opacity-75">
-                                <small class="comic-type">Chapter 2</small>
+                                <small class="comic-type">{{ $manga->status }}</small>
                             </div>
                         </div>
                     </a>
                 </div>
-            @endfor
+            @endforeach
         </div>
     </div>
 @endsection
@@ -82,7 +80,23 @@
     <script>
         $(document).ready(function() {
             $('#genre').select2({
-                theme: 'bootstrap-5'
+                theme: 'bootstrap-5',
+                dropdownAutoWidth: true,
+                width: '100%',
+                maximumInputLength: 50,
+            }).on('select2:open', function() {
+                $('.select2-dropdown').css('max-height', '300px').css('overflow-y', 'auto');
+            });
+        });
+
+        $(document).ready(function() {
+            $('#year').select2({
+                theme: 'bootstrap-5',
+                dropdownAutoWidth: true,
+                width: '100%',
+                maximumInputLength: 50,
+            }).on('select2:open', function() {
+                $('.select2-dropdown').css('max-height', '300px').css('overflow-y', 'auto');
             });
         });
     </script>

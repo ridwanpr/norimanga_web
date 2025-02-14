@@ -24,13 +24,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{ route('manga.grid-list') }}">
                         <i class="bi bi-journal-bookmark-fill me-2 text-warning"></i>Daftar Komik
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        <i class="bi bi-explicit-fill me-2 text-danger"></i>NSFW 18+
+                        <i class="bi bi-explicit-fill me-2 text-danger"></i>NSFW
                     </a>
                 </li>
                 <li class="nav-item">
