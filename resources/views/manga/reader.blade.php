@@ -75,7 +75,7 @@
                     <i class="bi bi-chevron-left"> Prev</i>
                 </a>
                 <div class="d-flex gap-2 justify-content-between">
-                    <a href="#" class="btn btn-grey">
+                    <a href="{{ route('manga.show', $chapter->manga->slug) }}" class="btn btn-grey">
                         <i class="bi bi-list"></i>
                     </a>
                     <a href="javascript:void(0)" class="btn btn-grey setting-btn">
