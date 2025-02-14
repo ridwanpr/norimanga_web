@@ -52,8 +52,8 @@
                 <div class="col-6 col-md-2">
                     <a href="{{ route('manga.show', $manga->slug) }}" class="text-decoration-none">
                         <div class="image-container position-relative mb-1">
-                            <img src="{{ $manga->cover }}" class="img-fluid rounded fixed-size-latest"
-                                alt="{{ $manga->title }}">
+                            <img src="{{ $manga->cover }}" onerror="this.src='{{ asset('assets/img/no-image.png') }}'"
+                                class="img-fluid rounded fixed-size-latest" alt="{{ $manga->title ?? '' }}">
                             <div class="image-title">
                                 {{ $manga->title }}
                             </div>
@@ -69,6 +69,9 @@
                     </a>
                 </div>
             @endforeach
+        </div>
+        <div class="mt-4">
+            {{ $latestUpdate->links() }}
         </div>
     </div>
 @endsection

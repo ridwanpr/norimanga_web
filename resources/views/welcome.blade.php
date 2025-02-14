@@ -178,7 +178,7 @@
                     <div class="row g-2">
                         @foreach ($latestUpdate as $update)
                             <div class="col-6 col-md-3">
-                                <a href="" class="text-decoration-none">
+                                <a href="{{ route('manga.show', $update->slug) }}" class="text-decoration-none">
                                     <div class="position-relative">
                                         <img src="{{ $update->cover }}" onerror="this.src='https://placehold.co/250x300';"
                                             class="img-fluid rounded mb-1 fixed-size-latest"
