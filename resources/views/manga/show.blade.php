@@ -32,7 +32,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-2 mb-3 mb-md-0 text-center">
-                    <img src="{{ $manga->detail->cover }}" alt="Manga cover" class="img-fluid rounded shadow-sm cover-img">
+                    <img src="{{ $manga->detail->cover }}" alt="{{ $manga->title }}" class="img-fluid rounded shadow-sm cover-img">
                     <div class="mt-3">
                         <button class="btn bg-primary custom-full-width"><i
                                 class="bi bi-bookmark-fill me-2"></i>Bookmark</button>
