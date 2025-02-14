@@ -26,7 +26,11 @@
                 'G' => ['Gantz', 'Gintama', 'Great Teacher Onizuka'],
                 'H' => ['Haikyuu!', 'Himouto! Umaru-chan'],
                 'I' => ['Inuyasha', 'Is It Wrong to Try to Pick Up Girls in a Dungeon?'],
-                'J' => ['Jojo\'s Bizarre Adventure', 'Jujutsu Kaisen'],
+                'J' => [
+                    'Jojo\'s Bizarre Adventure',
+                    'Jujutsu Kaisen',
+                    '“Kukuku… He is the weakest of the Four Heavenly Monarchs.” I was dismissed from my job but somehow I became the master of a hero and a holy maiden.',
+                ],
                 'K' => ['Kaguya-sama: Love is War', 'Kaiju No. 8', 'Kimi no Todoke'],
                 'L' => ['Liar Game', 'Little Witch Academia'],
                 'M' => ['Made in Abyss', 'Magi: The Labyrinth of Magic', 'Monster'],
@@ -50,15 +54,37 @@
             @foreach ($comics as $letter => $titles)
                 <div id="{{ $letter }}" class="mt-3">
                     <h2 class="fs-6 fw-bold border-bottom pb-1 text-primary">{{ $letter }}</h2>
-                    <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-1">
-                        @foreach ($titles as $comic)
-                            <div class="col">
-                                <a href="#" class="text-decoration-none d-block small p-1 border rounded text-white">
-                                    {{ $comic }}
-                                </a>
-                            </div>
-                        @endforeach
+
+                    <!-- List View -->
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <ul class="list-unstyled">
+                                @foreach ($titles as $index => $comic)
+                                    @if ($index % 2 == 0)
+                                        <!-- First Column -->
+                                        <li class="border-bottom p-1">
+                                            <a href="#"
+                                                class="text-decoration-none text-white small">{{ $comic }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <ul class="list-unstyled">
+                                @foreach ($titles as $index => $comic)
+                                    @if ($index % 2 != 0)
+                                        <!-- Second Column -->
+                                        <li class="border-bottom p-1">
+                                            <a href="#"
+                                                class="text-decoration-none text-white small">{{ $comic }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
+
                 </div>
             @endforeach
         </div>
