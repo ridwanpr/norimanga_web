@@ -23,6 +23,10 @@
     background-color: #4b5563;
 }
 
+img:hover {
+    opacity: 0.7;
+}
+
 .hero-bg {
     background-image: url("../../public/assets/img/hero-bg.webp");
     position: absolute;

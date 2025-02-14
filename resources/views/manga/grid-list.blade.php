@@ -55,7 +55,7 @@
                             <img src="{{ $manga->cover }}" onerror="this.src='{{ asset('assets/img/no-image.png') }}'"
                                 class="img-fluid rounded fixed-size-latest" alt="{{ $manga->title ?? '' }}">
                             <div class="image-title">
-                                {{ $manga->title }}
+                                {{ \Str::limit($manga->title, 40, '...') }}
                             </div>
                             <div
                                 class="position-absolute top-0 start-0 bg-{{ $manga->type === 'Manga' ? 'danger' : ($manga->type === 'Manhwa' ? 'success' : 'warning') }} text-white d-flex align-items-center p-1 rounded-br">

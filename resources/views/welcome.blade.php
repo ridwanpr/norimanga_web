@@ -50,10 +50,12 @@
         <div class="my-4 bg-dark p-4 rounded shadow-sm">
             <h1 class="fs-5 mb-3 text-primary">Nori.my – Portal Baca Manga, Manhwa & Manhua Bahasa Indonesia</h1>
             <p class="mb-0">
-                Selamat datang di Nori.my, situs baca komik online gratis yang menyediakan koleksi manga, manhwa, dan manhua dalam bahasa Indonesia.
+                Selamat datang di Nori.my, situs baca komik online gratis yang menyediakan koleksi manga, manhwa, dan manhua
+                dalam bahasa Indonesia.
             </p>
             <p class="mb-0">
-                Dukung kami dengan donasi melalui <span class="badge bg-danger">Trakteer</span> dan <span class="badge bg-warning text-dark">Saweria</span>
+                Dukung kami dengan donasi melalui <span class="badge bg-danger">Trakteer</span> dan <span
+                    class="badge bg-warning text-dark">Saweria</span>
             </p>
         </div>
         <div class="row">
@@ -210,26 +212,23 @@
                                         </div>
                                     </div>
                                 </a>
-                                <a href="#" class="text-decoration-none">
-                                    <div
-                                        class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                        <small>Chapter 2</small>
-                                        <small class="text-secondary">2 days</small>
-                                    </div>
-                                </a>
-                                <a href="#" class="text-decoration-none">
-                                    <div
-                                        class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                        <small>Chapter 1</small>
-                                        <small class="text-secondary">4 days</small>
-                                    </div>
-                                </a>
+                                @foreach ($update->chapters as $chapter)
+                                    <a href="{{ route('manga.reader', [$update->slug, $chapter->slug]) }}"
+                                        class="text-decoration-none">
+                                        <div
+                                            class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                            <small>{{ $chapter->title }}</small>
+                                            <small
+                                                class="text-secondary">{{ $chapter->created_at->diffForHumans() }}</small>
+                                        </div>
+                                    </a>
+                                @endforeach
                             </div>
                         @endforeach
 
                         <div class="col-12">
                             <div class="d-flex justify-content-center">
-                                <a href="#" class="btn btn-grey mt-3 mb-2">Lihat Semua</a>
+                                <a href="{{ route('manga.grid-list') }}" class="btn btn-grey mt-3 mb-2">Lihat Semua</a>
                             </div>
                         </div>
                     </div>
