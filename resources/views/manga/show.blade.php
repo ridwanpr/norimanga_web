@@ -7,6 +7,13 @@
             width: 160px;
         }
 
+        .also-read-img {
+            object-fit: cover;
+            object-position: center;
+            height: 130px;
+            width: 100%;
+        }
+
         @media (min-width: 768px) {
             .cover-img {
                 width: 100%;
@@ -32,7 +39,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-2 mb-3 mb-md-0 text-center">
-                    <img src="{{ $manga->detail->cover }}" alt="{{ $manga->title }}" class="img-fluid rounded shadow-sm cover-img">
+                    <img src="{{ $manga->detail->cover }}" alt="{{ $manga->title }}"
+                        class="img-fluid rounded shadow-sm cover-img">
                     <div class="mt-3">
                         <button class="btn bg-primary custom-full-width"><i
                                 class="bi bi-bookmark-fill me-2"></i>Bookmark</button>
@@ -125,77 +133,35 @@
 
             <div class="col-12 col-md-4 mt-4 mt-md-0">
                 <h1 class="fs-4 mb-3 fw-bold">Baca Juga</h1>
-                <div class="card mb-1">
-                    <div class="row g-0">
-                        <div class="col-4">
-                            <img src="https://placehold.co/500x600" class="img-fluid rounded-start fixed-size-trending"
-                                alt="Manga title">
-                        </div>
-                        <div class="col-8 d-flex align-items-center">
-                            <div class="card-body">
-                                <h5 class="card-title m-0">Manga Title</h5>
-                                <p class="card-text m-0">
-                                    <small class="text-secondary">Genres:</small>&nbsp;
-                                    <small class="text-light">Action, Adventure, Comedy</small>
-                                </p>
+                @foreach ($alsoRead as $item)
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-4">
+                                <a href="{{ route('manga.show', $item->slug) }}">
+                                    <img src="{{ $item->cover }}" class="img-fluid rounded-start also-read-img"
+                                        alt="{{ $item->title }}"
+                                        onerror="this.onerror=null;this.src='{{ asset('assets/img/no-image.png') }}';">
+                                </a>
+                            </div>
+                            <div class="col-8 d-flex align-items-center">
+                                <div class="card-body">
+                                    <h5 class="card-title m-0"><a href="{{ route('manga.show', $item->slug) }}"
+                                            class="text-decoration-none fs-6">{{ Str::limit($item->title, 40, '...') }}</a>
+                                    </h5>
+                                    <p class="card-text m-0">
+                                        <small class="text-secondary">Genres:</small>&nbsp;
+                                        <small class="text-light">
+                                            @foreach ($item->genres as $genre)
+                                                {{ $genre->name . ', ' }}
+                                            @endforeach
+                                        </small>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endforeach
 
-                <div class="card mb-1">
-                    <div class="row g-0">
-                        <div class="col-4">
-                            <img src="https://placehold.co/500x600" class="img-fluid rounded-start fixed-size-trending"
-                                alt="Manga title">
-                        </div>
-                        <div class="col-8 d-flex align-items-center">
-                            <div class="card-body">
-                                <h5 class="card-title m-0">Manga Title</h5>
-                                <p class="card-text m-0">
-                                    <small class="text-secondary">Genres:</small>&nbsp;
-                                    <small class="text-light">Action, Adventure, Comedy</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-1">
-                    <div class="row g-0">
-                        <div class="col-4">
-                            <img src="https://placehold.co/500x600" class="img-fluid rounded-start fixed-size-trending"
-                                alt="Manga title">
-                        </div>
-                        <div class="col-8 d-flex align-items-center">
-                            <div class="card-body">
-                                <h5 class="card-title m-0">Manga Title</h5>
-                                <p class="card-text m-0">
-                                    <small class="text-secondary">Genres:</small>&nbsp;
-                                    <small class="text-light">Action, Adventure, Comedy</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-1">
-                    <div class="row g-0">
-                        <div class="col-4">
-                            <img src="https://placehold.co/500x600" class="img-fluid rounded-start fixed-size-trending"
-                                alt="Manga title">
-                        </div>
-                        <div class="col-8 d-flex align-items-center">
-                            <div class="card-body">
-                                <h5 class="card-title m-0">Manga Title</h5>
-                                <p class="card-text m-0">
-                                    <small class="text-secondary">Genres:</small>&nbsp;
-                                    <small class="text-light">Action, Adventure, Comedy</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
