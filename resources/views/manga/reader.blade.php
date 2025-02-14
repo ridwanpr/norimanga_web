@@ -117,9 +117,6 @@
             </div>
         </div>
     </div>
-    <button id="backToTop" class="btn btn-grey position-fixed" style="bottom: 20px; left: 20px; display: none;">
-        <i class="bi bi-chevron-up"></i>
-    </button>
     <div id="scrollProgressBar">
     </div>
 @endsection

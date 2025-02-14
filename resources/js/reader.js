@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
     initializeSettings();
-    initializeBackToTop();
     initializeProgressBar();
 });
 
@@ -77,25 +76,6 @@ function initializeSettings() {
             document.getElementById("imageWidth").value = savedWidth;
         }
     }
-}
-
-function initializeBackToTop() {
-    const backToTopBtn = document.getElementById("backToTop");
-
-    window.addEventListener("scroll", function () {
-        if (window.scrollY > 300) {
-            backToTopBtn.style.display = "block";
-        } else {
-            backToTopBtn.style.display = "none";
-        }
-    });
-
-    backToTopBtn.addEventListener("click", function () {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    });
 }
 
 function initializeProgressBar() {
