@@ -106,7 +106,7 @@
 
             <div class="col-12 col-lg-4">
                 <div class="card shadow-sm">
-                    <div class="card-header bg-success text-white">Latest Created Manga</div>
+                    <div class="card-header bg-success text-white">Latest Created Comic</div>
                     <div class="card-body p-0">
                         <table class="table table-striped mb-0">
                             <thead>
