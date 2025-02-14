@@ -67,7 +67,7 @@
                     <a href="#" class="btn btn-grey">
                         <i class="bi bi-list"></i>
                     </a>
-                    <a href="javascript:void(0)" class="btn btn-grey">
+                    <a href="javascript:void(0)" class="btn btn-grey setting-btn">
                         <i class="bi bi-gear"></i>
                     </a>
                 </div>

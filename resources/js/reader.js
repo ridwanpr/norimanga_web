@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function initializeSettings() {
     const readerContainer = document.querySelector(".reader-container");
-    const settingsButton = document.querySelector(".bi-gear");
+    const settingsButton = document.querySelector(".setting-btn");
     const settingsPanel = createSettingsPanel();
 
     document.body.appendChild(settingsPanel);
