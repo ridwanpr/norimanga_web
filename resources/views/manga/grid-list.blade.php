@@ -1,4 +1,8 @@
 @extends('layouts.app')
+@push('css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    @vite('resources/css/select2.css')
+@endpush
 @section('content')
     <div class="container">
         <div class="d-flex flex-wrap justify-content-between">
@@ -9,7 +13,7 @@
             <form class="row row-cols-2 row-cols-md-auto g-2 align-items-center">
                 <div class="col">
                     <select name="genre" id="genre" class="form-select">
-                        <option value="">Semua Genre</option>
+                        <option value="">Genre</option>
                         <option value="1">Action</option>
                         <option value="2">Adventure</option>
                         <option value="3">Comedy</option>
@@ -17,7 +21,7 @@
                 </div>
                 <div class="col">
                     <select name="year" id="year" class="form-select">
-                        <option value="">Semua Tahun</option>
+                        <option value="">Tahun</option>
                         <option value="2022">2022</option>
                         <option value="2021">2021</option>
                         <option value="2020">2020</option>
@@ -27,7 +31,7 @@
                 </div>
                 <div class="col">
                     <select name="type" id="type" class="form-select">
-                        <option value="">Semua Tipe</option>
+                        <option value="">Tipe</option>
                         <option value="manga">Manga</option>
                         <option value="manhwa">Manhwa</option>
                         <option value="manhua">Manhua</option>
@@ -35,7 +39,7 @@
                 </div>
                 <div class="col">
                     <select name="status" id="status" class="form-select">
-                        <option value="">Semua Status</option>
+                        <option value="">Status</option>
                         <option value="completed">Completed</option>
                         <option value="ongoing">Ongoing</option>
                     </select>
@@ -62,3 +66,25 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#genre').select2({
+                theme: 'bootstrap-5'
+            });
+            $('#year').select2({
+                theme: 'bootstrap-5'
+            });
+            $('#type').select2({
+                theme: 'bootstrap-5'
+            });
+            $('#status').select2({
+                theme: 'bootstrap-5'
+            });
+        });
+    </script>
+@endpush
