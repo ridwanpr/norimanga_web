@@ -80,10 +80,36 @@
     <div class="container p-0 px-md-2">
         <div class="reader mt-2 mt-md-4" id="reader">
             <div class="reader-container d-flex flex-column align-items-center">
-                <img src="https://placehold.co/500x600" class="img-fluid w-100" alt="">
-                <img src="https://placehold.co/500x600" class="img-fluid w-100" alt="">
-                <img src="https://placehold.co/500x600" class="img-fluid w-100" alt="">
-                <img src="https://placehold.co/500x600" class="img-fluid w-100" alt="">
+                <img src="https://placehold.co/500x600" class="img-fluid w-100" alt="chapter page">
+                <img src="https://placehold.co/500x600" class="img-fluid w-100" alt="chapter page">
+                <img src="https://placehold.co/500x600" class="img-fluid w-100" alt="chapter page">
+                <img src="https://placehold.co/500x600" class="img-fluid w-100" alt="chapter page">
+            </div>
+        </div>
+    </div>
+    <div class="container nav-bottom mt-4">
+        <div class="nav-ch-section mt-4">
+            <div class="d-flex justify-content-between gap-2">
+                <a href="#" class="btn btn-grey">
+                    <i class="bi bi-chevron-left"> Prev</i>
+                </a>
+                <div class="d-flex gap-2 justify-content-between">
+                    <a href="#" class="btn btn-grey">
+                        <i class="bi bi-list"></i>
+                    </a>
+                </div>
+                <a href="#" class="btn btn-grey">
+                    <i class="bi bi-chevron-right"> Next</i>
+                </a>
+            </div>
+        </div>
+        <div class="tags mt-4 py-0 px-1 bg-dark rounded">
+            <small class="text-light">Tags: Lorem ipsum dolor sit amet consectetur adipisicing elit.</small>
+        </div>
+        <div class="comments mt-4 pb-1 pt-0 px-2 bg-dark rounded">
+            <h1 class="fs-4 mb-3 fw-bold mt-3">Komentar</h1>
+            <div class="disqus">
+                Disqus here..
             </div>
         </div>
     </div>
