@@ -44,12 +44,6 @@
                     </a>
                 </li>
             </ul>
-            <form class="d-flex me-3" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-grey" type="submit">
-                    <i class="bi bi-search"></i>
-                </button>
-            </form>
             <div class="d-flex align-items-center mt-2 mt-md-0">
                 <a class="nav-link" href="#">
                     <i class="bi bi-box-arrow-in-right me-2"></i>Login/Register
@@ -58,3 +52,11 @@
         </div>
     </div>
 </nav>
+<div class="container my-3">
+    <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-grey" type="submit">
+            <i class="bi bi-search"></i>
+        </button>
+    </form>
+</div>

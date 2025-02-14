@@ -21,7 +21,7 @@
 @endpush
 
 @section('content')
-    <div class="bg-body-tertiary py-4 py-md-5">
+    <div class="bg-body-tertiary py-2 py-md-5">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-2 mb-3 mb-md-0 text-center">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container py-4">
+    <div class="container py-1">
         {{-- <div class="hero-bg"></div> --}}
         <section class="featured">
             <div class="row mb-2">

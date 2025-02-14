@@ -5,7 +5,7 @@
         <h1 class="fs-5 mb-3 fw-bold text-white">Daftar Komik</h1>
 
         <!-- Alphabet Navigation -->
-        <div class="d-flex flex-wrap justify-content-center gap-1 mb-3">
+        <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
             <a href="#num" class="btn btn-sm btn-outline-secondary text-white px-2">#</a>
             @foreach (range('A', 'Z') as $letter)
                 <a href="#{{ $letter }}"
