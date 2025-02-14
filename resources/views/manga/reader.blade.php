@@ -79,6 +79,17 @@
     <button id="backToTop" class="btn btn-grey position-fixed" style="bottom: 20px; left: 20px; display: none;">
         <i class="bi bi-chevron-up"></i>
     </button>
+    <div id="scrollProgressBar"
+        style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 5px;
+    background: #007bff;
+    transition: width 0.1s linear;
+    z-index: 9999;">
+    </div>
 @endsection
 @push('js')
     @vite('resources/js/reader.js')
