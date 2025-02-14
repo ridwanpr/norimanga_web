@@ -7,7 +7,7 @@
     <div class="container">
         <div class="d-flex flex-wrap justify-content-between">
             <h1 class="fs-5 mb-3 fw-bold text-white">Daftar Komik</h1>
-            <a href="">Text Mode</a>
+            <a href="{{ route('manga.text-list') }}">Text Mode</a>
         </div>
         <div class="filtering mb-4">
             <form class="row row-cols-2 row-cols-md-auto g-2 align-items-center">

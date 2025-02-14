@@ -23,4 +23,23 @@ class MangaListController extends Controller
 
         return view('manga.grid-list', compact('latestUpdate', 'genres'));
     }
+
+    public function textList()
+    {
+        $mangas = Manga::with('detail')
+            ->whereHas('detail')
+            ->select('title', 'slug')
+            ->orderBy('title')
+            ->get()
+            ->groupBy(function ($manga) {
+                $cleanedTitle = preg_replace('/^[^a-zA-Z0-9]+/', '', $manga->title);
+                $firstChar = strtoupper(substr($cleanedTitle, 0, 1));
+
+                return ctype_alpha($firstChar) ? $firstChar : '#';
+            })
+            ->map(fn($titles) => $titles->sortBy('title'))
+            ->sortKeys();
+
+        return view('manga.list', compact('mangas'));
+    }
 }
