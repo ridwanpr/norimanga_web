@@ -57,6 +57,10 @@
                 diperbarui di Nori.my. Jangan lupa untuk membaca pembaruan manga lainnya. Daftar koleksi manga Nori ada
                 di menu Daftar Komik.
             </p>
+            <div class="alert alert-warning w-100" role="alert">
+                <i class="bi bi-exclamation-triangle-fill text-warning"></i> <strong>Perhatian!</strong> Jika
+                menemukan gambar yang error atau rusak, <a href="#" class="alert-link">laporkan</a> kepada kami.
+            </div>
         </div>
         <div class="nav-ch-section mt-4">
             <div class="d-flex justify-content-between gap-2">
