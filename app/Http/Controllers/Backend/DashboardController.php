@@ -15,11 +15,12 @@ class DashboardController extends Controller
         $totalUser = User::where('role_id', 2)->count();
         $totalComic = Manga::whereHas('detail')->count();
         $totalChapter = MangaChapter::where('image', '!=', '[]')->count();
+        $totalProject = Manga::where('is_project', true)->count();
 
         $latestUsers = User::where('role_id', 2)->latest()->take(10)->get();
         $latestManga = Manga::whereHas('detail')->latest()->take(10)->get();
         $latestChapters = MangaChapter::where('image', '!=', '[]')->latest('updated_at')->take(10)->get();
 
-        return view('backend.dashboard', compact('totalUser', 'totalComic', 'totalChapter', 'latestUsers', 'latestManga', 'latestChapters'));
+        return view('backend.dashboard', compact('totalUser', 'totalComic', 'totalChapter', 'latestUsers', 'latestManga', 'latestChapters', 'totalProject'));
     }
 }

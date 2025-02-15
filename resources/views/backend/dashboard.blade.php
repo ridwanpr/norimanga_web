@@ -49,7 +49,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <h6 class="card-title mb-0">Total Projects</h6>
-                                    <h2 class="mt-2 mb-0">12</h2>
+                                    <h2 class="mt-2 mb-0">{{ $totalProject }}</h2>
                                 </div>
                                 <i class="bi bi-folder fs-1"></i>
                             </div>
