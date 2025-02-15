@@ -18,11 +18,11 @@
                         <i class="bi bi-house-fill me-2"></i>Beranda
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="bi bi-collection-fill me-2 text-primary"></i>Project
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('manga.grid-list') }}">
                         <i class="bi bi-journal-bookmark-fill me-2 text-warning"></i>Daftar Komik
@@ -34,7 +34,7 @@
                     </a>
                 </li> --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{ route('bookmark.index') }}">
                         <i class="bi bi-bookmark-star-fill me-2 text-success"></i>Bookmark
                     </a>
                 </li>

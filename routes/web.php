@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ManageComicController;
 use App\Http\Controllers\Backend\ManageUserController;
+use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MangaController;
@@ -36,6 +37,8 @@ Route::group(['middleware' => ['auth', 'checkRoles:user']], function () {
 
     Route::get('stats', [StatsController::class, 'index'])->name('stats.index');
 });
+
+Route::resource('bookmark', BookmarkController::class);
 
 Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');

@@ -31,7 +31,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="" class="text-decoration-none">
+                <a href="{{ route('bookmark.index') }}" class="text-decoration-none">
                     <div class="alert alert-info mt-3 w-100" role="alert">
                         <i class="bi bi-bookmark-fill text-info"></i> Klik disini untuk pergi ke
                         <strong>Bookmark</strong>.
