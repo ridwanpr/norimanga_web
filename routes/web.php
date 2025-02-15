@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\ManageComicController;
 use App\Http\Controllers\Backend\ManageUserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
@@ -40,4 +41,6 @@ Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
         Route::post('/ban/{id}', [ManageUserController::class, 'banUser'])->name('admin.users.ban');
         Route::post('/update-password/{id}', [ManageUserController::class, 'updatePassword'])->name('admin.users.update-password');
     });
+
+    Route::resource('manage-comic', ManageComicController::class);
 });

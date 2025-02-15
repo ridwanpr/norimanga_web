@@ -13,7 +13,7 @@ class Manga extends Model
 {
     protected $table = 'manga';
 
-    protected $fillable = ['title', 'slug'];
+    protected $fillable = ['title', 'slug', 'is_project'];
 
     public function scopeTrending(Builder $query, $period = 'daily')
     {

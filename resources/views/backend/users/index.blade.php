@@ -6,7 +6,7 @@
 
         <div class="col-12 mt-4">
             <div class="card shadow-sm">
-                <div class="card-header bg-primary">Manage Users</div>
+                <div class="card-header">Manage Users</div>
                 <div class="card-body p-0">
                     <table class="table table-striped mb-0">
                         <thead>

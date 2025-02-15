@@ -75,116 +75,39 @@
             <div class="col-12 col-md-8">
                 <div class="alert alert-danger" role="alert">
                     <i class="bi bi-info-circle-fill text-danger"></i> <strong>Bookmark</strong> web <a
-                        href="https://noricomic.pages.dev/" class="text-decoration-none fw-bold" target="_blank">Noricomic</a> untuk
+                        href="https://noricomic.pages.dev/" class="text-decoration-none fw-bold"
+                        target="_blank">Noricomic</a> untuk
                     akses domain terbaru jika terkena Internet Positif.
                 </div>
 
                 <section class="latest-project">
                     <h1 class="fs-4 fw-bold mb-3"><span class="text-primary">Project</span> Update</h1>
                     <div class="row g-2">
-                        <div class="col-6 col-md-3">
-                            <a href="" class="text-decoration-none">
-                                <div class="image-container mb-1">
-                                    <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
-                                        alt="">
-                                    <div class="image-title">
-                                        Title Here
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="#" class="text-decoration-none">
-                                <div
-                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                    <small>Chapter 2</small>
-                                    <small class="text-secondary">2 days</small>
-                                </div>
-                            </a>
-                            <a href="#" class="text-decoration-none">
-                                <div
-                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                    <small>Chapter 1</small>
-                                    <small class="text-secondary">4 days</small>
-                                </div>
-                            </a>
-                        </div>
 
-                        <div class="col-6 col-md-3">
-                            <a href="" class="text-decoration-none">
-                                <div class="image-container mb-1">
-                                    <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
-                                        alt="">
-                                    <div class="image-title">
-                                        Title Here
+                        @foreach ($projects as $project)
+                            <div class="col-6 col-md-3">
+                                <a href="{{ route('manga.show', $project->slug) }}" class="text-decoration-none">
+                                    <div class="image-container mb-1">
+                                        <img src="{{ $project->cover }}" class="img-fluid rounded fixed-size-latest"
+                                            alt="{{ $project->title }}">
+                                        <div class="image-title">
+                                            {{ $project->title }}
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                            <a href="#" class="text-decoration-none">
-                                <div
-                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                    <small>Chapter 2</small>
-                                    <small class="text-secondary">2 days</small>
-                                </div>
-                            </a>
-                            <a href="#" class="text-decoration-none">
-                                <div
-                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                    <small>Chapter 1</small>
-                                    <small class="text-secondary">4 days</small>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-6 col-md-3">
-                            <a href="" class="text-decoration-none">
-                                <div class="image-container mb-1">
-                                    <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
-                                        alt="">
-                                    <div class="image-title">
-                                        Title Here
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="#" class="text-decoration-none">
-                                <div
-                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                    <small>Chapter 2</small>
-                                    <small class="text-secondary">2 days</small>
-                                </div>
-                            </a>
-                            <a href="#" class="text-decoration-none">
-                                <div
-                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                    <small>Chapter 1</small>
-                                    <small class="text-secondary">4 days</small>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-6 col-md-3">
-                            <a href="" class="text-decoration-none">
-                                <div class="image-container mb-1">
-                                    <img src="https://placehold.co/250x300" class="img-fluid rounded fixed-size-latest"
-                                        alt="">
-                                    <div class="image-title">
-                                        Title Here
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="#" class="text-decoration-none">
-                                <div
-                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                    <small>Chapter 2</small>
-                                    <small class="text-secondary">2 days</small>
-                                </div>
-                            </a>
-                            <a href="#" class="text-decoration-none">
-                                <div
-                                    class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                    <small>Chapter 1</small>
-                                    <small class="text-secondary">4 days</small>
-                                </div>
-                            </a>
-                        </div>
+                                </a>
+                                @foreach ($project->chapters as $chapter)
+                                    <a href="{{ route('manga.reader', [$project->slug, $chapter->slug]) }}"
+                                        class="text-decoration-none">
+                                        <div
+                                            class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                            <small>{{ $chapter->title }}</small>
+                                            <small
+                                                class="text-secondary">{{ $chapter->created_at->diffForHumans() }}</small>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            </div>
+                        @endforeach
 
                         <div class="col-12">
                             <div class="d-flex justify-content-center">
