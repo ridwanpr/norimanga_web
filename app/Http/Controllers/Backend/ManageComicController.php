@@ -28,7 +28,7 @@ class ManageComicController extends Controller
             $query->where('title', 'LIKE', "%{$search}%");
         }
 
-        $comics = $query->paginate(20);
+        $comics = $query->paginate(20)->withQueryString();
         return view('backend.comics.index', compact('comics', 'search'));
     }
 
@@ -62,6 +62,7 @@ class ManageComicController extends Controller
                     'title' => $request->title,
                     'slug' => $request->slug,
                     'is_project' => $request->is_project ?? 0,
+                    'is_featured' => $request->is_featured ?? 0,
                 ]);
 
                 if (!$manga) {
@@ -171,6 +172,7 @@ class ManageComicController extends Controller
                 'title' => $request->title,
                 'slug' => $request->slug,
                 'is_project' => $request->is_project ?? 0,
+                'is_featured' => $request->is_featured ?? 0,
             ]);
 
             $manage_comic->detail->update([

@@ -9,10 +9,17 @@ use Illuminate\Support\Facades\Hash;
 
 class ManageUserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::where('role_id', '!=', 1)->paginate(20);
-        return view('backend.users.index', compact('users'));
+        $search = $request->query('search');
+        $query = User::where('role_id', '!=', 1);
+
+        if ($search) {
+            $query->where('name', 'LIKE', "%{$search}%");
+        }
+
+        $users = $query->paginate(20)->withQueryString();
+        return view('backend.users.index', compact('users', 'search'));
     }
 
     public function banUser($id)

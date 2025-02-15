@@ -19,7 +19,6 @@
                             <button type="submit" class="btn btn-secondary">Search</button>
                         </div>
                     </form>
-
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped mb-0">
@@ -29,6 +28,8 @@
                                 <th>Title</th>
                                 <th>Slug</th>
                                 <th>Status</th>
+                                <th>Featured</th>
+                                <th>Project</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -39,6 +40,8 @@
                                     <td>{{ Str::limit($comic->title, 40) }}</td>
                                     <td>{{ Str::limit($comic->slug, 40) }}</td>
                                     <td>{{ $comic->detail->status ?? 'N/A' }}</td>
+                                    <td>{{ $comic->is_featured ? 'Yes' : 'No' }}</td>
+                                    <td>{{ $comic->is_project ? 'Yes' : 'No' }}</td>
                                     <td>
                                         <a href="{{ route('manage-comic.edit', $comic->id) }}"
                                             class="btn btn-sm btn-warning">Edit</a>

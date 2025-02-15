@@ -82,6 +82,20 @@
                 <textarea name="synopsis" class="form-control" rows="4">{{ old('synopsis', isset($manage_comic->detail) ? $manage_comic->detail->synopsis : '') }}</textarea>
             </div>
 
+            <!-- Is Project -->
+            <div class="form-check mb-3">
+                <input type="checkbox" name="is_project" class="form-check-input" value="1"
+                    {{ isset($manage_comic->is_project) && $manage_comic->is_project ? 'checked' : '' }}>
+                <label class="form-check-label">Is Project?</label>
+            </div>
+
+            <!-- Is Featured -->
+            <div class="form-check mb-3">
+                <input type="checkbox" name="is_featured" class="form-check-input" value="1"
+                    {{ isset($manage_comic->is_featured) && $manage_comic->is_featured ? 'checked' : '' }}>
+                <label class="form-check-label">Is Featured?</label>
+            </div>
+
             <!-- Cover Image -->
             <div class="mb-3">
                 <label class="form-label">Cover Image</label>
@@ -101,4 +115,3 @@
         </form>
     </div>
 @endsection
-

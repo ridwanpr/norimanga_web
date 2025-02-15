@@ -74,6 +74,11 @@
                         <label class="form-check-label">Is Project?</label>
                     </div>
 
+                    <div class="form-check mb-3">
+                        <input type="checkbox" name="is_featured" class="form-check-input" value="1">
+                        <label class="form-check-label">Is Featured?</label>
+                    </div>
+
                     <div class="d-flex justify-content-end">
                         <a href="{{ route('manage-comic.index') }}" class="btn btn-secondary me-2">Back</a>
                         <button type="submit" class="btn btn-primary">Create</button>
