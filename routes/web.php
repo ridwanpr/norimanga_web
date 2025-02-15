@@ -36,9 +36,12 @@ Route::group(['middleware' => ['auth', 'checkRoles:user']], function () {
     Route::put('update-profile/{id}', [UserAccountController::class, 'updateProfile'])->name('update-profile');
 
     Route::get('stats', [StatsController::class, 'index'])->name('stats.index');
+
+    Route::post('/bookmark/toggle', [BookmarkController::class, 'toggle']);
+    Route::delete('/bookmark/destroy', [BookmarkController::class, 'destroy'])->name('bookmark.destroy');
 });
 
-Route::resource('bookmark', BookmarkController::class);
+Route::get('bookmark', [BookmarkController::class, 'index'])->name('bookmark.index');
 
 Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');

@@ -11,9 +11,42 @@ class BookmarkController extends Controller
     public function index()
     {
         $bookmarks = Auth::check()
-            ? Bookmark::where('user_id', Auth::id())->with('manga')->get()
+            ? Bookmark::where('user_id', Auth::id())
+            ->join('manga_detail', 'bookmarks.manga_id', '=', 'manga_detail.manga_id')
+            ->with(['manga.detail', 'manga.genres'])
+            ->orderBy('manga_detail.updated_at', 'desc')
+            ->select('bookmarks.*')
+            ->paginate(8)
             : collect();
 
         return view('bookmark.index', compact('bookmarks'));
+    }
+
+    public function toggle(Request $request)
+    {
+        $user = Auth::user();
+        $mangaId = $request->manga_id;
+
+        $bookmark = Bookmark::where('user_id', $user->id)->where('manga_id', $mangaId)->first();
+
+        if ($bookmark) {
+            $bookmark->delete();
+            return response()->json(['bookmarked' => false]);
+        } else {
+            Bookmark::create([
+                'user_id' => $user->id,
+                'manga_id' => $mangaId
+            ]);
+            return response()->json(['bookmarked' => true]);
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        $user = Auth::user();
+        $mangaId = $request->manga_id;
+        Bookmark::where('user_id', $user->id)->where('manga_id', $mangaId)->delete();
+
+        return redirect()->route('bookmark.index')->with('success', 'Bookmark removed successfully.');
     }
 }

@@ -50,8 +50,10 @@
                     <img src="{{ $manga->detail->cover }}" alt="{{ $manga->title }}"
                         class="img-fluid rounded shadow-sm cover-img">
                     <div class="mt-3">
-                        <button class="btn bg-primary custom-full-width"><i
-                                class="bi bi-bookmark-fill me-2"></i>Bookmark</button>
+                        <button class="btn bg-primary custom-full-width bookmark-btn" data-id="{{ $manga->id }}">
+                            <i class="bi bi-bookmark-fill me-2"></i>
+                            <span>Bookmark</span>
+                        </button>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 mb-3 mb-md-0">
@@ -183,6 +185,7 @@
     </div>
 @endsection
 @push('js')
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js"></script>
     <script>
         document.getElementById('chapterSearch').addEventListener('keyup', function() {
             let searchValue = this.value.toLowerCase();
@@ -191,6 +194,34 @@
             chapters.forEach(chapter => {
                 let text = chapter.textContent.toLowerCase();
                 chapter.style.display = text.includes(searchValue) ? '' : 'none';
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.bookmark-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    let mangaId = this.getAttribute('data-id');
+                    let button = this;
+
+                    axios.post('/bookmark/toggle', {
+                            manga_id: mangaId
+                        })
+                        .then(response => {
+                            if (response.data.bookmarked) {
+                                button.classList.add('btn-success');
+                                button.classList.remove('bg-primary');
+                                button.querySelector('span').textContent = 'Bookmarked';
+                            } else {
+                                button.classList.add('bg-primary');
+                                button.classList.remove('btn-success');
+                                button.querySelector('span').textContent = 'Bookmark';
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                        });
+                });
             });
         });
     </script>
