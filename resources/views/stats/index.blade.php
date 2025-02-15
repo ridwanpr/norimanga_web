@@ -8,7 +8,7 @@
     @vite('resources/css/app.css')
     <style>
         body {
-            background-color: #1a1a1a;
+            background-color: #121212;
             color: #ffffff;
             font-size: 13px;
         }
@@ -45,7 +45,7 @@
         }
 
         .highlight {
-            color: #ff6b6b;
+            color: #1e88e5;
         }
 
         @media (max-width: 768px) {
