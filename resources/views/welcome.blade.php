@@ -22,42 +22,16 @@
                 </div>
             </div>
             <div class="row g-2">
-                <div class="col-4 col-md-2">
-                    <div class="image-container">
-                        <img src="https://placehold.co/500x600" class="img-fluid rounded fixed-size-img" alt="">
-                        <div class="image-title">Title Here</div>
+                @foreach ($featureds as $featured)
+                    <div class="col-4 col-md-2">
+                        <div class="image-container">
+                            <a href="{{ route('manga.show', $featured->slug) }}">
+                                <img src="{{ $featured->cover }}" class="img-fluid rounded fixed-size-img" alt="{{ $featured->title }}">
+                            </a>
+                            <div class="image-title">{{ $featured->title }}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="image-container">
-                        <img src="https://placehold.co/500x600" class="img-fluid rounded fixed-size-img" alt="">
-                        <div class="image-title">Title Here</div>
-                    </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="image-container">
-                        <img src="https://placehold.co/500x600" class="img-fluid rounded fixed-size-img" alt="">
-                        <div class="image-title">Title Here</div>
-                    </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="image-container">
-                        <img src="https://placehold.co/500x600" class="img-fluid rounded fixed-size-img" alt="">
-                        <div class="image-title">Title Here</div>
-                    </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="image-container">
-                        <img src="https://placehold.co/500x600" class="img-fluid rounded fixed-size-img" alt="">
-                        <div class="image-title">Title Here</div>
-                    </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="image-container">
-                        <img src="https://placehold.co/500x600" class="img-fluid rounded fixed-size-img" alt="">
-                        <div class="image-title">Title Here</div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </section>
         <div class="mt-4 mb-3 bg-dark p-4 rounded shadow-sm">
@@ -97,7 +71,7 @@
                                 </a>
                                 @foreach ($project->chapters as $chapter)
                                     <a href="{{ route('manga.reader', [$project->slug, $chapter->slug]) }}"
-                                        class="text-decoration-none">
+                                        class="text-decoration-none small">
                                         <div
                                             class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
                                             <small>{{ $chapter->title }}</small>
