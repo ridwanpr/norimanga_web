@@ -10,12 +10,15 @@
             <a href="{{ route('manga.text-list') }}">Text Mode</a>
         </div>
         <div class="filtering mb-4">
-            <form class="row row-cols-2 row-cols-md-auto g-2 align-items-center">
+            <form class="row row-cols-2 row-cols-md-auto g-2 align-items-center" method="GET"
+                action="{{ route('manga.grid-list') }}">
                 <div class="col">
                     <select name="genre" id="genre" class="form-select">
-                        <option value="">Genre</option>
+                        <option value="">&nbsp;Genre</option>
                         @foreach ($genres as $genre)
-                            <option value="{{ $genre->slug }}">{{ $genre->name }}</option>
+                            <option value="{{ $genre->slug }}" {{ request('genre') == $genre->slug ? 'selected' : '' }}>
+                                {{ $genre->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -23,29 +26,33 @@
                     <select name="year" id="year" class="form-select">
                         <option value="">&nbsp;Tahun</option>
                         @for ($year = date('Y'); $year >= 2005; $year--)
-                            <option value="{{ $year }}">{{ $year }}</option>
+                            <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
+                                {{ $year }}
+                            </option>
                         @endfor
                     </select>
                 </div>
                 <div class="col">
                     <select name="type" id="type" class="form-select">
                         <option value="">&nbsp;Tipe</option>
-                        <option value="manga">Manga</option>
-                        <option value="manhwa">Manhwa</option>
-                        <option value="manhua">Manhua</option>
+                        <option value="manga" {{ request('type') == 'manga' ? 'selected' : '' }}>Manga</option>
+                        <option value="manhwa" {{ request('type') == 'manhwa' ? 'selected' : '' }}>Manhwa</option>
+                        <option value="manhua" {{ request('type') == 'manhua' ? 'selected' : '' }}>Manhua</option>
                     </select>
                 </div>
                 <div class="col">
                     <select name="status" id="status" class="form-select">
                         <option value="">&nbsp;Status</option>
-                        <option value="completed">Completed</option>
-                        <option value="ongoing">Ongoing</option>
+                        <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed
+                        </option>
+                        <option value="ongoing" {{ request('status') == 'ongoing' ? 'selected' : '' }}>Ongoing</option>
                     </select>
                 </div>
                 <div class="col-12 col-md-auto">
                     <button type="submit" class="btn btn-grey w-100 w-md-auto">Filter</button>
                 </div>
             </form>
+
         </div>
         <div class="row g-2">
             @foreach ($latestUpdate as $manga)
