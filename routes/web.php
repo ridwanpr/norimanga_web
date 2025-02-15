@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\ManageUserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MangaController;
@@ -34,4 +35,9 @@ Route::group(['middleware' => ['auth', 'checkRoles:user']], function () {
 
 Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::prefix('admin/users')->group(function () {
+        Route::get('/', [ManageUserController::class, 'index'])->name('admin.users.index');
+        Route::post('/ban/{id}', [ManageUserController::class, 'banUser'])->name('admin.users.ban');
+        Route::post('/update-password/{id}', [ManageUserController::class, 'updatePassword'])->name('admin.users.update-password');
+    });
 });

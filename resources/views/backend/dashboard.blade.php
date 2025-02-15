@@ -58,23 +58,7 @@
                 </div>
             </div>
 
-            <ul class="nav nav-pills mt-4">
-                <li class="nav-item">
-                    <a class="nav-link active me-1" href="#">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link me-1" href="#">Manage Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link me-1" href="#">Manage Comics</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link me-1" href="#">Manage Chapters</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link me-1" href="#">Manage Projects</a>
-                </li>
-            </ul>
+            @include('backend.partials.nav-admin')
         </div>
 
         <div class="row mt-4">

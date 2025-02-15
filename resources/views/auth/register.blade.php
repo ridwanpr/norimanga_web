@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Minimal 8 karakter" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="password_confirmation" class="form-label">Confirm Password</label>

@@ -60,7 +60,7 @@
                 </div>
             </div>
         </section>
-        <div class="my-4 bg-dark p-4 rounded shadow-sm">
+        <div class="mt-4 mb-3 bg-dark p-4 rounded shadow-sm">
             <h1 class="fs-5 mb-3 text-primary">Nori.my – Portal Baca Manga, Manhwa & Manhua Bahasa Indonesia</h1>
             <p class="mb-0">
                 Selamat datang di Nori.my, situs baca komik online gratis yang menyediakan koleksi manga, manhwa, dan manhua
@@ -73,6 +73,12 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-8">
+                <div class="alert alert-danger" role="alert">
+                    <i class="bi bi-info-circle-fill text-danger"></i> <strong>Bookmark</strong> web <a
+                        href="https://noricomic.pages.dev/" class="text-decoration-none fw-bold" target="_blank">Noricomic</a> untuk
+                    akses domain terbaru jika terkena Internet Positif.
+                </div>
+
                 <section class="latest-project">
                     <h1 class="fs-4 fw-bold mb-3"><span class="text-primary">Project</span> Update</h1>
                     <div class="row g-2">

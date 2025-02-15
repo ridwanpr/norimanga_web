@@ -60,6 +60,12 @@ class AuthController extends Controller
 
         unset($credentials['cf-turnstile-response']);
 
+        $user = User::where('email', $credentials['email'])->first();
+
+        if ($user->is_banned) {
+            return back()->withErrors(['email' => 'Maaf akun anda telah dibanned. Silahkan hubungi admin.']);
+        }
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('/')->with('success', 'Login Success!');
