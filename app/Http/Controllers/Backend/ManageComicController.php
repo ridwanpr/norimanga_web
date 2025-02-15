@@ -22,7 +22,7 @@ class ManageComicController extends Controller
     public function index(Request $request)
     {
         $search = $request->query('search');
-        $query = Manga::with('detail');
+        $query = Manga::with('detail')->latest('created_at');
 
         if ($search) {
             $query->where('title', 'LIKE', "%{$search}%");
@@ -116,7 +116,6 @@ class ManageComicController extends Controller
             }
         });
     }
-
 
 
     public function edit(Manga $manage_comic)
