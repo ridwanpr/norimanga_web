@@ -12,7 +12,7 @@ class BucketManager
 {
     private const BUCKET_PREFIX = 's';
     private const BUCKET_START = 3;
-    private const BUCKET_END = 7;
+    private const BUCKET_END = 5;
     private const BUCKET_THRESHOLD_GB = 24;
     private const CACHE_KEY = 'current_bucket';
     private const CACHE_DURATION_MINUTES = 60;
@@ -78,7 +78,7 @@ class BucketManager
     {
         $usage = BucketUsage::where('bucket_name', $bucket)->value('total_bytes');
         return $usage ? $usage / (1024 * 1024 * 1024) : 0;
-    }
+    }    
 
     public function deleteFile(string $bucket, string $path): bool
     {
