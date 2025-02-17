@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Backend\BucketStatusController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MangaController;
@@ -55,5 +56,6 @@ Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
         Route::resource('manga-chapters', MangaChapterController::class);
     });
 
+    Route::get('storage-status', [BucketStatusController::class, 'index'])->name('storage-status');
     Route::resource('manage-comic', ManageComicController::class);
 });
