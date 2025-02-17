@@ -26,7 +26,8 @@
                     <div class="col-4 col-md-2">
                         <div class="image-container">
                             <a href="{{ route('manga.show', $featured->slug) }}">
-                                <img src="{{ $featured->cover }}" class="img-fluid rounded fixed-size-img" alt="{{ $featured->title }}">
+                                <img src="{{ $featured->cover }}" class="img-fluid rounded fixed-size-img"
+                                    alt="{{ $featured->title }}">
                             </a>
                             <div class="image-title">{{ $featured->title }}</div>
                         </div>
@@ -54,42 +55,44 @@
                     akses domain terbaru jika terkena Internet Positif.
                 </div>
 
-                <section class="latest-project">
-                    <h1 class="fs-4 fw-bold mb-3"><span class="text-primary">Project</span> Update</h1>
-                    <div class="row g-2">
+                @if ($projects->count() > 0)
+                    <section class="latest-project">
+                        <h1 class="fs-4 fw-bold mb-3"><span class="text-primary">Project</span> Update</h1>
+                        <div class="row g-2">
 
-                        @foreach ($projects as $project)
-                            <div class="col-6 col-md-3">
-                                <a href="{{ route('manga.show', $project->slug) }}" class="text-decoration-none">
-                                    <div class="image-container mb-1">
-                                        <img src="{{ $project->cover }}" class="img-fluid rounded fixed-size-latest"
-                                            alt="{{ $project->title }}">
-                                        <div class="image-title">
-                                            {{ $project->title }}
-                                        </div>
-                                    </div>
-                                </a>
-                                @foreach ($project->chapters as $chapter)
-                                    <a href="{{ route('manga.reader', [$project->slug, $chapter->slug]) }}"
-                                        class="text-decoration-none small">
-                                        <div
-                                            class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                            <small>{{ $chapter->title }}</small>
-                                            <small
-                                                class="text-secondary">{{ $chapter->created_at->diffForHumans() }}</small>
+                            @foreach ($projects as $project)
+                                <div class="col-6 col-md-3">
+                                    <a href="{{ route('manga.show', $project->slug) }}" class="text-decoration-none">
+                                        <div class="image-container mb-1">
+                                            <img src="{{ $project->cover }}" class="img-fluid rounded fixed-size-latest"
+                                                alt="{{ $project->title }}">
+                                            <div class="image-title">
+                                                {{ $project->title }}
+                                            </div>
                                         </div>
                                     </a>
-                                @endforeach
-                            </div>
-                        @endforeach
+                                    @foreach ($project->chapters as $chapter)
+                                        <a href="{{ route('manga.reader', [$project->slug, $chapter->slug]) }}"
+                                            class="text-decoration-none small">
+                                            <div
+                                                class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
+                                                <small>{{ $chapter->title }}</small>
+                                                <small
+                                                    class="text-secondary">{{ $chapter->created_at->diffForHumans() }}</small>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @endforeach
 
-                        <div class="col-12">
-                            <div class="d-flex justify-content-center">
-                                <a href="#" class="btn btn-grey mt-2 mb-3">Lihat Semua</a>
+                            <div class="col-12">
+                                <div class="d-flex justify-content-center">
+                                    <a href="#" class="btn btn-grey mt-2 mb-3">Lihat Semua</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                @endif
 
                 <section class="latest-update">
                     <h1 class="fs-4 mb-3 fw-bold"><span class="text-primary">Latest</span> Update</h1>
@@ -156,9 +159,9 @@
                     <h1 class="fs-4 fw-bold mt-3 mt-md-0 mb-3"><i class="bi bi-fire"></i> Trending</h1>
                     <ul class="nav nav-pills mb-3" id="trendingPills" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active d-flex align-items-center" id="today-pill"
-                                data-bs-toggle="pill" data-bs-target="#today" type="button" role="tab"
-                                aria-controls="today" aria-selected="true">
+                            <button class="nav-link active d-flex align-items-center" id="today-pill" data-bs-toggle="pill"
+                                data-bs-target="#today" type="button" role="tab" aria-controls="today"
+                                aria-selected="true">
                                 <i class="bi bi-calendar-date me-2"></i> Today
                             </button>
                         </li>

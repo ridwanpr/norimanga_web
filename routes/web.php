@@ -1,17 +1,18 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Backend\DashboardController;
-use App\Http\Controllers\Backend\ManageComicController;
-use App\Http\Controllers\Backend\ManageUserController;
-use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MangaController;
-use App\Http\Controllers\MangaListController;
 use App\Http\Controllers\StatsController;
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\MangaListController;
 use App\Http\Controllers\UserAccountController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\ManageUserController;
+use App\Http\Controllers\Backend\ManageComicController;
+use App\Http\Controllers\Backend\MangaChapterController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('daftar-komik', [MangaListController::class, 'gridList'])->name('manga.grid-list');
@@ -49,6 +50,9 @@ Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
         Route::get('/', [ManageUserController::class, 'index'])->name('admin.users.index');
         Route::post('/ban/{id}', [ManageUserController::class, 'banUser'])->name('admin.users.ban');
         Route::post('/update-password/{id}', [ManageUserController::class, 'updatePassword'])->name('admin.users.update-password');
+
+        Route::get('/manga-chapters/manga-list', [MangaChapterController::class, 'mangaList'])->name('manga-chapters.manga-list');
+        Route::resource('manga-chapters', MangaChapterController::class);
     });
 
     Route::resource('manage-comic', ManageComicController::class);

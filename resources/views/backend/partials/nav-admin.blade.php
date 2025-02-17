@@ -12,7 +12,7 @@
             href="{{ route('manage-comic.index') }}">Manage Comics</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link me-1" href="#">Manage Chapters</a>
+        <a class="nav-link me-1" href="{{ route('manga-chapters.index') }}">Manage Chapters</a>
     </li>
     <li class="nav-item">
         <a class="nav-link me-1" href="#">Manage Projects</a>

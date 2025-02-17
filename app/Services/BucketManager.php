@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Cache;
+use App\Models\BucketUsage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class BucketManager
 {
@@ -36,14 +38,21 @@ class BucketManager
     public function storeFile(string $path, $contents, array $options = []): array
     {
         $bucket = $this->getCurrentBucket();
-        
+
         try {
-            // Store the file
             Storage::disk($bucket)->put($path, $contents, $options);
+
+            $size = strlen($contents); // Get file size
+
+            // Update database record
+            BucketUsage::updateOrCreate(
+                ['bucket_name' => $bucket],
+                ['total_bytes' => DB::raw("total_bytes + {$size}")]
+            );
 
             return [
                 'bucket' => $bucket,
-                'url' => Storage::disk($bucket)->url($path)
+                'url' => Storage::disk($bucket)->url($path),
             ];
         } catch (\Exception $e) {
             Log::error("Failed to store file in bucket {$bucket}: " . $e->getMessage());
@@ -67,25 +76,22 @@ class BucketManager
 
     private function getBucketUsageGB(string $bucket): float
     {
-        try {
-            $files = Storage::disk($bucket)->allFiles();
-            $totalBytes = 0;
-
-            foreach ($files as $file) {
-                $totalBytes += Storage::disk($bucket)->size($file);
-            }
-
-            return $totalBytes / (1024 * 1024 * 1024); // Convert to GB
-        } catch (\Exception $e) {
-            Log::error("Failed to get bucket usage for {$bucket}: " . $e->getMessage());
-            return 0;
-        }
+        $usage = BucketUsage::where('bucket_name', $bucket)->value('total_bytes');
+        return $usage ? $usage / (1024 * 1024 * 1024) : 0;
     }
 
     public function deleteFile(string $bucket, string $path): bool
     {
         try {
-            return Storage::disk($bucket)->delete($path);
+            $size = Storage::disk($bucket)->size($path);
+            $deleted = Storage::disk($bucket)->delete($path);
+
+            if ($deleted) {
+                BucketUsage::where('bucket_name', $bucket)
+                    ->update(['total_bytes' => DB::raw("GREATEST(total_bytes - {$size}, 0)")]);
+            }
+
+            return $deleted;
         } catch (\Exception $e) {
             Log::error("Failed to delete file from bucket {$bucket}: " . $e->getMessage());
             return false;
