@@ -15,7 +15,6 @@ class HomeController extends Controller
     {
         $latestUpdate = Cache::remember('latest_update', now()->addMinutes(15), function () {
             return Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
-                ->whereHas('chapters')
                 ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
                 ->where('manga.is_project', false)
                 ->orderBy('manga_detail.updated_at', 'desc')
@@ -23,10 +22,22 @@ class HomeController extends Controller
                 ->get()
                 ->map(function ($manga) {
                     $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
+
+                    // Get all chapter numbers and sort them naturally in PHP first
+                    $allChapterNumbers = MangaChapter::where('manga_id', $manga->id)
+                        ->pluck('chapter_number')
+                        ->toArray();
+
+                    // Natural sort in PHP
+                    natsort($allChapterNumbers);
+                    // Get only the last 2 keys (latest chapters)
+                    $latestChapterNumbers = array_slice(array_reverse($allChapterNumbers), 0, 2);
+
+                    // Now fetch only those specific chapters
                     $manga->chapters = MangaChapter::where('manga_id', $manga->id)
-                        ->orderBy('chapter_number', 'desc')
-                        ->limit(2)
+                        ->whereIn('chapter_number', $latestChapterNumbers)
                         ->get();
+
                     return $manga;
                 });
         });
