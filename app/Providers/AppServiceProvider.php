@@ -23,5 +23,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
         Model::preventLazyLoading(! app()->isProduction());
+        if (app()->isProduction()) {
+            $this->app['request']->server->set('HTTPS', true);
+        }
     }
 }
