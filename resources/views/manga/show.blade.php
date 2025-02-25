@@ -130,7 +130,7 @@
                 <input type="text" id="chapterSearch" class="form-control mb-3" placeholder="Search Chapter...">
                 <div class="chapter-list border rounded p-3" style="max-height: 450px; overflow-y: auto;">
                     <div class="row g-2" id="chapterContainer">
-                        @foreach ($manga->chapters->sortByDesc(fn($chapter) => (int) $chapter->chapter_number) as $chapter)
+                        @foreach ($manga->chapters->sortByDesc('chapter_number', SORT_NATURAL) as $chapter)
                             <div class="col-6 col-md-3">
                                 <a href="{{ route('manga.reader', [$manga->slug, $chapter->slug]) }}"
                                     class="btn border w-100">
