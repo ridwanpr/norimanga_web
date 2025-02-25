@@ -30,12 +30,12 @@ class HomeController extends Controller
 
                     if ($dbDriver === 'pgsql') {
                         $manga->chapters = MangaChapter::where('manga_id', $manga->id)
-                            ->orderByRaw("NULLIF(chapter_number, '')::INTEGER DESC")
+                            ->orderByRaw("NULLIF(regexp_replace(chapter_number, '[^0-9]', '', 'g'), '')::INTEGER DESC")
                             ->take(2)
                             ->get();
                     } else {
                         $manga->chapters = MangaChapter::where('manga_id', $manga->id)
-                            ->orderByRaw("CAST(chapter_number AS UNSIGNED) DESC")
+                            ->orderByRaw("CAST(REGEXP_REPLACE(chapter_number, '[^0-9]', '') AS UNSIGNED) DESC")
                             ->take(2)
                             ->get();
                     }
@@ -43,6 +43,7 @@ class HomeController extends Controller
                     return $manga;
                 });
         });
+
 
 
         $trendingDaily = Cache::remember('trending_daily', now()->addHour(), function () {
