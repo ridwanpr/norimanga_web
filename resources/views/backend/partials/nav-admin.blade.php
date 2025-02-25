@@ -14,11 +14,11 @@
         <a class="nav-link me-1 {{ Route::is('automation.index') ? 'active' : '' }}"
             href="{{ route('automation.index') }}"><i class="bi bi-robot-fill"></i> Automation</a>
     </li>
-    {{-- <li class="nav-item">
+    <li class="nav-item">
         <a class="nav-link me-1 {{ Route::is('manage-comic.index') || Route::is('manage-comic.create') ? 'active' : '' }}"
             href="{{ route('manage-comic.index') }}">Manage Comics</a>
     </li>
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link me-1" href="{{ route('manga-chapters.index') }}">Manage Chapters</a>
     </li>
     <li class="nav-item">
