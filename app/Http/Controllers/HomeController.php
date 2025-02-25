@@ -24,7 +24,7 @@ class HomeController extends Controller
                 ->map(function ($manga) {
                     $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
                     $manga->chapters = MangaChapter::where('manga_id', $manga->id)
-                        ->orderBy('created_at', 'desc')
+                        ->orderBy('chapter_number', 'desc')
                         ->limit(2)
                         ->get();
                     return $manga;
