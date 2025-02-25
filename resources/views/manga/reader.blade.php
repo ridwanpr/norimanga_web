@@ -94,7 +94,7 @@
     </div>
     <div class="container p-0 px-md-2">
         <div class="reader mt-3 mt-md-4" id="reader">
-            <div class="reader-container d-flex flex-column align-items-center reader-img">
+            <div class="reader-container d-flex flex-column justify-content-center align-items-center reader-img">
                 @foreach ($images as $index => $image)
                     <img src="{{ $image }}" class="img-fluid"
                         alt="{{ $chapter->manga->title }} {{ $chapter->title }}"
