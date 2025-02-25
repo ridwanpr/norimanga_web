@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use PDO;
 use App\Models\Genre;
 use App\Models\Manga;
 use App\Models\MangaChapter;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,6 +15,7 @@ class HomeController extends Controller
     {
         $latestUpdate = Cache::remember('latest_update', now()->addMinutes(15), function () {
             return Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
+                ->whereHas('chapters')
                 ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
                 ->where('manga.is_project', false)
                 ->orderBy('manga_detail.updated_at', 'desc')
@@ -25,26 +23,13 @@ class HomeController extends Controller
                 ->get()
                 ->map(function ($manga) {
                     $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
-
-                    $dbDriver = DB::connection()->getPDO()->getAttribute(PDO::ATTR_DRIVER_NAME);
-
-                    if ($dbDriver === 'pgsql') {
-                        $manga->chapters = MangaChapter::where('manga_id', $manga->id)
-                            ->orderByRaw("NULLIF(regexp_replace(chapter_number, '[^0-9]', '', 'g'), '')::INTEGER DESC")
-                            ->take(2)
-                            ->get();
-                    } else {
-                        $manga->chapters = MangaChapter::where('manga_id', $manga->id)
-                            ->orderByRaw("CAST(REGEXP_REPLACE(chapter_number, '[^0-9]', '') AS UNSIGNED) DESC")
-                            ->take(2)
-                            ->get();
-                    }
-
+                    $manga->chapters = MangaChapter::where('manga_id', $manga->id)
+                        ->orderBy('created_at', 'desc')
+                        ->limit(2)
+                        ->get();
                     return $manga;
                 });
         });
-
-
 
         $trendingDaily = Cache::remember('trending_daily', now()->addHour(), function () {
             return Manga::trending('daily')->with('detail')->take(5)->get()
