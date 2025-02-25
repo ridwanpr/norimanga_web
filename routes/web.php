@@ -3,6 +3,7 @@
 use App\Jobs\UpdateBucketUsageJob;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Backend\AutoMationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MangaController;
@@ -56,6 +57,9 @@ Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
         Route::get('/manga-chapters/manga-list', [MangaChapterController::class, 'mangaList'])->name('manga-chapters.manga-list');
         Route::resource('manga-chapters', MangaChapterController::class);
     });
+
+    Route::get('automation', [AutoMationController::class, 'index'])->name('automation.index');
+    Route::get('/manga/search', [AutoMationController::class, 'search'])->name('automation.chapter.search');
 
     Route::get('storage-status', [BucketStatusController::class, 'index'])->name('storage-status');
     Route::resource('manage-comic', ManageComicController::class);
