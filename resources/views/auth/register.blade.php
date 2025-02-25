@@ -27,6 +27,7 @@
                                     <input type="password" class="form-control" id="password_confirmation"
                                         name="password_confirmation" required>
                                 </div>
+                                <x-turnstile />
                                 <div class="d-grid gap-2 mt-3">
                                     <button type="submit" class="btn btn-primary">Register</button>
                                 </div>
