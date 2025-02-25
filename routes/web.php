@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\ManageUserController;
 use App\Http\Controllers\Backend\ManageComicController;
 use App\Http\Controllers\Backend\BucketStatusController;
 use App\Http\Controllers\Backend\MangaChapterController;
+use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('daftar-komik', [MangaListController::class, 'gridList'])->name('manga.grid-list');
@@ -70,4 +71,9 @@ Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
 Route::get('/xvqxv', function () {
     dispatch(new UpdateBucketUsageJob());
     return response()->json(['message' => 'Bucket usage job dispatched successfully.']);
+});
+
+Route::get('/kjhku', function () {
+    Artisan::call('telescope:prune');
+    return response()->json(['message' => 'Prune completed.']);
 });
