@@ -59,3 +59,8 @@ Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
     Route::get('storage-status', [BucketStatusController::class, 'index'])->name('storage-status');
     Route::resource('manage-comic', ManageComicController::class);
 });
+
+Route::get('/xvqxv', function () {
+    dispatch(new UpdateBucketUsageJob());
+    return response()->json(['message' => 'Bucket usage job dispatched successfully.']);
+});
