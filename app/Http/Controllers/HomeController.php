@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use PDO;
 use App\Models\Genre;
 use App\Models\Manga;
 use App\Models\MangaChapter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,13 +25,25 @@ class HomeController extends Controller
                 ->get()
                 ->map(function ($manga) {
                     $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
-                    $manga->chapters = MangaChapter::where('manga_id', $manga->id)
-                        ->orderByRaw('CAST(chapter_number AS INTEGER) DESC') // PostgreSQL-compatible casting
-                        ->take(2) // Get the latest 2 chapters
-                        ->get();
+
+                    $dbDriver = DB::connection()->getPDO()->getAttribute(PDO::ATTR_DRIVER_NAME);
+
+                    if ($dbDriver === 'pgsql') {
+                        $manga->chapters = MangaChapter::where('manga_id', $manga->id)
+                            ->orderByRaw("NULLIF(chapter_number, '')::INTEGER DESC")
+                            ->take(2)
+                            ->get();
+                    } else {
+                        $manga->chapters = MangaChapter::where('manga_id', $manga->id)
+                            ->orderByRaw("CAST(chapter_number AS UNSIGNED) DESC")
+                            ->take(2)
+                            ->get();
+                    }
+
                     return $manga;
                 });
         });
+
 
         $trendingDaily = Cache::remember('trending_daily', now()->addHour(), function () {
             return Manga::trending('daily')->with('detail')->take(5)->get()
