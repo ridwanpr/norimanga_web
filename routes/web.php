@@ -1,8 +1,8 @@
 <?php
 
+use App\Jobs\UpdateBucketUsageJob;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Backend\BucketStatusController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MangaController;
@@ -13,6 +13,7 @@ use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ManageUserController;
 use App\Http\Controllers\Backend\ManageComicController;
+use App\Http\Controllers\Backend\BucketStatusController;
 use App\Http\Controllers\Backend\MangaChapterController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
