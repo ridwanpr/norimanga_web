@@ -72,9 +72,9 @@
                     </ul>
                     <div class="d-flex mt-3">
                         @if ($manga->chapters->isNotEmpty())
-                            <a href="{{ route('manga.reader', [$manga->slug, $manga->chapters->first()->slug]) }}"
-                                class="btn bg-primary me-2 watch-now-btn">Chapter 1</a>
                             <a href="{{ route('manga.reader', [$manga->slug, $manga->chapters->last()->slug]) }}"
+                                class="btn bg-primary me-2 watch-now-btn">Chapter 1</a>
+                            <a href="{{ route('manga.reader', [$manga->slug, $manga->chapters->first()->slug]) }}"
                                 class="btn bg-primary me-2 watch-now-btn">Last Chapter</a>
                         @endif
                     </div>

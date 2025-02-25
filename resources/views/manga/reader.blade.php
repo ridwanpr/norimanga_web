@@ -66,7 +66,8 @@
             </p>
             <div class="alert alert-warning w-100" role="alert">
                 <i class="bi bi-exclamation-triangle-fill text-warning"></i> <strong>Perhatian!</strong> Jika
-                menemukan gambar yang error, rusak atau tidak tampil. <a href="#" class="alert-link">Laporkan</a> kepada kami.
+                menemukan gambar yang error, rusak atau tidak tampil. <a href="#" class="alert-link">Laporkan</a>
+                kepada kami.
             </div>
         </div>
         <div class="nav-ch-section mt-4">
@@ -91,10 +92,11 @@
     <div class="container p-0 px-md-2">
         <div class="reader mt-3 mt-md-4" id="reader">
             <div class="reader-container d-flex flex-column align-items-center">
-                @foreach ($images as $image)
+                @foreach ($images as $index => $image)
                     <img src="{{ $image }}" class="img-fluid w-100"
                         alt="{{ $chapter->manga->title }} {{ $chapter->title }}"
-                        onerror="this.onerror=null;this.src='{{ asset('assets/img/no-image.png') }}'">
+                        onerror="this.onerror=null;this.src='{{ asset('assets/img/no-image.png') }}'"
+                        @if ($index > 2) loading="lazy" @endif>
                 @endforeach
             </div>
         </div>
