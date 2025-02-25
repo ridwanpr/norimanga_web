@@ -15,7 +15,6 @@ class HomeController extends Controller
     {
         $latestUpdate = Cache::remember('latest_update', now()->addMinutes(15), function () {
             return Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
-                // ->whereHas('chapters')
                 ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
                 ->where('manga.is_project', false)
                 ->orderBy('manga_detail.updated_at', 'desc')
@@ -24,12 +23,13 @@ class HomeController extends Controller
                 ->map(function ($manga) {
                     $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
                     $manga->chapters = MangaChapter::where('manga_id', $manga->id)
-                        ->orderBy('chapter_number', 'desc')
-                        ->limit(2)
+                        ->orderByRaw('CAST(chapter_number AS SIGNED) DESC')
+                        ->take(2) // Get the latest 2 chapters
                         ->get();
                     return $manga;
                 });
         });
+
 
         $trendingDaily = Cache::remember('trending_daily', now()->addHour(), function () {
             return Manga::trending('daily')->with('detail')->take(5)->get()
