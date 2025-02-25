@@ -8,10 +8,13 @@
         }
 
         @media (min-width: 768px) {
-
             .breadcrumb-item,
             .breadcrumb-item a {
                 font-size: 13px;
+            }
+
+            img {
+                width: 800px;
             }
         }
 
