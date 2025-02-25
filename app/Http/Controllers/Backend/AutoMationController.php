@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Models\Manga;
+use App\Jobs\FetchMangaJob;
 use App\Models\MangaChapter;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,5 +30,17 @@ class AutoMationController extends Controller
             ->get(['id', 'title']);
 
         return response()->json($manga);
+    }
+
+    public function fetchManga(Request $request)
+    {
+        $url = $request->input('url');
+        dispatch(new FetchMangaJob($url));
+        return back()->with('success', 'Job dispatched successfully.');
+    }
+
+    public function fetchChapter(Request $request)
+    {
+        
     }
 }

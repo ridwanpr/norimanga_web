@@ -12,7 +12,7 @@
                             <h5 class="card-title fs-6 fw-bold">Auto Fetch</h5>
                         </div>
                         <div class="card-body">
-                            <form action="" method="POST">
+                            <form action="{{ route('automation.fetch.manga') }}" method="POST">
                                 @csrf
                                 <div class="mb-3 position-relative">
                                     <input type="text" class="form-control me-1" name="url"

@@ -15,7 +15,7 @@ class HomeController extends Controller
     {
         $latestUpdate = Cache::remember('latest_update', now()->addMinutes(15), function () {
             return Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
-                ->whereHas('chapters')
+                // ->whereHas('chapters')
                 ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
                 ->where('manga.is_project', false)
                 ->orderBy('manga_detail.updated_at', 'desc')
