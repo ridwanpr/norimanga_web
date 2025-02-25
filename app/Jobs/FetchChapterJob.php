@@ -7,7 +7,6 @@ use DOMDocument;
 use App\Models\Manga;
 use App\Models\MangaChapter;
 use Illuminate\Bus\Queueable;
-use App\Services\BucketManager;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
@@ -19,28 +18,24 @@ class FetchChapterJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $bucketManager;
     private $manga;
 
     public function __construct(Manga $manga)
     {
         $this->manga = $manga;
-        $this->bucketManager = new BucketManager();
     }
 
     public function handle()
     {
-        $manga = $this->manga;
-        $url = "https://manhwaindo.one/series/{$manga->slug}/";
-
-        Log::info("Fetching chapters for: {$manga->title} ({$url})");
+        $url = "https://manhwaindo.one/series/{$this->manga->slug}/";
+        Log::info("Fetching chapters for manga: {$this->manga->title} from {$url}");
 
         $response = Http::withHeaders([
             'User-Agent' => $this->getRandomUserAgent()
         ])->get($url);
 
         if (!$response->successful()) {
-            Log::error("Failed to fetch chapters for: {$manga->title}");
+            Log::error("Failed to fetch chapters for: {$this->manga->title}");
             return;
         }
 
@@ -49,60 +44,49 @@ class FetchChapterJob implements ShouldQueue
         @$dom->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING);
         $xpath = new DOMXPath($dom);
 
-        $this->fetchChapterList($manga, $xpath);
-    }
+        $chapterElements = $xpath->query('//div[@class="eplister"]//li');
 
-    private function fetchChapterList(Manga $manga, DOMXPath $xpath)
-    {
-        try {
-            $chapterElements = $xpath->query('//div[@class="eplister"]//li');
-            if (!$chapterElements || $chapterElements->length === 0) {
-                Log::warning("No chapters found for: {$manga->title}");
-                return;
+        if (!$chapterElements || $chapterElements->length === 0) {
+            Log::warning("No chapters found for manga: {$this->manga->title}");
+            return;
+        }
+
+        $delay = 0;
+
+        foreach ($chapterElements as $element) {
+            $linkElement = $xpath->evaluate('.//div[@class="eph-num"]/a', $element)->item(0);
+            if (!$linkElement) {
+                continue;
             }
 
-            foreach ($chapterElements as $element) {
-                $chapterNum = $element->getAttribute('data-num');
-                $linkElement = $xpath->evaluate('.//div[@class="eph-num"]/a', $element)->item(0);
+            $chapterTitle = $xpath->evaluate('string(.//span[@class="chapternum"])', $element);
+            $chapterUrl = $linkElement->getAttribute('href');
+            $chapterSlug = basename(rtrim($chapterUrl, '/'));
 
-                if (!$linkElement) {
-                    continue;
-                }
+            // Extract chapter number as a string
+            $chapterNumber = $xpath->evaluate('string(.//span[@class="chapternum"])', $element);
 
-                $chapterTitle = $xpath->evaluate('string(.//span[@class="chapternum"])', $element);
-                $chapterDate = $xpath->evaluate('string(.//span[@class="chapterdate"])', $element);
-                $chapterUrl = $linkElement->getAttribute('href');
-
-                $chapterSlug = basename(rtrim($chapterUrl, '/'));
-                $chapterNumber = intval($chapterNum);
-
-                if ($chapterNumber === 0) {
-                    preg_match('/Chapter (\d+)/', $chapterTitle, $matches);
-                    $chapterNumber = isset($matches[1]) ? intval($matches[1]) : 0;
-                }
-
-                if ($chapterNumber === 0) {
-                    Log::warning("Invalid chapter number for {$manga->title}: {$chapterTitle}");
-                    continue;
-                }
-
-                MangaChapter::updateOrCreate(
-                    [
-                        'manga_id' => $manga->id,
-                        'chapter_number' => $chapterNumber
-                    ],
-                    [
-                        'title' => $chapterTitle,
-                        'slug' => $chapterSlug,
-                        'image' => json_encode([]),
-                    ]
-                );
-
-                Log::info("Processed chapter {$chapterNumber} for: {$manga->title}");
+            // Ensure chapter number is stored as a string, including "0"
+            if (empty($chapterNumber)) {
+                Log::warning("Missing chapter number for {$this->manga->title}: {$chapterTitle}");
+                continue;
             }
-        } catch (\Exception $e) {
-            Log::error("Error processing chapters for {$manga->title}: " . $e->getMessage());
-            throw $e;
+
+            $chapter = MangaChapter::updateOrCreate(
+                [
+                    'manga_id' => $this->manga->id,
+                    'chapter_number' => $chapterNumber // Store as string
+                ],
+                [
+                    'title' => $chapterTitle,
+                    'slug' => $chapterSlug,
+                    'image' => json_encode([]),
+                ]
+            );
+
+            Log::info("Processed chapter '{$chapterNumber}' for manga: {$this->manga->title}");
+
+            dispatch(new FetchChapterImagesJob($chapter))->delay(now()->addSeconds(random_int(5, 50)));
         }
     }
 
@@ -110,8 +94,9 @@ class FetchChapterJob implements ShouldQueue
     {
         $userAgents = [
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36"
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         ];
         return $userAgents[array_rand($userAgents)];
     }
