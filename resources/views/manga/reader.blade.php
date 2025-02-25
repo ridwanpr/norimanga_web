@@ -6,18 +6,19 @@
             text-transform: capitalize;
             font-size: 13px;
         }
-
+        .reader-img {
+            width: 100%;
+        }
         @media (min-width: 768px) {
             .breadcrumb-item,
             .breadcrumb-item a {
                 font-size: 13px;
             }
 
-            img {
-                width: 800px !important;
+            .reader-img {
+                width: 800px;
             }
         }
-
         #scrollProgressBar {
             position: fixed;
             bottom: 0;
@@ -28,7 +29,6 @@
             transition: width 0.1s linear;
             z-index: 9999;
         }
-
         img:hover {
             filter: none;
             transform: none;
@@ -96,7 +96,7 @@
         <div class="reader mt-3 mt-md-4" id="reader">
             <div class="reader-container d-flex flex-column align-items-center">
                 @foreach ($images as $index => $image)
-                    <img src="{{ $image }}" class="img-fluid w-100"
+                    <img src="{{ $image }}" class="img-fluid reader-img"
                         alt="{{ $chapter->manga->title }} {{ $chapter->title }}"
                         onerror="this.onerror=null;this.src='{{ asset('assets/img/no-image.png') }}'"
                         @if ($index > 2) loading="lazy" @endif>
