@@ -23,13 +23,12 @@ class HomeController extends Controller
                 ->map(function ($manga) {
                     $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
                     $manga->chapters = MangaChapter::where('manga_id', $manga->id)
-                        ->orderByRaw('CAST(chapter_number AS SIGNED) DESC')
+                        ->orderByRaw('CAST(chapter_number AS INTEGER) DESC') // PostgreSQL-compatible casting
                         ->take(2) // Get the latest 2 chapters
                         ->get();
                     return $manga;
                 });
         });
-
 
         $trendingDaily = Cache::remember('trending_daily', now()->addHour(), function () {
             return Manga::trending('daily')->with('detail')->take(5)->get()
