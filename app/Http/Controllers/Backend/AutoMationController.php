@@ -7,6 +7,7 @@ use App\Jobs\FetchMangaJob;
 use App\Models\MangaChapter;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Jobs\FetchChapterJob;
 
 class AutoMationController extends Controller
 {
@@ -41,6 +42,9 @@ class AutoMationController extends Controller
 
     public function fetchChapter(Request $request)
     {
-        
+        $id = $request->input('manga_id');
+        $manga = Manga::findOrFail($id);
+        dispatch(new FetchChapterJob($manga));
+        return back()->with('success', 'Job dispatched successfully.');
     }
 }

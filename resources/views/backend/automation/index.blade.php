@@ -31,10 +31,11 @@
                             <h5 class="card-title fs-6 fw-bold">Auto Chapter</h5>
                         </div>
                         <div class="card-body">
-                            <form action="" method="POST">
+                            <form action="{{ route('automation.fetch.chapter') }}" method="POST">
                                 @csrf
                                 <div class="mb-3 position-relative">
-                                    <input type="text" id="search-manga" class="form-control" placeholder="Search manga">
+                                    <input type="text" name="search_manga" id="search-manga" class="form-control" placeholder="Search manga">
+                                    <input type="hidden" name="manga_id" id="manga-id">
                                     <div id="manga-results" class="dropdown-menu show w-100"></div>
                                 </div>
                                 <button type="submit" class="btn btn-grey">
@@ -170,6 +171,7 @@
                                 item.classList.add('manga-item');
                                 item.addEventListener('click', function() {
                                     document.getElementById('search-manga').value = manga.title;
+                                    document.getElementById('manga-id').value = manga.id;
                                     resultsContainer.style.display = "none";
                                 });
                                 resultsContainer.appendChild(item);
