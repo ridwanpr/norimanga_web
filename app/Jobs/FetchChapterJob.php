@@ -7,6 +7,7 @@ use DOMDocument;
 use App\Models\Manga;
 use App\Models\MangaChapter;
 use Illuminate\Bus\Queueable;
+use App\Jobs\FetchChapterImageJob;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
@@ -86,7 +87,7 @@ class FetchChapterJob implements ShouldQueue
 
             Log::info("Processed chapter '{$chapterNumber}' for manga: {$this->manga->title}");
 
-            dispatch(new FetchChapterImagesJob($chapter))->delay(now()->addSeconds(random_int(5, 50)));
+            dispatch(new FetchChapterImageJob($chapter))->delay(now()->addSeconds(random_int(5, 50)));
         }
     }
 
