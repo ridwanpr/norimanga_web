@@ -6,20 +6,32 @@
             text-transform: capitalize;
             font-size: 13px;
         }
+
         .reader-img {
             width: 100%;
         }
+
         @media (min-width: 768px) {
+
             .breadcrumb-item,
             .breadcrumb-item a {
                 font-size: 13px;
             }
 
+            .reader-container {
+                display: flex;
+                justify-content: center;
+            }
+
             .reader-img {
                 width: 800px;
-                margin: 0 auto;
+            }
+
+            .reader-img img {
+                width: 100%;
             }
         }
+
         #scrollProgressBar {
             position: fixed;
             bottom: 0;
@@ -30,6 +42,7 @@
             transition: width 0.1s linear;
             z-index: 9999;
         }
+
         img:hover {
             filter: none;
             transform: none;
@@ -76,9 +89,16 @@
         </div>
         <div class="nav-ch-section mt-4">
             <div class="d-flex justify-content-between gap-2">
-                <a href="#" class="btn btn-grey">
-                    <i class="bi bi-chevron-left"> Prev</i>
-                </a>
+                @if ($prevChapter)
+                    <a href="{{ route('manga.reader', [$chapter->manga->slug, $prevChapter->slug]) }}" class="btn btn-grey">
+                        <i class="bi bi-chevron-left"> Prev</i>
+                    </a>
+                @else
+                    <button class="btn btn-grey" disabled>
+                        <i class="bi bi-chevron-left"> Prev</i>
+                    </button>
+                @endif
+
                 <div class="d-flex gap-2 justify-content-between">
                     <a href="{{ route('manga.show', $chapter->manga->slug) }}" class="btn btn-grey">
                         <i class="bi bi-list"></i>
@@ -87,38 +107,64 @@
                         <i class="bi bi-gear"></i>
                     </a>
                 </div>
-                <a href="#" class="btn btn-grey">
-                    <i class="bi bi-chevron-right"> Next</i>
-                </a>
+
+                @if ($nextChapter)
+                    <a href="{{ route('manga.reader', [$chapter->manga->slug, $nextChapter->slug]) }}"
+                        class="btn btn-grey">
+                        <i class="bi bi-chevron-right"> Next</i>
+                    </a>
+                @else
+                    <button class="btn btn-grey" disabled>
+                        <i class="bi bi-chevron-right"> Next</i>
+                    </button>
+                @endif
             </div>
         </div>
     </div>
     <div class="container p-0 px-md-2">
         <div class="reader mt-3 mt-md-4" id="reader">
-            <div class="reader-container reader-img">
-                @foreach ($images as $index => $image)
-                    <img src="{{ $image }}" class="img-fluid"
-                        alt="{{ $chapter->manga->title }} {{ $chapter->title }}"
-                        onerror="this.onerror=null;this.src='{{ asset('assets/img/no-image.png') }}'"
-                        @if ($index > 2) loading="lazy" @endif>
-                @endforeach
+            <div class="reader-container">
+                <div class="reader-img">
+                    @foreach ($images as $index => $image)
+                        <img src="{{ $image }}" class="img-fluid"
+                            alt="{{ $chapter->manga->title }} {{ $chapter->title }}"
+                            onerror="this.onerror=null;this.src='{{ asset('assets/img/no-image.png') }}'"
+                            @if ($index > 2) loading="lazy" @endif>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
     <div class="container nav-bottom mt-4">
         <div class="nav-ch-section mt-4">
             <div class="d-flex justify-content-between gap-2">
-                <a href="#" class="btn btn-grey">
-                    <i class="bi bi-chevron-left"> Prev</i>
-                </a>
+                @if ($prevChapter)
+                    <a href="{{ route('manga.reader', [$chapter->manga->slug, $prevChapter->slug]) }}"
+                        class="btn btn-grey">
+                        <i class="bi bi-chevron-left"> Prev</i>
+                    </a>
+                @else
+                    <button class="btn btn-grey" disabled>
+                        <i class="bi bi-chevron-left"> Prev</i>
+                    </button>
+                @endif
+
                 <div class="d-flex gap-2 justify-content-between">
                     <a href="{{ route('manga.show', $chapter->manga->slug) }}" class="btn btn-grey">
                         <i class="bi bi-list"></i>
                     </a>
                 </div>
-                <a href="#" class="btn btn-grey">
-                    <i class="bi bi-chevron-right"> Next</i>
-                </a>
+
+                @if ($nextChapter)
+                    <a href="{{ route('manga.reader', [$chapter->manga->slug, $nextChapter->slug]) }}"
+                        class="btn btn-grey">
+                        <i class="bi bi-chevron-right"> Next</i>
+                    </a>
+                @else
+                    <button class="btn btn-grey" disabled>
+                        <i class="bi bi-chevron-right"> Next</i>
+                    </button>
+                @endif
             </div>
         </div>
         <div class="tags mt-4 py-0 px-1 bg-dark rounded">

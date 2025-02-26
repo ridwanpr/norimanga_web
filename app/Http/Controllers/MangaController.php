@@ -18,6 +18,14 @@ class MangaController extends Controller
             ->with('detail', 'genres', 'chapters')
             ->firstOrFail();
 
+        $sortedChapters = $manga->chapters->sortByDesc('chapter_number', SORT_NATURAL);
+
+        $firstChapter = $sortedChapters->last();
+        $lastChapter = $sortedChapters->first();
+
+        $manga->firstChapter = $firstChapter;
+        $manga->lastChapter = $lastChapter;
+
         $ip = request()->ip();
 
         $alsoRead = Cache::remember("alsoRead_{$manga->id}", now()->addHours(2), function () {
@@ -53,12 +61,30 @@ class MangaController extends Controller
 
     public function reader($slug, $chapter_slug)
     {
-        $chapter = MangaChapter::where('slug', $chapter_slug)
-            ->with('manga')
-            ->firstOrFail();
+        $chapter = Cache::remember("chapter_{$slug}_{$chapter_slug}", now()->addHours(12), function () use ($chapter_slug) {
+            return MangaChapter::where('slug', $chapter_slug)
+                ->with('manga')
+                ->firstOrFail();
+        });
 
-        $images = $chapter->getFormattedImages();
+        $prevChapter = Cache::remember("prev_chapter_{$slug}_{$chapter_slug}", now()->addHours(12), function () use ($chapter) {
+            return MangaChapter::where('manga_id', $chapter->manga_id)
+                ->where('slug', '<', $chapter->slug)
+                ->orderBy('slug', 'desc')
+                ->first();
+        });
 
-        return view('manga.reader', compact('chapter', 'images'));
+        $nextChapter = Cache::remember("next_chapter_{$slug}_{$chapter_slug}", now()->addHours(12), function () use ($chapter) {
+            return MangaChapter::where('manga_id', $chapter->manga_id)
+                ->where('slug', '>', $chapter->slug)
+                ->orderBy('slug', 'asc')
+                ->first();
+        });
+
+        $images = Cache::remember("images_{$slug}_{$chapter_slug}", now()->addHours(12), function () use ($chapter) {
+            return $chapter->getFormattedImages();
+        });
+
+        return view('manga.reader', compact('chapter', 'images', 'prevChapter', 'nextChapter'));
     }
 }

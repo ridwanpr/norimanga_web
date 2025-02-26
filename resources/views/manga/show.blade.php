@@ -50,10 +50,17 @@
                     <img src="{{ $manga->detail->cover }}" alt="{{ $manga->title }}"
                         class="img-fluid rounded shadow-sm cover-img">
                     <div class="mt-3">
-                        <button class="btn bg-primary custom-full-width bookmark-btn" data-id="{{ $manga->id }}">
-                            <i class="bi bi-bookmark-fill me-2"></i>
-                            <span>Bookmark</span>
-                        </button>
+                        @auth
+                            <button class="btn bg-primary custom-full-width bookmark-btn" data-id="{{ $manga->id }}">
+                                <i class="bi bi-bookmark-fill me-2"></i>
+                                <span>Bookmark</span>
+                            </button>
+                        @else
+                            <a href="{{ route('login') }}" class="btn bg-primary custom-full-width">
+                                <i class="bi bi-bookmark-fill me-2"></i>
+                                <span>Login to Bookmark</span>
+                            </a>
+                        @endauth
                     </div>
                 </div>
                 <div class="col-12 col-md-6 mb-3 mb-md-0">
@@ -72,9 +79,9 @@
                     </ul>
                     <div class="d-flex mt-3">
                         @if ($manga->chapters->isNotEmpty())
-                            <a href="{{ route('manga.reader', [$manga->slug, $manga->chapters->last()->slug]) }}"
+                            <a href="{{ route('manga.reader', [$manga->slug, $manga->firstChapter->slug]) }}"
                                 class="btn bg-primary me-2 watch-now-btn">Chapter 1</a>
-                            <a href="{{ route('manga.reader', [$manga->slug, $manga->chapters->first()->slug]) }}"
+                            <a href="{{ route('manga.reader', [$manga->slug, $manga->lastChapter->slug]) }}"
                                 class="btn bg-primary me-2 watch-now-btn">Last Chapter</a>
                         @endif
                     </div>

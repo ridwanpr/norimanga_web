@@ -61,77 +61,85 @@
             @include('backend.partials.nav-admin')
         </div>
 
-        <div class="row mt-4">
+        <div class="row">
             <div class="col-12 col-lg-4">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm mt-2">
                     <div class="card-header bg-primary text-white">Latest Registered Users</div>
                     <div class="card-body p-0">
-                        <table class="table table-striped mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Registered At</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($latestUsers as $user)
+                        <div class="table-responsive">
+                            <table class="table table-striped mb-0">
+                                <thead>
                                     <tr>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->created_at->format('d M Y H:i:s') }}</td>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Registered At</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($latestUsers as $user)
+                                        <tr>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->created_at->format('d M Y H:i:s') }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-12 col-lg-4">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm mt-2">
                     <div class="card-header bg-success text-white">Latest Created Comic</div>
                     <div class="card-body p-0">
-                        <table class="table table-striped mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Created At</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($latestManga as $manga)
+                        <div class="table-responsive">
+                            <table class="table table-striped mb-0">
+                                <thead>
                                     <tr>
-                                        <td>{{ $manga->title }}</td>
-                                        <td>{{ $manga->created_at->format('d M Y H:i:s') }}</td>
+                                        <th>Title</th>
+                                        <th>Created At</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($latestManga as $manga)
+                                        <tr>
+                                            <td>{{ $manga->title }}</td>
+                                            <td>{{ $manga->created_at->format('d M Y H:i:s') }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-12 col-lg-4">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm mt-2">
                     <div class="card-header bg-info text-white">Latest Updated Chapters</div>
                     <div class="card-body p-0">
-                        <table class="table table-striped mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Chapter</th>
-                                    <th>Updated At</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($latestChapters as $chapter)
+                        <div class="table-responsive">
+                            <table class="table table-striped mb-0">
+                                <thead>
                                     <tr>
-                                        <td>{{ $chapter->title }}</td>
-                                        <td>{{ $chapter->updated_at->format('d M Y H:i:s') }}</td>
+                                        <th>Title</th>
+                                        <th>Chapter</th>
+                                        <th>Updated At</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($latestChapters as $chapter)
+                                        <tr>
+                                            <td>{{ $chapter->manga->title }}</td>
+                                            <td>{{ $chapter->title }}</td>
+                                            <td>{{ $chapter->updated_at->format('d M Y H:i:s') }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
