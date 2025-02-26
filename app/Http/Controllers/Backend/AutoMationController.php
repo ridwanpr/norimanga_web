@@ -26,9 +26,10 @@ class AutoMationController extends Controller
             return response()->json([]);
         }
 
-        $manga = Manga::where('title', 'like', '%' . $query . '%')
+        $manga = Manga::whereRaw('LOWER(title) LIKE LOWER(?)', ['%' . $query . '%'])
             ->limit(10)
             ->get(['id', 'title']);
+
 
         return response()->json($manga);
     }

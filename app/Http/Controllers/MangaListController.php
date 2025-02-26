@@ -21,7 +21,7 @@ class MangaListController extends Controller
         }
 
         if ($request->filled('search')) {
-            $query->where('manga.title', 'like', '%' . $request->search . '%');
+            $query->whereRaw('LOWER(manga.title) LIKE ?', ['%' . strtolower($request->search) . '%']);
         }
 
         if ($request->filled('year')) {

@@ -27,9 +27,9 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
         Model::preventLazyLoading(! app()->isProduction());
 
-        // if(app()->isProduction()) {
-        //     URL::forceScheme('https');
-        // }
+        if(app()->isProduction()) {
+            URL::forceScheme('https');
+        }
 
         Gate::define('viewPulse', function (User $user) {
             return $user->email === 'admin@nori.my';
