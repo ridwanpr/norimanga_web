@@ -62,7 +62,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $credentials['email'])->first();
 
-        if ($user->is_banned) {
+        if ($user && $user->is_banned) {
             return back()->withErrors(['email' => 'Maaf akun anda telah dibanned. Silahkan hubungi admin.']);
         }
 
