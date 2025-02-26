@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Model;
@@ -25,9 +26,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
         Model::preventLazyLoading(! app()->isProduction());
-        if (app()->isProduction()) {
-            $this->app['request']->server->set('HTTPS', true);
-        }
+
+        // if(app()->isProduction()) {
+        //     URL::forceScheme('https');
+        // }
 
         Gate::define('viewPulse', function (User $user) {
             return $user->email === 'admin@nori.my';

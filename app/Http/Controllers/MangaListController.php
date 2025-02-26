@@ -20,6 +20,10 @@ class MangaListController extends Controller
             });
         }
 
+        if ($request->filled('search')) {
+            $query->where('manga.title', 'like', '%' . $request->search . '%');
+        }
+
         if ($request->filled('year')) {
             $query->where('manga_detail.release_year', $request->year);
         }
