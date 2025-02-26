@@ -42,8 +42,9 @@
                 dalam bahasa Indonesia.
             </p>
             <p class="mb-0">
-                Dukung kami dengan donasi melalui <span class="badge bg-danger">Trakteer</span> dan <span
-                    class="badge bg-warning text-dark">Saweria</span>
+                Dukung kami dengan donasi melalui <a href="https://trakteer.id/noricomic/tip?open=true" target="_blank"
+                    class="badge bg-danger text-decoration-none">Trakteer</a> dan <a href="https://saweria.co/noricomic" target="_blank"
+                    class="badge bg-warning text-dark text-decoration-none">Saweria</a>
             </p>
         </div>
         <div class="row">

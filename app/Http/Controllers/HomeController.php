@@ -68,35 +68,39 @@ class HomeController extends Controller
 
         $genres = Genre::select('name', 'slug')->orderBy('name')->get();
 
-        $projects =  Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
-            ->where('is_project', 1)
-            ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
-            ->orderBy('manga_detail.updated_at', 'desc')
-            ->take(4)
-            ->get()
-            ->map(function ($manga) {
-                $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
-                $manga->chapters = MangaChapter::where('manga_id', $manga->id)
-                    ->orderBy('created_at', 'desc')
-                    ->limit(2)
-                    ->get();
-                return $manga;
-            });
+        $projects = Cache::remember('projects', now()->addMinutes(15), function () {
+            return  Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
+                ->where('is_project', 1)
+                ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
+                ->orderBy('manga_detail.updated_at', 'desc')
+                ->take(4)
+                ->get()
+                ->map(function ($manga) {
+                    $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
+                    $manga->chapters = MangaChapter::where('manga_id', $manga->id)
+                        ->orderBy('created_at', 'desc')
+                        ->limit(2)
+                        ->get();
+                    return $manga;
+                });
+        });
 
-        $featureds =  Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
-            ->where('is_featured', 1)
-            ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
-            ->orderBy('manga_detail.updated_at', 'desc')
-            ->take(6)
-            ->get()
-            ->map(function ($manga) {
-                $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
-                $manga->chapters = MangaChapter::where('manga_id', $manga->id)
-                    ->orderBy('created_at', 'desc')
-                    ->limit(2)
-                    ->get();
-                return $manga;
-            });
+        $featureds = Cache::remember('featureds', now()->addHour(), function () {
+            return  Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
+                ->where('is_featured', 1)
+                ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
+                ->orderBy('manga_detail.updated_at', 'desc')
+                ->take(6)
+                ->get()
+                ->map(function ($manga) {
+                    $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
+                    $manga->chapters = MangaChapter::where('manga_id', $manga->id)
+                        ->orderBy('created_at', 'desc')
+                        ->limit(2)
+                        ->get();
+                    return $manga;
+                });
+        });
 
         return view('welcome', compact('latestUpdate', 'genres', 'trendingDaily', 'trendingWeekly', 'trendingMonthly', 'projects', 'featureds'));
     }

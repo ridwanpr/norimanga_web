@@ -19,16 +19,17 @@
     </main>
 
     <div class="float-container">
-        <a href="" target="_blank" class="float-button trakteer">
+        <a href="https://trakteer.id/noricomic/tip?open=true" target="_blank" class="float-button trakteer">
             Trakteer
         </a>
-        <a href="" target="_blank" class="float-button saweria">
+        <a href="https://saweria.co/noricomic" target="_blank" class="float-button saweria">
             Saweria
         </a>
     </div>
     <button id="backToTop" class="btn btn-grey position-fixed" style="bottom: 20px; left: 20px; display: none;">
         <i class="bi bi-chevron-up"></i>
     </button>
+
 
     @if ($errors->any())
         <script>

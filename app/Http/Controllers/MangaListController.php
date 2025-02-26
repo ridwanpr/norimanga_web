@@ -44,15 +44,16 @@ class MangaListController extends Controller
                 return $manga;
             });
 
-        $genres = Genre::select('name', 'slug')->orderBy('name')->get();
+        $genres = Cache::remember('genres', now()->addMinutes(15), function () {
+            return Genre::select('name', 'slug')->orderBy('name')->get();
+        });
 
         return view('manga.grid-list', compact('latestUpdate', 'genres'));
     }
 
-
     public function textList()
     {
-        $mangas = Cache::remember('manga.list', now()->addHours(3), function () {
+        $mangas = Cache::remember('manga.list', now()->addHours(1), function () {
             return Manga::with('detail')
                 ->whereHas('detail')
                 ->select('title', 'slug')
