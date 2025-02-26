@@ -1,4 +1,12 @@
 @extends('layouts.app')
+@php
+    if ($chapter->manga->detail->type != null) {
+        $type = $chapter->manga->detail->type;
+    } else {
+        $type = 'Manga';
+    }
+@endphp
+@section('title', "{$chapter->manga->title} {$chapter->title} Bahasa Indonesia - Nori - $type Indonesia")
 @push('css')
     <style>
         .breadcrumb-item,

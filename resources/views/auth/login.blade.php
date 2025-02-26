@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Login - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Nori')
 @section('content')
     <section>
         <div class="container">

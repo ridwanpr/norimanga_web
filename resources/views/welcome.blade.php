@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Nori - Baca Manga, Manhwa, Manhua Bahasa Indonesia')
 @push('css')
     <style>
         .sidebar-text {

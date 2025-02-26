@@ -1,4 +1,12 @@
 @extends('layouts.app')
+@php
+    if ($manga->detail->type != null) {
+        $type = $manga->detail->type;
+    } else {
+        $type = 'Manga';
+    }
+@endphp
+@section('title', "$manga->title Bahasa Indonesia - Nori - $type Indonesia")
 @push('css')
     <style>
         .cover-img {

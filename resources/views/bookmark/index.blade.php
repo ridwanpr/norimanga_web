@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Bookmark - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Nori')
 @push('css')
     <style>
         @media (max-width: 768px) {

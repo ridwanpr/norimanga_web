@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Daftar Komik - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Nori')
 @section('content')
     <div class="container">
         <div class="d-flex flex-wrap justify-content-between">
