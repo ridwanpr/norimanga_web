@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="https://forms.gle/woMnsABJ4DJhsN1B9" target="_blank">
                         <i class="bi bi-flag-fill me-2 text-info"></i>Lapor
                     </a>
                 </li>

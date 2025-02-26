@@ -6,7 +6,7 @@
             <a href="" class="text-decoration-none text-light">Privacy Policy</a>
         </div>
         <div class="text-center">
-            <p class="mb-0">Business & inquiries: contact@example.com</p>
+            <p class="mb-0">Business & inquiries: ct.norimanga@gmail.com</p>
         </div>
     </div>
 </footer>
