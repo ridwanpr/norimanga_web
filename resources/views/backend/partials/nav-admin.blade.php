@@ -12,7 +12,7 @@
     </li>
     <li class="nav-item">
         <a class="nav-link me-1 {{ Route::is('automation.index') ? 'active' : '' }}"
-            href="{{ route('automation.index') }}"><i class="bi bi-robot-fill"></i> Automation</a>
+            href="{{ route('automation.index') }}"><i class="bi bi-gear-fill me-1"></i> Automation</a>
     </li>
     <li class="nav-item">
         <a class="nav-link me-1 {{ Route::is('manage-comic.index') || Route::is('manage-comic.create') ? 'active' : '' }}"
