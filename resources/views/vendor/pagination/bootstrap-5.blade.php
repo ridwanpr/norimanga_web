@@ -1,131 +1,67 @@
 @if ($paginator->hasPages())
-    <nav class="d-flex justify-items-center justify-content-between">
-        {{-- Mobile view --}}
-        <div class="d-flex d-sm-none w-100">
-            <ul class="pagination w-100 justify-content-center">
-                @php
-                    $currentPage = $paginator->currentPage();
-                    $lastPage = $paginator->lastPage();
-
-                    // Always show first page
-                    $pages[] = 1;
-
-                    if ($currentPage > 3) {
-                        $pages[] = '...';
-                    }
-
-                    // Current page and one before/after
-                    if ($currentPage > 1 && $currentPage < $lastPage) {
-                        if ($currentPage > 2) {
-                            $pages[] = $currentPage - 1;
-                        }
-                        $pages[] = $currentPage;
-                        if ($currentPage < $lastPage - 1) {
-                            $pages[] = $currentPage + 1;
-                        }
-                    }
-
-                    if ($currentPage < $lastPage - 2) {
-                        $pages[] = '...';
-                    }
-
-                    // Always show last page
-                    if ($lastPage > 1) {
-                        $pages[] = $lastPage;
-                    }
-                @endphp
-
-                {{-- Previous --}}
-                @if ($paginator->onFirstPage())
-                    <li class="page-item disabled" aria-disabled="true">
-                        <span class="page-link">&lsaquo; Prev</span>
-                    </li>
-                @else
-                    <li class="page-item">
-                        <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev">&lsaquo; Prev</a>
-                    </li>
-                @endif
-
-                {{-- Page Numbers --}}
-                @foreach ($pages as $page)
-                    @if ($page === '...')
-                        <li class="page-item disabled d-none d-sm-inline" aria-disabled="true">
-                            <span class="page-link">...</span>
-                        </li>
-                    @else
-                        <li class="page-item {{ $page == $currentPage ? 'active' : '' }}">
-                            <a class="page-link" href="{{ $paginator->url($page) }}">{{ $page }}</a>
-                        </li>
-                    @endif
-                @endforeach
-
-                {{-- Next --}}
-                @if ($paginator->hasMorePages())
-                    <li class="page-item">
-                        <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next">Next &rsaquo;</a>
-                    </li>
-                @else
-                    <li class="page-item disabled" aria-disabled="true">
-                        <span class="page-link">Next &rsaquo;</span>
-                    </li>
-                @endif
-            </ul>
-        </div>
-
-        {{-- Desktop view --}}
-        <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between">
+    <nav aria-label="Page navigation">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+            {{-- Results summary --}}
             <div>
-                <p class="small text-muted">
-                    {!! __('Showing') !!}
-                    <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
-                    {!! __('to') !!}
-                    <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
-                    {!! __('of') !!}
-                    <span class="fw-semibold">{{ $paginator->total() }}</span>
-                    {!! __('results') !!}
+                <p class="text-muted mb-0">
+                    <span class="fw-medium">{{ $paginator->total() }}</span> results -
+                    Page <span class="fw-medium">{{ $paginator->currentPage() }}</span> of
+                    <span class="fw-medium">{{ $paginator->lastPage() }}</span>
                 </p>
             </div>
 
-            <div>
-                <ul class="pagination">
-                    {{-- Previous --}}
-                    @if ($paginator->onFirstPage())
-                        <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
-                            <span class="page-link" aria-hidden="true">&lsaquo; Prev</span>
-                        </li>
-                    @else
-                        <li class="page-item">
-                            <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev"
-                                aria-label="@lang('pagination.previous')">&lsaquo; Prev</a>
-                        </li>
-                    @endif
+            {{-- Page links - Same for both mobile and desktop --}}
+            <ul class="pagination mb-0">
+                {{-- Previous Button --}}
+                <li class="page-item {{ $paginator->onFirstPage() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $paginator->onFirstPage() ? '#' : $paginator->previousPageUrl() }}"
+                        aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
 
-                    {{-- Page Numbers --}}
-                    @foreach ($pages as $page)
-                        @if ($page === '...')
-                            <li class="page-item disabled" aria-disabled="true">
-                                <span class="page-link">...</span>
-                            </li>
-                        @else
-                            <li class="page-item {{ $page == $currentPage ? 'active' : '' }}">
-                                <a class="page-link" href="{{ $paginator->url($page) }}">{{ $page }}</a>
-                            </li>
-                        @endif
-                    @endforeach
+                {{-- First Page --}}
+                <li class="page-item {{ $paginator->currentPage() == 1 ? 'active' : '' }}">
+                    <a class="page-link" href="{{ $paginator->url(1) }}">1</a>
+                </li>
 
-                    {{-- Next --}}
-                    @if ($paginator->hasMorePages())
-                        <li class="page-item">
-                            <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next"
-                                aria-label="@lang('pagination.next')">Next &rsaquo;</a>
-                        </li>
-                    @else
-                        <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
-                            <span class="page-link" aria-hidden="true">Next &rsaquo;</span>
-                        </li>
-                    @endif
-                </ul>
-            </div>
+                {{-- Ellipsis if needed before current --}}
+                @if ($paginator->currentPage() > 3)
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                @endif
+
+                {{-- Pages around current --}}
+                @for ($i = max(2, $paginator->currentPage() - 1); $i <= min($paginator->lastPage() - 1, $paginator->currentPage() + 1); $i++)
+                    <li class="page-item {{ $paginator->currentPage() == $i ? 'active' : '' }}">
+                        <a class="page-link" href="{{ $paginator->url($i) }}">{{ $i }}</a>
+                    </li>
+                @endfor
+
+                {{-- Ellipsis if needed after current --}}
+                @if ($paginator->currentPage() < $paginator->lastPage() - 2)
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                @endif
+
+                {{-- Last Page --}}
+                @if ($paginator->lastPage() > 1)
+                    <li class="page-item {{ $paginator->currentPage() == $paginator->lastPage() ? 'active' : '' }}">
+                        <a class="page-link"
+                            href="{{ $paginator->url($paginator->lastPage()) }}">{{ $paginator->lastPage() }}</a>
+                    </li>
+                @endif
+
+                {{-- Next Button --}}
+                <li class="page-item {{ !$paginator->hasMorePages() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ !$paginator->hasMorePages() ? '#' : $paginator->nextPageUrl() }}"
+                        aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
 @endif

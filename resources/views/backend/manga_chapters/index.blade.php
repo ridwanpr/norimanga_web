@@ -32,7 +32,6 @@
                                 <th>Chapter Title</th>
                                 <th>Chapter Number</th>
                                 <th>Slug</th>
-                                <th>Images</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -44,11 +43,6 @@
                                     <td>{{ Str::limit($chapter->title, 40) }}</td>
                                     <td>{{ $chapter->chapter_number }}</td>
                                     <td>{{ Str::limit($chapter->slug, 40) }}</td>
-                                    <td>
-                                        @foreach (json_decode($chapter->image, true) as $img)
-                                            <img src="{{ $img }}" alt="chapter-image" width="50">
-                                        @endforeach
-                                    </td>
                                     <td>
                                         <a href="{{ route('manga-chapters.edit', $chapter->id) }}"
                                             class="btn btn-sm btn-warning">Edit</a>

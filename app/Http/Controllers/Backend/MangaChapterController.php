@@ -14,7 +14,7 @@ class MangaChapterController extends Controller
 {
     public function index()
     {
-        $chapters = MangaChapter::with('manga')->orderBy('id', 'desc')->paginate(10);
+        $chapters = MangaChapter::with('manga')->orderBy('id', 'desc')->paginate(20);
         return view('backend.manga_chapters.index', compact('chapters'));
     }
 
