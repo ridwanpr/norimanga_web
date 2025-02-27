@@ -266,7 +266,7 @@
                         <div class="row row-cols-2 row-cols-sm-3 g-2">
                             @foreach ($genres as $genre)
                                 <div class="col">
-                                    <a href="#" class="genre-item">{{ $genre->name }}</a>
+                                    <a href="{{ route('manga.grid-list', ['genre' => $genre->slug]) }}" class="genre-item">{{ $genre->name }}</a>
                                 </div>
                             @endforeach
                         </div>
