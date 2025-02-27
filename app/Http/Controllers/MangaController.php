@@ -18,7 +18,11 @@ class MangaController extends Controller
             ->with('detail', 'genres', 'chapters')
             ->firstOrFail();
 
-        $sortedChapters = $manga->chapters->sortByDesc('chapter_number', SORT_NATURAL);
+            $sortedChapters = $manga->chapters->sortByDesc(function($chapter) {
+                // Extract numeric part and convert to float
+                preg_match('/(\d+(\.\d+)?)/', $chapter->chapter_number, $matches);
+                return isset($matches[1]) ? (float) $matches[1] : 0;
+            });
 
         $firstChapter = $sortedChapters->last();
         $lastChapter = $sortedChapters->first();
@@ -56,7 +60,7 @@ class MangaController extends Controller
             ]);
         }
 
-        return view('manga.show', compact('manga', 'alsoRead'));
+        return view('manga.show', compact('manga', 'alsoRead', 'sortedChapters'));
     }
 
     public function reader($slug, $chapter_slug)
