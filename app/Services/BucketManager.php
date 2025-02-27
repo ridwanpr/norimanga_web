@@ -13,7 +13,7 @@ class BucketManager
     private const BUCKET_PREFIX = 's';
     private const BUCKET_START = 3;
     private const BUCKET_END = 5;
-    private const BUCKET_THRESHOLD_GB = 24;
+    private const BUCKET_THRESHOLD_GB = 16;
     private const CACHE_KEY = 'current_bucket';
     private const CACHE_DURATION_MINUTES = 60;
 
