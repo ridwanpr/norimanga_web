@@ -44,8 +44,8 @@
             </p>
             <p class="mb-0">
                 Dukung kami dengan donasi melalui <a href="https://trakteer.id/noricomic/tip?open=true" target="_blank"
-                    class="badge bg-danger text-decoration-none">Trakteer</a> dan <a href="https://saweria.co/noricomic" target="_blank"
-                    class="badge bg-warning text-dark text-decoration-none">Saweria</a>
+                    class="badge bg-danger text-decoration-none">Trakteer</a> dan <a href="https://saweria.co/noricomic"
+                    target="_blank" class="badge bg-warning text-dark text-decoration-none">Saweria</a>
             </p>
         </div>
         <div class="row">
@@ -54,7 +54,7 @@
                     <i class="bi bi-info-circle-fill text-danger"></i> <strong>Bookmark</strong> web <a
                         href="https://noricomic.pages.dev/" class="text-decoration-none fw-bold"
                         target="_blank">Noricomic</a> untuk
-                    akses domain terbaru jika terkena Internet Positif.
+                    selalu dapatkan akses ke domain terbaru.
                 </div>
 
                 @if ($projects->count() > 0)
@@ -266,7 +266,8 @@
                         <div class="row row-cols-2 row-cols-sm-3 g-2">
                             @foreach ($genres as $genre)
                                 <div class="col">
-                                    <a href="{{ route('manga.grid-list', ['genre' => $genre->slug]) }}" class="genre-item">{{ $genre->name }}</a>
+                                    <a href="{{ route('manga.grid-list', ['genre' => $genre->slug]) }}"
+                                        class="genre-item">{{ $genre->name }}</a>
                                 </div>
                             @endforeach
                         </div>
