@@ -115,19 +115,11 @@
 
                 <div class="history-list">
                     <div class="history-item">
-                        <img src="https://via.placeholder.com/50x70" alt="Manga Cover" class="history-img">
+                        <img src="https://placehold.co/400" alt="Manga Cover" class="history-img">
                         <div class="history-content">
                             <span class="history-title">Nama Manga</span>
                             <span class="history-meta">Chapter 1</span>
                             <span class="history-meta">Dibaca 2 menit lalu</span>
-                        </div>
-                    </div>
-                    <div class="history-item">
-                        <img src="https://via.placeholder.com/50x70" alt="Manga Cover" class="history-img">
-                        <div class="history-content">
-                            <span class="history-title">Nama Manga Lain</span>
-                            <span class="history-meta">Chapter 10</span>
-                            <span class="history-meta">Dibaca kemarin</span>
                         </div>
                     </div>
                 </div>
