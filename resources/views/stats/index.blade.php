@@ -115,14 +115,16 @@
 
                 <div class="history-list">
                     @foreach ($userActivities as $userActivity)
-                        <div class="history-item">
-                            <img src="{{ $userActivity->manga->detail->cover }}" alt="Manga Cover" class="history-img">
-                            <div class="history-content">
-                                <span class="history-title">{{ $userActivity->manga->title }}</span>
-                                <span class="history-meta">Chapter {{ $userActivity->chapter->title }}</span>
-                                <span class="history-meta">{{ $userActivity->created_at->format('d M Y H:i:s') }}</span>
+                        <a href="{{ route('manga.show', $userActivity->manga->slug) }}" class="text-decoration-none">
+                            <div class="history-item">
+                                <img src="{{ $userActivity->manga->detail->cover }}" alt="Manga Cover" class="history-img">
+                                <div class="history-content">
+                                    <span class="history-title">{{ $userActivity->manga->title }}</span>
+                                    <span class="history-meta">Chapter {{ $userActivity->chapter->title }}</span>
+                                    <span class="history-meta">{{ $userActivity->created_at->format('d M Y H:i:s') }}</span>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
             </div>

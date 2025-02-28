@@ -122,13 +122,13 @@
                                     </span>
                                 </li>
                                 </li>
-                                <li class="mb-2">
+                                {{-- <li class="mb-2">
                                     <strong>Rating:</strong>
                                     <span class="text-warning">
                                         ★★★★<span class="text-muted">★</span>
                                     </span>
                                     <small class="text-muted">(4.5)</small>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </div>
