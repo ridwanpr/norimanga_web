@@ -63,31 +63,38 @@
             @else
                 <ul class="list-group list-group-flush">
                     @foreach ($bookmarks as $bookmark)
-                        <li class="list-group-item border-bottom px-0 bookmark-item">
-                            <div class="row align-items-center w-100">
-                                <div class="col-12 col-md-1 d-flex justify-content-center mb-2 mb-md-0">
-                                    <img src="{{ str_replace('.s3.tebi.io', '', $bookmark->manga->detail->cover) }}"
-                                        alt="{{ $bookmark->manga->title }}" class="img-fluid rounded img-manga">
+                        <li class="list-group-item border-bottom px-0">
+                            <a href="{{ route('manga.show', $bookmark->manga->slug) }}"
+                                class="d-block w-100 text-decoration-none bookmark-item">
+                                <div class="row align-items-center w-100">
+                                    <div class="col-auto">
+                                        <img src="{{ str_replace('.s3.tebi.io', '', $bookmark->manga->detail->cover) }}"
+                                            alt="{{ $bookmark->manga->title }}" class="img-fluid rounded img-manga"
+                                            style="width: 60px; height: auto;">
+                                    </div>
+
+                                    <div class="col d-flex flex-column justify-content-center bookmark-content">
+                                        <span class="bookmark-title">{{ $bookmark->manga->title }}</span>
+                                        <span class="bookmark-genres">
+                                            {{ implode(', ', $bookmark->manga->genres->pluck('name')->toArray()) }}
+                                        </span>
+                                    </div>
+
+                                    <div class="col-auto d-flex align-items-center">
+                                        <form action="{{ route('bookmark.destroy') }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="manga_id" value="{{ $bookmark->manga->id }}">
+                                            <button type="submit"
+                                                class="btn btn-sm btn-outline-danger bookmark-btn d-flex align-items-center justify-content-center"
+                                                style="width: 28px; height: 28px;">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
 
-                                <div class="col-9 col-md-9 text-start bookmark-content">
-                                    <span class="bookmark-title">{{ $bookmark->manga->title }}</span>
-                                    <span class="bookmark-genres">
-                                        {{ implode(', ', $bookmark->manga->genres->pluck('name')->toArray()) }}
-                                    </span>
-                                </div>
-
-                                <div class="col-3 col-md-2 d-flex justify-content-end align-items-center">
-                                    <form action="{{ route('bookmark.destroy') }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="hidden" name="manga_id" value="{{ $bookmark->manga->id }}">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger bookmark-btn">
-                                            <i class="bi bi-x-lg"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
+                            </a>
                         </li>
                     @endforeach
                 </ul>
