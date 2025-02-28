@@ -41,15 +41,17 @@ class BucketManager
         $bucket = Cache::remember('lock:' . md5($path), 5, function () {
             return $this->getCurrentBucket();
         });
-
+    
         try {
             Storage::disk($bucket)->put($path, $contents, $options);
             $url = Storage::disk($bucket)->url($path);
             Log::info('File stored and URL obtained:', ['bucket' => $bucket, 'url' => $url]);
-
+    
             $size = strlen($contents);
-            BucketUsage::where('bucket_name', $bucket)->increment('total_bytes', $size);
-
+    
+            $redisKey = "bucket_usage:{$bucket}";
+            Cache::increment($redisKey, $size);
+    
             return [
                 'bucket' => $bucket,
                 'url' => $url,
@@ -58,7 +60,7 @@ class BucketManager
             Log::error("Failed to store file in bucket {$bucket}: " . $e->getMessage());
             throw $e;
         }
-    }
+    }    
 
     private function findFirstAvailableBucket(): string
     {
