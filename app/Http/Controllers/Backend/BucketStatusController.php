@@ -10,7 +10,7 @@ class BucketStatusController extends Controller
 {
     public function index()
     {
-        $totalBytes = 17 * 1024 * 1024 * 1024; // 25GB
+        $totalBytes = 16 * 1024 * 1024 * 1024; // 16GB
         $bucketUsage = BucketUsage::all()->map(function ($usage) use ($totalBytes) {
             $percent = round(($usage->total_bytes / $totalBytes) * 100, 2);
             return [

@@ -18,7 +18,7 @@
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <h6 class="mb-0">{{ $usage['bucket_name'] }}</h6>
                                         <div class="text-muted small">
-                                            {{ $usage['storage_used_gb'] }} / 25 GB
+                                            {{ $usage['storage_used_gb'] }} / 16 GB
                                         </div>
                                     </div>
                                     <div class="progress" style="height: 10px;">
