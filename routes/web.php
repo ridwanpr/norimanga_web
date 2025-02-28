@@ -79,6 +79,5 @@ Route::get('/xvqxv', function () {
 });
 
 Route::get('/kjhku', function () {
-    Artisan::call('telescope:prune');
-    return response()->json(['message' => 'Prune completed.']);
+    phpinfo();
 });
