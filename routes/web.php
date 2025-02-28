@@ -85,4 +85,5 @@ Route::get('/kjhku', function () {
 
 Route::get('bhilmnuqwecvrl', function () {
     dispatch(new SyncBucketUsageJob());
+    return response()->json(['message' => 'Bucket usage job dispatched successfully.']);
 });
