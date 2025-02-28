@@ -37,11 +37,16 @@ class FetchChapterImageJob implements ShouldQueue
 
         try {
             $response = Http::withHeaders([
-                'User-Agent' => $this->getRandomUserAgent()
+                'User-Agent' => $this->getRandomUserAgent(),
+                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Accept-Language' => 'en-US,en;q=0.5',
+                'Connection' => 'keep-alive',
+                'Upgrade-Insecure-Requests' => '1',
+                'Cache-Control' => 'max-age=0'
             ])->get($url);
 
             if (!$response->successful()) {
-                Log::error("Failed to fetch chapter page: {$url}");
+                Log::error("Failed to fetch chapter page: {$url}, status: {$response->status()}");
                 return;
             }
 
@@ -76,8 +81,12 @@ class FetchChapterImageJob implements ShouldQueue
                 }
 
                 foreach ($imageUrls as $index => $imageUrl) {
-                    // Skip advertisement images if needed
-                    if (stripos($imageUrl, 'ads') !== false || stripos($imageUrl, 'banner') !== false) {
+                    // Only skip images that are clearly ads
+                    // Check if the URL path contains '/ads/' folder or ends with 'banner' or 'ad'
+                    if (
+                        strpos($imageUrl, '/ads/') !== false ||
+                        preg_match('/(banner|advertisement)(-min)?\.jpg$/i', $imageUrl)
+                    ) {
                         Log::info("Skipping advertisement image: {$imageUrl}");
                         continue;
                     }
@@ -90,7 +99,7 @@ class FetchChapterImageJob implements ShouldQueue
                     ])->get($imageUrl);
 
                     if (!$imageResponse->successful()) {
-                        Log::warning("Failed to download image {$index} for chapter {$this->chapter->title}");
+                        Log::warning("Failed to download image {$index} for chapter {$this->chapter->title}, status: {$imageResponse->status()}");
                         continue;
                     }
 
@@ -153,11 +162,38 @@ class FetchChapterImageJob implements ShouldQueue
         if (preg_match('/<script>ts_reader\.run\((.*?)\);<\/script>/s', $html, $matches)) {
             $jsonData = $matches[1];
 
+            // Log the raw JSON data for debugging
+            Log::debug("Raw JSON data from script: " . substr($jsonData, 0, 500) . "...");
+
             // Replace improperly escaped quotes
             $jsonData = str_replace('\"', '"', $jsonData);
 
             // Decode the JSON data
             $data = json_decode($jsonData, true);
+
+            // Log the structure of the decoded data
+            if ($data) {
+                Log::debug("JSON structure: " . json_encode(array_keys($data)));
+                if (isset($data['sources'])) {
+                    Log::debug("Sources count: " . count($data['sources']));
+                }
+            } else {
+                Log::error("JSON decode failed: " . json_last_error_msg());
+
+                // Try a different approach if JSON decode fails
+                if (preg_match('/"sources":\[(.*?)\]/s', $jsonData, $sourceMatches)) {
+                    if (preg_match('/"images":\[(.*?)\]/s', $sourceMatches[1], $imageMatches)) {
+                        // Extract image URLs directly with regex
+                        preg_match_all('/"(https?:\/\/[^"]+)"/s', $imageMatches[1], $urlMatches);
+                        if (!empty($urlMatches[1])) {
+                            Log::info("Extracted " . count($urlMatches[1]) . " image URLs using regex");
+                            return $urlMatches[1];
+                        }
+                    }
+                }
+
+                return [];
+            }
 
             // Extract image URLs
             if ($data && isset($data['sources']) && !empty($data['sources'])) {
@@ -172,6 +208,37 @@ class FetchChapterImageJob implements ShouldQueue
             Log::warning("JSON data found but no images extracted: " . substr($jsonData, 0, 100) . "...");
         } else {
             Log::warning("No ts_reader.run script found in HTML");
+
+            // Try to find images directly in the HTML as a fallback
+            $dom = new DOMDocument();
+            @$dom->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING);
+            $xpath = new DOMXPath($dom);
+
+            // Try different selectors
+            $selectors = [
+                '//div[@id="readerarea"]/p/img',
+                '//div[@class="chapter-content"]//img',
+                '//div[@id="readerarea"]//img',
+                '//div[contains(@class, "reading-content")]//img'
+            ];
+
+            foreach ($selectors as $selector) {
+                $imageNodes = $xpath->query($selector);
+                if ($imageNodes && $imageNodes->length > 0) {
+                    $images = [];
+                    foreach ($imageNodes as $node) {
+                        $src = $node->getAttribute('src') ?: $node->getAttribute('data-src');
+                        if (!empty($src)) {
+                            $images[] = $src;
+                        }
+                    }
+
+                    if (!empty($images)) {
+                        Log::info("Found " . count($images) . " images using selector: " . $selector);
+                        return $images;
+                    }
+                }
+            }
         }
 
         return [];
