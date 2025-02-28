@@ -48,10 +48,7 @@ class BucketManager
             Log::info('File stored and URL obtained:', ['bucket' => $bucket, 'url' => $url]);
 
             $size = strlen($contents);
-            BucketUsage::updateOrCreate(
-                ['bucket_name' => $bucket],
-                ['total_bytes' => DB::raw("total_bytes + {$size}")]
-            );
+            BucketUsage::where('bucket_name', $bucket)->increment('total_bytes', $size);
 
             return [
                 'bucket' => $bucket,
