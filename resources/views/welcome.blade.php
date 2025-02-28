@@ -39,7 +39,7 @@
         <div class="mt-4 mb-3 bg-dark p-4 rounded shadow-sm">
             <h1 class="fs-5 mb-3 text-primary">Nori.my – Portal Baca Manga, Manhwa & Manhua Bahasa Indonesia</h1>
             <p class="mb-0">
-                Selamat datang di Nori.my, situs baca komik online gratis yang menyediakan koleksi manga, manhwa, dan manhua
+                Selamat datang di Nori.my, situs baca komik online yang menyediakan koleksi manga, manhwa, dan manhua
                 dalam bahasa Indonesia.
             </p>
             <p class="mb-0">
