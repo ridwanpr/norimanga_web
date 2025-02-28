@@ -13,14 +13,26 @@ class BookmarkController extends Controller
         $bookmarks = Auth::check()
             ? Bookmark::where('user_id', Auth::id())
             ->join('manga_detail', 'bookmarks.manga_id', '=', 'manga_detail.manga_id')
-            ->with(['manga.detail', 'manga.genres'])
+            ->with(['manga.detail', 'manga.genres', 'manga.chapters'])
             ->orderBy('manga_detail.updated_at', 'desc')
             ->select('bookmarks.*')
-            ->paginate(8)
+            ->paginate(10)
             : collect();
+
+        foreach ($bookmarks as $bookmark) {
+            if ($bookmark->manga && $bookmark->manga->chapters) {
+                $sortedChapters = $bookmark->manga->chapters->sortByDesc(function ($chapter) {
+                    preg_match('/(\d+(\.\d+)?)/', $chapter->chapter_number, $matches);
+                    return isset($matches[1]) ? (float) $matches[1] : 0;
+                });
+
+                $bookmark->manga->lastChapter = $sortedChapters->first();
+            }
+        }
 
         return view('bookmark.index', compact('bookmarks'));
     }
+
 
     public function toggle(Request $request)
     {

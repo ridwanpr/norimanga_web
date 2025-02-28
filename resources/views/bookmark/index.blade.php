@@ -19,12 +19,6 @@
             max-width: 500px;
         }
 
-        .bookmark-genres {
-            font-size: 12px;
-            color: #aaa;
-            display: block;
-        }
-
         @media (max-width: 768px) {
             .bookmark-title {
                 font-size: 14px;
@@ -43,7 +37,6 @@
     </style>
 @endpush
 
-
 @section('content')
     <div class="container">
         @auth
@@ -56,44 +49,53 @@
             @if ($bookmarks->isEmpty())
                 <div class="alert alert-warning">Anda belum memiliki bookmark.</div>
             @else
-                <ul class="list-group list-group-flush">
+                <div class="row g-2">
                     @foreach ($bookmarks as $bookmark)
-                        <li class="list-group-item border-bottom px-0">
-                            <div class="d-flex align-items-center">
-                                <a href="{{ route('manga.show', $bookmark->manga->slug) }}"
-                                    class="d-flex align-items-center text-light text-decoration-none">
-                                    <div class="me-3">
-                                        <img src="{{ str_replace('.s3.tebi.io', '', $bookmark->manga->detail->cover) }}"
-                                            alt="{{ $bookmark->manga->title }}" class="rounded img-manga">
-                                    </div>
+                        <div class="col-md-6">
+                            <div class="list-group-item border-bottom px-0">
+                                <div class="d-flex align-items-center">
+                                    <a href="{{ route('manga.show', $bookmark->manga->slug) }}"
+                                        class="d-flex align-items-center text-light text-decoration-none">
+                                        <div class="me-3">
+                                            <img src="{{ str_replace('.s3.tebi.io', '', $bookmark->manga->detail->cover) }}"
+                                                alt="{{ $bookmark->manga->title }}" class="rounded img-manga">
+                                        </div>
 
-                                    <div class="flex-grow-1">
-                                        <span class="bookmark-title" title="{{ $bookmark->manga->title }}">
-                                            {{ $bookmark->manga->title }}
-                                        </span>
-                                        <span class="bookmark-genres">
-                                            {{ implode(', ', $bookmark->manga->genres->pluck('name')->toArray()) }}
-                                        </span>
-                                    </div>
-                                </a>
+                                        <div class="flex-grow-1">
+                                            <span class="bookmark-title" title="{{ $bookmark->manga->title }}">
+                                                {{ $bookmark->manga->title }}
+                                            </span>
+                                            <table style="font-size: 12px;">
+                                                <tr>
+                                                    <td style="padding-right: 10px;">Chapter Terakhir:</td>
+                                                    <td>{{ $bookmark->manga->lastChapter->chapter_number }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding-right: 10px;">Chapter Dibaca:</td>
+                                                    <td>Chapter </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </a>
 
-                                <div class="ms-auto">
-                                    <form action="{{ route('bookmark.destroy') }}" method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this bookmark?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="hidden" name="manga_id" value="{{ $bookmark->manga->id }}">
-                                        <button type="submit"
-                                            class="btn btn-sm btn-outline-danger bookmark-btn d-flex align-items-center justify-content-center"
-                                            style="width: 28px; height: 28px;">
-                                            <i class="bi bi-x-lg"></i>
-                                        </button>
-                                    </form>
+                                    <div class="ms-auto">
+                                        <form action="{{ route('bookmark.destroy') }}" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this bookmark?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="manga_id" value="{{ $bookmark->manga->id }}">
+                                            <button type="submit"
+                                                class="btn btn-sm btn-outline-danger bookmark-btn d-flex align-items-center justify-content-center"
+                                                style="width: 28px; height: 28px;">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </li>
+                        </div>
                     @endforeach
-                </ul>
+                </div>
 
                 <div class="d-flex justify-content-center mt-3">
                     {{ $bookmarks->links() }}
