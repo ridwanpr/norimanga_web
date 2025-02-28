@@ -36,10 +36,6 @@ class AppServiceProvider extends ServiceProvider
             return $user->email === 'admin@nori.my';
         });
 
-        Gate::define('viewHorizon', function (User $user) {
-            return $user->email === 'admin@nori.my';
-        });
-
         LogViewer::auth(function ($request) {
             return $request->user()->hasRole('admin');
         });
