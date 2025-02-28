@@ -55,9 +55,9 @@
             </form>
 
         </div>
-        <div class="row g-2">
-            @foreach ($latestUpdate as $manga)
-                <div class="col-6 col-md-2">
+        <div class="row g-3">
+            @foreach ($latestUpdate as $key => $manga)
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                     <a href="{{ route('manga.show', $manga->slug) }}" class="text-decoration-none">
                         <div class="image-container position-relative mb-1">
                             <img src="{{ $manga->cover }}" onerror="this.src='{{ asset('assets/img/no-image.png') }}'"
@@ -76,6 +76,9 @@
                         </div>
                     </a>
                 </div>
+                @if (($key + 1) % 6 === 0)
+                    <hr class="col-12 my-4">
+                @endif
             @endforeach
         </div>
         <div class="mt-4">
