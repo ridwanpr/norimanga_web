@@ -46,21 +46,20 @@ class FetchChapterImageJob implements ShouldQueue
             }
 
             $html = $response->body();
-            $dom = new DOMDocument();
-            @$dom->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING);
-            $xpath = new DOMXPath($dom);
 
-            // Find all images within #readerarea > p > img
-            $imageNodes = $xpath->query('//div[@id="readerarea"]/p/img');
+            // Extract image URLs from the script tag
+            $imageUrls = $this->extractImageUrlsFromScript($html);
 
-            if (!$imageNodes || $imageNodes->length === 0) {
+            if (empty($imageUrls)) {
                 Log::warning("No images found for chapter: {$this->chapter->title}");
                 return;
             }
 
+            Log::info("Found " . count($imageUrls) . " images for chapter: {$this->chapter->title}");
+
             DB::beginTransaction();
             try {
-                $imageUrls = [];
+                $storedImageUrls = [];
                 $currentUrls = !empty($this->chapter->image) ? json_decode($this->chapter->image, true) : [];
 
                 // Determine which bucket to use
@@ -76,14 +75,20 @@ class FetchChapterImageJob implements ShouldQueue
                     Log::info("Using existing bucket {$bucket} for chapter {$this->chapter->title}");
                 }
 
-                foreach ($imageNodes as $index => $imageNode) {
-                    $imageUrl = $imageNode->getAttribute('src');
-                    if (empty($imageUrl)) {
+                foreach ($imageUrls as $index => $imageUrl) {
+                    // Skip advertisement images if needed
+                    if (stripos($imageUrl, 'ads') !== false || stripos($imageUrl, 'banner') !== false) {
+                        Log::info("Skipping advertisement image: {$imageUrl}");
                         continue;
                     }
 
                     // Download image
-                    $imageResponse = Http::timeout(30)->get($imageUrl);
+                    Log::info("Downloading image {$index}: {$imageUrl}");
+                    $imageResponse = Http::timeout(30)->withHeaders([
+                        'User-Agent' => $this->getRandomUserAgent(),
+                        'Referer' => $url
+                    ])->get($imageUrl);
+
                     if (!$imageResponse->successful()) {
                         Log::warning("Failed to download image {$index} for chapter {$this->chapter->title}");
                         continue;
@@ -104,7 +109,7 @@ class FetchChapterImageJob implements ShouldQueue
                             ['total_bytes' => DB::raw("total_bytes + {$size}")]
                         );
 
-                        $imageUrls[] = $url;
+                        $storedImageUrls[] = $url;
 
                         Log::info("Stored image {$index} for chapter {$this->chapter->title} in bucket {$bucket}");
 
@@ -117,17 +122,17 @@ class FetchChapterImageJob implements ShouldQueue
                 }
 
                 // Update chapter with stored images (merge with existing if any)
-                $this->chapter->image = json_encode(array_merge($currentUrls, $imageUrls));
+                $this->chapter->image = json_encode(array_merge($currentUrls, $storedImageUrls));
                 $this->chapter->save();
 
                 DB::commit();
-                Log::info("Successfully processed {$this->chapter->title} with " . count($imageUrls) . " images in bucket {$bucket}");
+                Log::info("Successfully processed {$this->chapter->title} with " . count($storedImageUrls) . " images in bucket {$bucket}");
             } catch (\Exception $e) {
                 DB::rollBack();
 
                 // Clean up any stored images on failure
-                if (!empty($imageUrls) && !empty($bucket)) {
-                    foreach ($imageUrls as $url) {
+                if (!empty($storedImageUrls) && !empty($bucket)) {
+                    foreach ($storedImageUrls as $url) {
                         $pathParts = parse_url($url);
                         $relativePath = ltrim($pathParts['path'], '/');
                         $this->bucketManager->deleteFile($bucket, $relativePath);
@@ -140,6 +145,36 @@ class FetchChapterImageJob implements ShouldQueue
             Log::error("Error processing chapter {$this->chapter->title}: " . $e->getMessage());
             throw $e;
         }
+    }
+
+    private function extractImageUrlsFromScript($html)
+    {
+        // Pattern to find the ts_reader.run script
+        if (preg_match('/<script>ts_reader\.run\((.*?)\);<\/script>/s', $html, $matches)) {
+            $jsonData = $matches[1];
+
+            // Replace improperly escaped quotes
+            $jsonData = str_replace('\"', '"', $jsonData);
+
+            // Decode the JSON data
+            $data = json_decode($jsonData, true);
+
+            // Extract image URLs
+            if ($data && isset($data['sources']) && !empty($data['sources'])) {
+                foreach ($data['sources'] as $source) {
+                    if (isset($source['images']) && !empty($source['images'])) {
+                        Log::info("Found " . count($source['images']) . " images from source: " . ($source['source'] ?? 'Unknown'));
+                        return $source['images'];
+                    }
+                }
+            }
+
+            Log::warning("JSON data found but no images extracted: " . substr($jsonData, 0, 100) . "...");
+        } else {
+            Log::warning("No ts_reader.run script found in HTML");
+        }
+
+        return [];
     }
 
     private function getRandomUserAgent()
