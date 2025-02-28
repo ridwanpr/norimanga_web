@@ -62,7 +62,7 @@
                                         </div>
 
                                         <div class="flex-grow-1">
-                                            <span class="bookmark-title" title="{{ $bookmark->manga->title }}">
+                                            <span class="bookmark-title text-primary" title="{{ $bookmark->manga->title }}">
                                                 {{ $bookmark->manga->title }}
                                             </span>
                                             <table style="font-size: 12px;">
