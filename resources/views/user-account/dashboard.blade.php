@@ -19,16 +19,14 @@
             <div class="col-12 col-md-3">
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 ms-3">
-                                <h5 class="card-title mb-0">Hello {{ ucwords($userData->name) }}</h5>
-                                <p class="card-text">{{ $userData->email }}</p>
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-outline-danger text-decoration-none"><i
-                                            class="bi bi-box-arrow-right"></i>&nbsp;Logout</button>
-                                </form>
-                            </div>
+                        <h5 class="card-title fs-5 mb-0 text-wrap">{{ ucwords($userData->name) }}</h5>
+                        <span class="text-wrap small">{{ $userData->email }}</span>
+                        <div class="mt-3">
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-outline-danger text-decoration-none"><i
+                                        class="bi bi-box-arrow-right"></i>&nbsp;Logout</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -40,7 +38,8 @@
                 </a>
                 <a href="{{ route('stats.index') }}" class="text-decoration-none">
                     <div class="alert alert-success mt-3 w-100" role="alert">
-                        <i class="bi bi-bar-chart-fill text-success"></i> Klik disini untuk lihat <strong>Riwayat Baca</strong> dan <strong>Statistik
+                        <i class="bi bi-bar-chart-fill text-success"></i> Klik disini untuk lihat <strong>Riwayat
+                            Baca</strong> dan <strong>Statistik
                             Akun</strong> anda.
                     </div>
                 </a>
