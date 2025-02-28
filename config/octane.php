@@ -1,4 +1,3 @@
-/*************  ✨ Codeium Command 🌟  *************/
 <?php
 
 use Laravel\Octane\Contracts\OperationTerminated;
@@ -228,5 +227,3 @@ return [
     'max_execution_time' => 30,
 
 ];
-
-/******  0a7938ed-4520-43e2-b8ea-65f1700f571d  *******/
