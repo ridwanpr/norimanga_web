@@ -102,8 +102,6 @@ class FetchChapterImageJob implements ShouldQueue
 
                         $storedImages[] = $storageInfo['url'];
 
-                        Log::info("Stored image {$index} for chapter {$this->chapter->title} in bucket {$bucket}");
-
                         usleep(500000);
                     } catch (\Exception $e) {
                         Log::error("Failed to store image {$index} for chapter {$this->chapter->title}: " . $e->getMessage());

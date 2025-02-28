@@ -24,13 +24,13 @@ class BucketManager
         if (!$currentBucket) {
             $currentBucket = $this->findFirstAvailableBucket();
             Cache::put(self::CACHE_KEY, $currentBucket, now()->addMinutes(self::CACHE_DURATION_MINUTES));
-            Log::info('New currentBucket assigned:', ['currentBucket' => $currentBucket]);
+            // Log::info('New currentBucket assigned:', ['currentBucket' => $currentBucket]);
         }
 
         if ($this->getBucketUsageGB($currentBucket) >= self::BUCKET_THRESHOLD_GB) {
             $currentBucket = $this->findFirstAvailableBucket();
             Cache::put(self::CACHE_KEY, $currentBucket, now()->addMinutes(self::CACHE_DURATION_MINUTES));
-            Log::info('Updated currentBucket due to threshold:', ['currentBucket' => $currentBucket]);
+            // Log::info('Updated currentBucket due to threshold:', ['currentBucket' => $currentBucket]);
         }
 
         return $currentBucket;
@@ -45,7 +45,6 @@ class BucketManager
         try {
             Storage::disk($bucket)->put($path, $contents, $options);
             $url = Storage::disk($bucket)->url($path);
-            Log::info('File stored and URL obtained:', ['bucket' => $bucket, 'url' => $url]);
     
             $size = strlen($contents);
     
