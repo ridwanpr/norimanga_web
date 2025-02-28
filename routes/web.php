@@ -1,9 +1,10 @@
 <?php
 
+use App\Jobs\SyncBucketUsageJob;
 use App\Jobs\UpdateBucketUsageJob;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Backend\AutoMationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MangaController;
@@ -12,11 +13,11 @@ use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\MangaListController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\AutoMationController;
 use App\Http\Controllers\Backend\ManageUserController;
 use App\Http\Controllers\Backend\ManageComicController;
 use App\Http\Controllers\Backend\BucketStatusController;
 use App\Http\Controllers\Backend\MangaChapterController;
-use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('daftar-komik', [MangaListController::class, 'gridList'])->name('manga.grid-list');
@@ -80,4 +81,8 @@ Route::get('/xvqxv', function () {
 
 Route::get('/kjhku', function () {
     phpinfo();
+});
+
+Route::get('bhilmnuqwecvrl', function () {
+    dispatch(new SyncBucketUsageJob());
 });
