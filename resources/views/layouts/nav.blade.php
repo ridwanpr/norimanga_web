@@ -4,7 +4,7 @@
             style="font-family: 'Nunito', sans-serif;
                font-weight: 800;
                font-size: 2rem;
-               color: #1e88e5;">
+               color: #4CAF50;">
             Nori
         </a>
         <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
@@ -44,7 +44,7 @@
             @endguest
             @auth
                 <div class="d-flex align-items-center mt-2 mt-md-0">
-                    <a class="nav-link"
+                    <a class="nav-link fw-bold"
                         href="{{ auth()->user()->role_id == 2 ? route('my-account') : route('dashboard') }}">
                         <i class="bi bi-person-circle me-2"></i><span class="text-primary">My</span>
                         {{ auth()->user()->role_id == 2 ? 'Account' : 'Dashboard' }}
