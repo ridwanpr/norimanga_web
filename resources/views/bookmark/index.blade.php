@@ -97,7 +97,7 @@
                     @endforeach
                 </div>
 
-                <div class="d-flex justify-content-center mt-3">
+                <div class="d-flex justify-content-center mt-4">
                     {{ $bookmarks->links() }}
                 </div>
             @endif
