@@ -67,7 +67,7 @@
                                     <a href="{{ route('manga.show', $project->slug) }}" class="text-decoration-none">
                                         <div class="image-container mb-1">
                                             <img src="{{ $project->cover }}" class="img-fluid rounded fixed-size-latest"
-                                                alt="{{ $project->title }}">
+                                                alt="{{ $project->title }}" loading="lazy">
                                             <div class="image-title">
                                                 {{ $project->title }}
                                             </div>
@@ -105,7 +105,7 @@
                                     <div class="position-relative">
                                         <img src="{{ $update->cover }}" onerror="this.src='https://placehold.co/250x300';"
                                             class="img-fluid rounded mb-1 fixed-size-latest"
-                                            alt="{{ $update->title }} cover image">
+                                            alt="{{ $update->title }} cover image" loading="lazy">
                                         @switch($update->type)
                                             @case('Manga')
                                                 <div

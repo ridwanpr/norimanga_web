@@ -1,136 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
+@section('title', 'Riwayat Baca & Statistik - Nori')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistik Membaca</title>
-    @vite('resources/css/app.css')
+@push('css')
     <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-size: 13px;
-        }
-
         .stat-card {
-            background: #2d2d2d;
-            border-radius: 15px;
-            padding: 1rem;
-            margin-bottom: 1rem;
+            background: #1e1e1e;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
         }
 
-        .genre-tag {
-            background: #4a4a4a;
-            border-radius: 20px;
-            padding: 8px 20px;
-            margin: 5px;
+        .stat-card h5 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
         }
 
-        .chart-bar {
-            height: 200px;
-            width: 40px;
-            background: #4a4a4a;
-            border-radius: 5px;
-            position: relative;
+        .stat-card p {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+            color: #00b4d8;
         }
 
-        .chart-fill {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background: #8a2be2;
-            border-radius: 5px;
-            height: 70%;
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
         }
 
-        .highlight {
-            color: #1e88e5;
+        .history-img {
+            width: 50px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 6px;
         }
 
-        @media (max-width: 768px) {
-            .stat-card {
-                margin-bottom: 0.75rem;
+        .history-content {
+            flex-grow: 1;
+            padding-left: 10px;
+        }
+
+        .history-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .history-meta {
+            font-size: 11px;
+            color: #aaa;
+            display: block;
+            margin-top: 2px;
+        }
+
+        @media (max-width: 576px) {
+            .stat-card h5 {
+                font-size: 12px;
+            }
+
+            .stat-card p {
+                font-size: 16px;
             }
         }
     </style>
-</head>
+@endpush
 
-<body>
-    <header class="container py-4">
-        <h1 class="display-4 fw-bold">Statistik &bull; User Name</h1>
-        <p class="lead mb-0">https://nori.my/stats/user_slug</p>
-    </header>
+@section('content')
+    <div class="container">
+        <div class="row g-1 mb-3">
+            <div class="col-12">
+                <h2 class="fs-5 fw-bold text-white"><span class="text-primary">Riwayat </span>& Statistik</h2>
+            </div>
+        </div>
 
-    <main class="container">
-        <div class="row g-3 mb-3">
-            <div class="col-md-4">
-                <div class="stat-card h-100">
-                    <h3>Total Chapters</h3>
-                    <p class="display-2 fw-bold highlight mb-1">1,234</p>
-                    <small>30 hari terakhir: 234 chapters</small>
+        <div class="row g-2">
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <h5>Total Manga Dibaca</h5>
+                    <p>0</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="stat-card h-100">
-                    <h3>Total Judul</h3>
-                    <p class="display-2 fw-bold highlight mb-1">89</p>
-                    <small>12 judul baru bulan ini</small>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <h5>Total Chapter Dibaca</h5>
+                    <p>0</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="stat-card h-100">
-                    <h3>Hari Membaca</h3>
-                    <p class="display-2 fw-bold highlight mb-1">287</p>
-                    <small>Rata-rata 5.2 jam per hari</small>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <h5>Jumlah Scroll</h5>
+                    <p>0</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <h5>Total Waktu Membaca</h5>
+                    <p>0 Menit</p>
                 </div>
             </div>
         </div>
 
-        <div class="stat-card mb-3">
-            <h2 class="mb-3">Genre Favorit</h2>
-            <div class="d-flex flex-wrap mb-2">
-                <div class="genre-tag">Aksi <span class="badge bg-purple">35%</span></div>
-                <div class="genre-tag">Romansa <span class="badge bg-purple">28%</span></div>
-                <div class="genre-tag">Fantasi <span class="badge bg-purple">22%</span></div>
-            </div>
-        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <h4 class="fw-bold text-white fs-6">Riwayat Baca</h4>
 
-        <div class="row g-3 mb-3">
-            <div class="col-md-6">
-                <div class="stat-card h-100">
-                    <h3 class="mb-3">Judul Teratas</h3>
-                    <div class="list-group">
-                        <div class="list-group-item bg-dark border-secondary">
-                            1. Solo Leveling <span class="float-end">142 chapters</span>
+                <div class="history-list">
+                    <div class="history-item">
+                        <img src="https://via.placeholder.com/50x70" alt="Manga Cover" class="history-img">
+                        <div class="history-content">
+                            <span class="history-title">Nama Manga</span>
+                            <span class="history-meta">Chapter 1</span>
+                            <span class="history-meta">Dibaca 2 menit lalu</span>
+                        </div>
+                    </div>
+                    <div class="history-item">
+                        <img src="https://via.placeholder.com/50x70" alt="Manga Cover" class="history-img">
+                        <div class="history-content">
+                            <span class="history-title">Nama Manga Lain</span>
+                            <span class="history-meta">Chapter 10</span>
+                            <span class="history-meta">Dibaca kemarin</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="stat-card h-100">
-                    <h3 class="mb-3">Penulis Favorit</h3>
-                    <div class="list-group">
-                        <div class="list-group-item bg-dark border-secondary">
-                            Kim Jung-ji <span class="float-end">8 judul</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-
-        <div class="stat-card">
-            <h2 class="mb-3">Riwayat Baca</h2>
-            <div class="list-group">
-                <div class="list-group-item bg-dark border-secondary">
-                    <div class="d-flex justify-content-between">
-                        <span>Membaca chapter 145 dari Solo Leveling</span>
-                        <small>2 jam yang lalu</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-</body>
-
-</html>
+    </div>
+@endsection

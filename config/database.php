@@ -94,7 +94,7 @@ return [
             'prefix' => env('DB_PREFIX', ''),
             'prefix_indexes' => true,
             'search_path' => 'public',
-            'sslmode' => 'require', // 1.
+            'sslmode' => 'prefer', // 1.
         ],
 
         'sqlsrv' => [

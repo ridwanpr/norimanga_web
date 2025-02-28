@@ -7,8 +7,9 @@
                color: #1e88e5;">
             Nori
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true"
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -18,21 +19,11 @@
                         <i class="bi bi-house-fill me-2"></i>Beranda
                     </a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="bi bi-collection-fill me-2 text-primary"></i>Project
-                    </a>
-                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('manga.grid-list') }}">
                         <i class="bi bi-journal-bookmark-fill me-2 text-warning"></i>Daftar Komik
                     </a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="bi bi-explicit-fill me-2 text-danger"></i>NSFW
-                    </a>
-                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('bookmark.index') }}">
                         <i class="bi bi-bookmark-star-fill me-2 text-success"></i>Bookmark
@@ -72,3 +63,4 @@
     </form>
 </div>
 <hr>
+    
