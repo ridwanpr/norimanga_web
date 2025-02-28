@@ -24,8 +24,7 @@ class SyncBucketUsageJob implements ShouldQueue
             $size = Cache::pull($redisKey);
 
             if ($size > 0) {
-                BucketUsage::where('bucket_name', $bucket)
-                    ->update(['total_bytes' => DB::raw("total_bytes + {$size}")]);
+                DB::update("UPDATE bucket_usages SET total_bytes = total_bytes + ? WHERE bucket_name = ?", [$size, $bucket]);
             }
         }
     }

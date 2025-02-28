@@ -8,6 +8,7 @@ use App\Models\MangaChapter;
 use Illuminate\Http\Request;
 use App\Jobs\FetchChapterJob;
 use App\Jobs\SyncBucketUsageJob;
+use Illuminate\Support\Facades\Bus;
 use App\Http\Controllers\Controller;
 
 class AutoMationController extends Controller
@@ -47,9 +48,10 @@ class AutoMationController extends Controller
         $id = $request->input('manga_id');
         $manga = Manga::findOrFail($id);
 
-        dispatch(new FetchChapterJob($manga))->chain([
-            new SyncBucketUsageJob()
-        ]);
+        Bus::chain([
+            new FetchChapterJob($manga),
+            new SyncBucketUsageJob(),
+        ])->dispatch();
 
         return back()->with('success', 'Job dispatched successfully.');
     }
