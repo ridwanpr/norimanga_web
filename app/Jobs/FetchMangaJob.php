@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Symfony\Component\ErrorHandler\Debug;
 
 class FetchMangaJob implements ShouldQueue
 {
@@ -86,17 +87,21 @@ class FetchMangaJob implements ShouldQueue
             $bucket = null;
 
             if (!empty($coverImageUrl)) {
+                Log::debug("Fetching cover image: {$coverImageUrl}");
                 $imageResponse = Http::get($coverImageUrl);
                 if ($imageResponse->successful()) {
                     $extension = pathinfo($coverImageUrl, PATHINFO_EXTENSION);
                     $fileName = 'covers/' . $manga->id . '.' . $extension;
 
                     try {
+                        Log::debug("Attempting to store cover image to bucket: {$fileName}");
                         $storageInfo = $this->bucketManager->storeFile(
                             $fileName,
                             $imageResponse->body(),
                             ['visibility' => 'public']
                         );
+
+                        Log::debug("Stored cover image to bucket: {$fileName}");
 
                         $coverPath = $storageInfo['url'];
                         $bucket = $storageInfo['bucket'];

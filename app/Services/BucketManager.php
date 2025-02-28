@@ -24,12 +24,13 @@ class BucketManager
         if (!$currentBucket) {
             $currentBucket = $this->findFirstAvailableBucket();
             Cache::put(self::CACHE_KEY, $currentBucket, now()->addMinutes(self::CACHE_DURATION_MINUTES));
+            Log::info('New currentBucket assigned:', ['currentBucket' => $currentBucket]);
         }
 
-        // Double-check bucket capacity
         if ($this->getBucketUsageGB($currentBucket) >= self::BUCKET_THRESHOLD_GB) {
             $currentBucket = $this->findFirstAvailableBucket();
             Cache::put(self::CACHE_KEY, $currentBucket, now()->addMinutes(self::CACHE_DURATION_MINUTES));
+            Log::info('Updated currentBucket due to threshold:', ['currentBucket' => $currentBucket]);
         }
 
         return $currentBucket;
@@ -37,14 +38,16 @@ class BucketManager
 
     public function storeFile(string $path, $contents, array $options = []): array
     {
-        $bucket = $this->getCurrentBucket();
+        $bucket = Cache::remember('lock:' . md5($path), 5, function () {
+            return $this->getCurrentBucket();
+        });
 
         try {
             Storage::disk($bucket)->put($path, $contents, $options);
+            $url = Storage::disk($bucket)->url($path);
+            Log::info('File stored and URL obtained:', ['bucket' => $bucket, 'url' => $url]);
 
-            $size = strlen($contents); // Get file size
-
-            // Update database record
+            $size = strlen($contents);
             BucketUsage::updateOrCreate(
                 ['bucket_name' => $bucket],
                 ['total_bytes' => DB::raw("total_bytes + {$size}")]
@@ -52,7 +55,7 @@ class BucketManager
 
             return [
                 'bucket' => $bucket,
-                'url' => Storage::disk($bucket)->url($path),
+                'url' => $url,
             ];
         } catch (\Exception $e) {
             Log::error("Failed to store file in bucket {$bucket}: " . $e->getMessage());
@@ -64,12 +67,12 @@ class BucketManager
     {
         for ($i = self::BUCKET_START; $i <= self::BUCKET_END; $i++) {
             $bucket = self::BUCKET_PREFIX . $i;
+            $usageGB = $this->getBucketUsageGB($bucket);
 
-            if ($this->getBucketUsageGB($bucket) < self::BUCKET_THRESHOLD_GB) {
+            if ($usageGB < self::BUCKET_THRESHOLD_GB) {
                 return $bucket;
             }
         }
-
         Log::error('All buckets are near capacity!');
         throw new \RuntimeException('All storage buckets are near capacity');
     }
@@ -77,14 +80,17 @@ class BucketManager
     private function getBucketUsageGB(string $bucket): float
     {
         $usage = BucketUsage::where('bucket_name', $bucket)->value('total_bytes');
-        return $usage ? $usage / (1024 * 1024 * 1024) : 0;
-    }    
+        $usageGB = $usage ? $usage / (1024 * 1024 * 1024) : 0;
+        return $usageGB;
+    }
 
     public function deleteFile(string $bucket, string $path): bool
     {
         try {
             $size = Storage::disk($bucket)->size($path);
+
             $deleted = Storage::disk($bucket)->delete($path);
+            Log::info('File deletion status:', ['deleted' => $deleted]);
 
             if ($deleted) {
                 BucketUsage::where('bucket_name', $bucket)
@@ -98,3 +104,4 @@ class BucketManager
         }
     }
 }
+
