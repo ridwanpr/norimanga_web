@@ -72,7 +72,9 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="padding-right: 10px;">Chapter Dibaca:</td>
-                                                    <td>Chapter </td>
+                                                    <td>
+                                                        {{ $bookmark->manga->lastReadChapter ? ' ' . $bookmark->manga->lastReadChapter->chapter_number : 'Belum Dibaca' }}
+                                                    </td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -95,6 +97,7 @@
                             </div>
                         </div>
                     @endforeach
+
                 </div>
 
                 <div class="d-flex justify-content-center mt-4">

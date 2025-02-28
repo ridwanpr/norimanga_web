@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bookmark;
+use App\Models\UserActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Bookmark;
 
 class BookmarkController extends Controller
 {
@@ -28,6 +29,15 @@ class BookmarkController extends Controller
 
                 $bookmark->manga->lastChapter = $sortedChapters->first();
             }
+
+            // Fetch the latest read chapter for the user from the user_activity table
+            $userActivity = UserActivity::where('user_id', Auth::id())
+                ->where('manga_id', $bookmark->manga->id)
+                ->with('chapter')
+                ->latest('updated_at')
+                ->first();
+
+            $bookmark->manga->lastReadChapter = $userActivity ? $userActivity->chapter : null;
         }
 
         return view('bookmark.index', compact('bookmarks'));
