@@ -2,22 +2,6 @@
 @section('title', 'Bookmark - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Nori')
 @push('css')
     <style>
-        @media (max-width: 768px) {
-            .bookmark-title {
-                font-size: 14px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: block;
-                max-width: 130px;
-            }
-
-            .bookmark-btn {
-                padding: 2px 6px;
-                font-size: 0.85rem;
-            }
-        }
-
         .img-manga {
             width: 60px;
             height: 80px;
@@ -32,13 +16,29 @@
             overflow: hidden;
             text-overflow: ellipsis;
             display: block;
-            max-width: 200px;
+            max-width: 500px;
         }
 
         .bookmark-genres {
             font-size: 12px;
             color: #aaa;
             display: block;
+        }
+
+        @media (max-width: 768px) {
+            .bookmark-title {
+                font-size: 14px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+                max-width: 190px;
+            }
+
+            .bookmark-btn {
+                padding: 2px 6px;
+                font-size: 0.85rem;
+            }
         }
     </style>
 @endpush
@@ -69,7 +69,7 @@
 
                                     <div class="flex-grow-1">
                                         <span class="bookmark-title" title="{{ $bookmark->manga->title }}">
-                                            {{ Str::limit($bookmark->manga->title, 20) }}
+                                            {{ $bookmark->manga->title }}
                                         </span>
                                         <span class="bookmark-genres">
                                             {{ implode(', ', $bookmark->manga->genres->pluck('name')->toArray()) }}
@@ -78,7 +78,8 @@
                                 </a>
 
                                 <div class="ms-auto">
-                                    <form action="{{ route('bookmark.destroy') }}" method="POST">
+                                    <form action="{{ route('bookmark.destroy') }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this bookmark?')">
                                         @csrf
                                         @method('DELETE')
                                         <input type="hidden" name="manga_id" value="{{ $bookmark->manga->id }}">
