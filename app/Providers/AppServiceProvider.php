@@ -8,6 +8,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,12 +28,20 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
         Model::preventLazyLoading(! app()->isProduction());
 
-        if(app()->isProduction()) {
+        if (app()->isProduction()) {
             URL::forceScheme('https');
         }
 
         Gate::define('viewPulse', function (User $user) {
             return $user->email === 'admin@nori.my';
+        });
+
+        Gate::define('viewHorizon', function (User $user) {
+            return $user->email === 'admin@nori.my';
+        });
+
+        LogViewer::auth(function ($request) {
+            return $request->user()->hasRole('admin');
         });
     }
 }

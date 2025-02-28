@@ -14,7 +14,7 @@ class AutoMationController extends Controller
     public function index()
     {
         $latestManga = Manga::whereHas('detail')->latest()->take(10)->get();
-        $latestChapter = MangaChapter::with('manga')->whereJsonLength('image', '>', 0)->latest()->take(10)->get();
+        $latestChapter = MangaChapter::with('manga')->whereJsonLength('image', '>', 0)->orderBy('updated_at', 'desc')->take(10)->get();
         return view('backend.automation.index', compact('latestManga', 'latestChapter'));
     }
 
