@@ -3,8 +3,13 @@
 @push('css')
     <style>
         @media (max-width: 768px) {
-            .img-manga {
-                max-height: 80px;
+            .bookmark-title {
+                font-size: 14px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+                max-width: 130px;
             }
 
             .bookmark-btn {
@@ -13,32 +18,21 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .bookmark-title {
-                font-size: 14px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: block;
-                max-width: 100%;
-            }
-        }
-
-        .bookmark-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .bookmark-content {
-            flex-grow: 1;
-            padding-left: 10px;
+        .img-manga {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            flex-shrink: 0;
         }
 
         .bookmark-title {
             font-size: 16px;
             font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             display: block;
+            max-width: 200px;
         }
 
         .bookmark-genres {
@@ -48,6 +42,7 @@
         }
     </style>
 @endpush
+
 
 @section('content')
     <div class="container">
@@ -64,45 +59,40 @@
                 <ul class="list-group list-group-flush">
                     @foreach ($bookmarks as $bookmark)
                         <li class="list-group-item border-bottom px-0">
-                            <a href="{{ route('manga.show', $bookmark->manga->slug) }}"
-                                class="d-block w-100 text-decoration-none bookmark-item">
-                                <div class="row align-items-center w-100">
-                                    <div class="col-auto">
+                            <div class="d-flex align-items-center">
+                                <a href="{{ route('manga.show', $bookmark->manga->slug) }}"
+                                    class="d-flex align-items-center text-light text-decoration-none">
+                                    <div class="me-3">
                                         <img src="{{ str_replace('.s3.tebi.io', '', $bookmark->manga->detail->cover) }}"
-                                            alt="{{ $bookmark->manga->title }}" class="img-fluid rounded img-manga"
-                                            style="width: 60px; height: auto;">
+                                            alt="{{ $bookmark->manga->title }}" class="rounded img-manga">
                                     </div>
 
-                                    <div class="col d-flex flex-column justify-content-center bookmark-content">
-                                        <span class="bookmark-title">{{ $bookmark->manga->title }}</span>
+                                    <div class="flex-grow-1">
+                                        <span class="bookmark-title" title="{{ $bookmark->manga->title }}">
+                                            {{ Str::limit($bookmark->manga->title, 20) }}
+                                        </span>
                                         <span class="bookmark-genres">
                                             {{ implode(', ', $bookmark->manga->genres->pluck('name')->toArray()) }}
                                         </span>
                                     </div>
+                                </a>
 
-                                    <div class="col-auto d-flex align-items-center">
-                                        <form action="{{ route('bookmark.destroy') }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="hidden" name="manga_id" value="{{ $bookmark->manga->id }}">
-                                            <button type="submit"
-                                                class="btn btn-sm btn-outline-danger bookmark-btn d-flex align-items-center justify-content-center"
-                                                style="width: 28px; height: 28px;">
-                                                <i class="bi bi-x-lg"></i>
-                                            </button>
-                                        </form>
-                                    </div>
+                                <div class="ms-auto">
+                                    <form action="{{ route('bookmark.destroy') }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="hidden" name="manga_id" value="{{ $bookmark->manga->id }}">
+                                        <button type="submit"
+                                            class="btn btn-sm btn-outline-danger bookmark-btn d-flex align-items-center justify-content-center"
+                                            style="width: 28px; height: 28px;">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                    </form>
                                 </div>
-
-                            </a>
+                            </div>
                         </li>
                     @endforeach
                 </ul>
-
-                <div class="d-flex justify-content-center mt-3">
-                    {{ $bookmarks->links() }}
-                </div>
-
 
                 <div class="d-flex justify-content-center mt-3">
                     {{ $bookmarks->links() }}
