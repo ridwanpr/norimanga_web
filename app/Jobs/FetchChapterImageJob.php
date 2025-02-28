@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -60,6 +61,20 @@ class FetchChapterImageJob implements ShouldQueue
             DB::beginTransaction();
             try {
                 $imageUrls = [];
+                $currentUrls = !empty($this->chapter->image) ? json_decode($this->chapter->image, true) : [];
+
+                // Determine which bucket to use
+                $bucket = $this->chapter->bucket;
+
+                // If no bucket is assigned yet, get a new one
+                if (empty($bucket)) {
+                    $bucket = $this->bucketManager->getCurrentBucket();
+                    $this->chapter->bucket = $bucket;
+                    $this->chapter->save();
+                    Log::info("Assigned bucket {$bucket} for chapter {$this->chapter->title}");
+                } else {
+                    Log::info("Using existing bucket {$bucket} for chapter {$this->chapter->title}");
+                }
 
                 foreach ($imageNodes as $index => $imageNode) {
                     $imageUrl = $imageNode->getAttribute('src');
@@ -78,43 +93,44 @@ class FetchChapterImageJob implements ShouldQueue
                     $fileName = "chapters/{$this->chapter->manga_id}/{$this->chapter->id}/{$index}.{$extension}";
 
                     try {
-                        // Store file using BucketManager
-                        $storageInfo = $this->bucketManager->storeFile(
-                            $fileName,
-                            $imageResponse->body(),
-                            ['visibility' => 'public']
+                        // Always use the same bucket that was assigned to this chapter
+                        $url = Storage::disk($bucket)->url($fileName);
+                        Storage::disk($bucket)->put($fileName, $imageResponse->body(), ['visibility' => 'public']);
+
+                        // Update bucket usage metrics
+                        $size = strlen($imageResponse->body());
+                        \App\Models\BucketUsage::updateOrCreate(
+                            ['bucket_name' => $bucket],
+                            ['total_bytes' => DB::raw("total_bytes + {$size}")]
                         );
 
-                        $imageUrls[] = $storageInfo['url'];
+                        $imageUrls[] = $url;
 
-                        // Update chapter with the latest bucket used
-                        $this->chapter->bucket = $storageInfo['bucket'];
-
-                        Log::info("Stored image {$index} for chapter {$this->chapter->title}");
+                        Log::info("Stored image {$index} for chapter {$this->chapter->title} in bucket {$bucket}");
 
                         // Add small delay between image downloads
                         usleep(500000); // 0.5 second delay
                     } catch (\Exception $e) {
-                        Log::error("Failed to store image {$index} for chapter {$this->chapter->title}: " . $e->getMessage());
+                        Log::error("Failed to store image {$index} for chapter {$this->chapter->title} in bucket {$bucket}: " . $e->getMessage());
                         throw $e;
                     }
                 }
 
-                // Update chapter with stored images
-                $this->chapter->image = json_encode($imageUrls);
+                // Update chapter with stored images (merge with existing if any)
+                $this->chapter->image = json_encode(array_merge($currentUrls, $imageUrls));
                 $this->chapter->save();
 
                 DB::commit();
-                Log::info("Successfully processed {$this->chapter->title} with " . count($imageUrls) . " images");
+                Log::info("Successfully processed {$this->chapter->title} with " . count($imageUrls) . " images in bucket {$bucket}");
             } catch (\Exception $e) {
                 DB::rollBack();
 
                 // Clean up any stored images on failure
-                if (!empty($imageUrls) && !empty($this->chapter->bucket)) {
+                if (!empty($imageUrls) && !empty($bucket)) {
                     foreach ($imageUrls as $url) {
                         $pathParts = parse_url($url);
                         $relativePath = ltrim($pathParts['path'], '/');
-                        $this->bucketManager->deleteFile($this->chapter->bucket, $relativePath);
+                        $this->bucketManager->deleteFile($bucket, $relativePath);
                     }
                 }
 
