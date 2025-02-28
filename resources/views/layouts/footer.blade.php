@@ -1,4 +1,4 @@
-<footer class="text-light mt-2 p-3">
+<footer class="text-light mt-5 p-3">
     <div class="container">
         <div class="d-flex justify-content-center">
             <a href="" class="text-decoration-none me-4 text-light">DMCA</a>
