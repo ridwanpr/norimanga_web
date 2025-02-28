@@ -67,27 +67,27 @@ function initializeBackToTop() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const navbar = document.querySelector("#navbarSupportedContent");
-    const navbarToggle = document.querySelector(".navbar-toggler");
+// document.addEventListener("DOMContentLoaded", function () {
+//     const navbar = document.querySelector("#navbarSupportedContent");
+//     const navbarToggle = document.querySelector(".navbar-toggler");
 
-    if (!navbar || !navbarToggle) return;
+//     if (!navbar || !navbarToggle) return;
 
-    let savedState = localStorage.getItem("navbarPreference");
+//     let savedState = localStorage.getItem("navbarPreference");
 
-    if (savedState === "expanded") {
-        navbar.classList.add("show");
-        navbarToggle.setAttribute("aria-expanded", "true");
-    } else {
-        navbar.classList.remove("show");
-        navbarToggle.setAttribute("aria-expanded", "false");
-    }
+//     if (savedState === "expanded") {
+//         navbar.classList.add("show");
+//         navbarToggle.setAttribute("aria-expanded", "true");
+//     } else {
+//         navbar.classList.remove("show");
+//         navbarToggle.setAttribute("aria-expanded", "false");
+//     }
 
-    navbar.addEventListener("shown.bs.collapse", function () {
-        localStorage.setItem("navbarPreference", "expanded");
-    });
+//     navbar.addEventListener("shown.bs.collapse", function () {
+//         localStorage.setItem("navbarPreference", "expanded");
+//     });
 
-    navbar.addEventListener("hidden.bs.collapse", function () {
-        localStorage.setItem("navbarPreference", "collapsed");
-    });
-});
+//     navbar.addEventListener("hidden.bs.collapse", function () {
+//         localStorage.setItem("navbarPreference", "collapsed");
+//     });
+// });

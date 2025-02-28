@@ -7,7 +7,9 @@ use App\Models\Manga;
 use App\Models\MangaView;
 use App\Models\MangaDetail;
 use App\Models\MangaChapter;
+use App\Services\UserActivityService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class MangaController extends Controller
@@ -88,6 +90,11 @@ class MangaController extends Controller
         $images = Cache::remember("images_{$slug}_{$chapter_slug}", now()->addHours(12), function () use ($chapter) {
             return $chapter->getFormattedImages();
         });
+
+        if (Auth::check()) {
+            $userActiviyService = new UserActivityService();
+            $userActiviyService->storeUserActivity(Auth::id(), $chapter->manga_id, $chapter->id);
+        }
 
         return view('manga.reader', compact('chapter', 'images', 'prevChapter', 'nextChapter'));
     }

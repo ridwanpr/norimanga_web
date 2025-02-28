@@ -33,7 +33,6 @@ class BookmarkController extends Controller
         return view('bookmark.index', compact('bookmarks'));
     }
 
-
     public function toggle(Request $request)
     {
         $user = Auth::user();

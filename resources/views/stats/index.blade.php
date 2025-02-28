@@ -114,14 +114,16 @@
                 <h4 class="fw-bold text-white fs-6">Riwayat Baca</h4>
 
                 <div class="history-list">
-                    <div class="history-item">
-                        <img src="https://placehold.co/400" alt="Manga Cover" class="history-img">
-                        <div class="history-content">
-                            <span class="history-title">Nama Manga</span>
-                            <span class="history-meta">Chapter 1</span>
-                            <span class="history-meta">Dibaca 2 menit lalu</span>
+                    @foreach ($userActivities as $userActivity)
+                        <div class="history-item">
+                            <img src="{{ $userActivity->manga->detail->cover }}" alt="Manga Cover" class="history-img">
+                            <div class="history-content">
+                                <span class="history-title">{{ $userActivity->manga->title }}</span>
+                                <span class="history-meta">Chapter {{ $userActivity->chapter->title }}</span>
+                                <span class="history-meta">{{ $userActivity->created_at->format('d M Y H:i:s') }}</span>
+                            </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
