@@ -87,3 +87,5 @@ Route::get('bhilmnuqwecvrl', function () {
     dispatch(new SyncBucketUsageJob());
     return response()->json(['message' => 'Bucket usage job dispatched successfully.']);
 });
+
+Route::get('mn92xc4go67', 'App\Http\Controllers\DatabaseBackupController@backup');
