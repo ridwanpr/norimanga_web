@@ -165,7 +165,7 @@
                     </div>
                 </div>
 
-                <div class="comments bg-body-tertiary mt-4 py-1 px-4 rounded">
+                <div class="comments bg-body-tertiary mt-4 py-1 px-3 rounded">
                     <h1 class="fs-4 mb-3 fw-bold mt-2">Komentar</h1>
                     @include('layouts.partials.disqus-comment')
                 </div>
