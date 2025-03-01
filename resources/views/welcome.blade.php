@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('title', 'Nori - Baca Manga, Manhwa, Manhua Bahasa Indonesia')
+@section('meta')
+    <meta name="description"
+        content="Baca manga, manhwa, manhua terbaru di Nori.my! Koleksi lengkap, update harian, gratis dan terjemahan Bahasa Indonesia terbaik.">
+@endsection
 @push('css')
     <style>
         .sidebar-text {

@@ -1,4 +1,8 @@
 @extends('layouts.app')
+@section('meta')
+    <meta name="description"
+        content="Jelajahi koleksi manga, manhwa, manhua di Nori.my! Cari komik favorit berdasarkan genre, tipe, atau tahun — tersedia dalam terjemahan Bahasa Indonesia berkualitas.">
+@endsection
 @section('title', 'Daftar Komik - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Nori')
 @section('content')
     <div class="container">

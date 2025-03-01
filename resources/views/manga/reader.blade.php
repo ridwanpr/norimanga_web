@@ -1,12 +1,15 @@
 @extends('layouts.app')
-@php
-    if ($chapter->manga->detail->type != null) {
-        $type = $chapter->manga->detail->type;
-    } else {
-        $type = 'Manga';
-    }
-@endphp
-@section('title', "{$chapter->manga->title} {$chapter->title} Bahasa Indonesia - Nori - $type Indonesia")
+@section('meta')
+    <meta name="description"
+        content="Baca Manga {{ $chapter->manga->title }} {{ $chapter->chapter_number }} bahasa Indonesia gratis di Nori.my! Terjemahan Bahasa Indonesia gratis.">
+    <meta property="og:title"
+        content="{{ $chapter->title }} - {{ $chapter->manga->title }} - Nori.my">
+    <meta property="og:description" content="{{ Str::limit($chapter->manga->detail->synopsis, 150) }}">
+    <meta property="og:image" content="{{ $chapter->manga->detail->cover }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
+@endsection
+@section('title', "Baca {$chapter->manga->title} {$chapter->title} Bahasa Indonesia - Nori - Manga Indonesia")
 @push('css')
     <style>
         .breadcrumb-item,
@@ -99,7 +102,8 @@
         <div class="nav-ch-section mt-4">
             <div class="d-flex justify-content-between gap-2">
                 @if ($prevChapter)
-                    <a href="{{ route('manga.reader', [$chapter->manga->slug, $prevChapter->slug]) }}" class="btn btn-grey">
+                    <a href="{{ route('manga.reader', [$chapter->manga->slug, $prevChapter->slug]) }}"
+                        class="btn btn-grey">
                         <i class="bi bi-chevron-left"> Prev</i>
                     </a>
                 @else
