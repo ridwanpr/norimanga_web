@@ -91,7 +91,8 @@
             </p>
             <div class="alert alert-warning w-100" role="alert">
                 <i class="bi bi-exclamation-triangle-fill text-warning"></i> <strong>Perhatian!</strong> Jika
-                menemukan gambar yang error, rusak atau tidak tampil. <a href="https://forms.gle/woMnsABJ4DJhsN1B9" target="_blank" class="alert-link">Laporkan</a>
+                menemukan gambar yang error, rusak atau tidak tampil. <a href="https://forms.gle/woMnsABJ4DJhsN1B9"
+                    target="_blank" class="alert-link">Laporkan</a>
                 kepada kami.
             </div>
         </div>
@@ -184,11 +185,9 @@
                 {{ $chapter->manga->title }} {{ $chapter->title }} high quality, {{ $chapter->manga->title }}
                 {{ $chapter->title }} manga scan, {{ now()->format('F d, Y') }}, Nori.my</small>
         </div>
-        <div class="comments mt-4 pb-1 pt-0 px-2 bg-dark rounded">
-            <h1 class="fs-4 mb-3 fw-bold mt-3">Komentar</h1>
-            <div class="disqus">
-                Disqus here..
-            </div>
+        <div class="comments bg-body-tertiary mt-4 py-1 px-4 rounded">
+            <h1 class="fs-4 mb-3 fw-bold mt-2">Komentar</h1>
+            @include('layouts.partials.disqus-comment')
         </div>
     </div>
     <div id="scrollProgressBar">

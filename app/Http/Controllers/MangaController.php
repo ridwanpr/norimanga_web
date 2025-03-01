@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bookmark;
 use Carbon\Carbon;
 use App\Models\Manga;
 use App\Models\MangaView;
@@ -62,7 +63,8 @@ class MangaController extends Controller
             ]);
         }
 
-        return view('manga.show', compact('manga', 'alsoRead', 'sortedChapters'));
+        $isBookmarked = Bookmark::where('user_id', Auth::id())->where('manga_id', $manga->id)->exists();
+        return view('manga.show', compact('manga', 'alsoRead', 'sortedChapters', 'isBookmarked'));
     }
 
     public function reader($slug, $chapter_slug)

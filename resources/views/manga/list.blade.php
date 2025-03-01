@@ -7,7 +7,6 @@
             <a href="{{ route('manga.grid-list') }}">Grid Mode</a>
         </div>
 
-        <!-- Alphabet Navigation -->
         <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
             <a href="#num" class="btn btn-sm btn-outline-secondary text-white px-2">#</a>
             @foreach (range('A', 'Z') as $letter)
