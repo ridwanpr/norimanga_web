@@ -95,3 +95,8 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 Route::get('/sitemap-manga.xml', [SitemapController::class, 'manga']);
 Route::get('/sitemap-chapters.xml', [SitemapController::class, 'chapters']);
 Route::get('/sitemap-genres.xml', [SitemapController::class, 'genres']);
+
+Route::get('/wp-config.php', function () {
+    return response("<h1>Nice try, script kiddie. Too bad your skills are as weak as your mom’s parenting. Go cry to her about how you failed again—maybe she’ll finally teach you something useful, like how to not suck at life.</h1><br><h1>Fuck off, loser. You’re not even worth the bandwidth.</h1>", 200)
+        ->header('Content-Type', 'text/html');
+});
