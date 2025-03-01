@@ -18,7 +18,7 @@ class HomeController extends Controller
                 ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
                 ->where('manga.is_project', false)
                 ->orderBy('manga_detail.updated_at', 'desc')
-                ->take(16)
+                ->take(20)
                 ->get()
                 ->map(function ($manga) {
                     $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
