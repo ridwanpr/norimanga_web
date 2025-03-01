@@ -91,7 +91,7 @@
             </p>
             <div class="alert alert-warning w-100" role="alert">
                 <i class="bi bi-exclamation-triangle-fill text-warning"></i> <strong>Perhatian!</strong> Jika
-                menemukan gambar yang error, rusak atau tidak tampil. <a href="#" class="alert-link">Laporkan</a>
+                menemukan gambar yang error, rusak atau tidak tampil. <a href="https://forms.gle/woMnsABJ4DJhsN1B9" target="_blank" class="alert-link">Laporkan</a>
                 kepada kami.
             </div>
         </div>

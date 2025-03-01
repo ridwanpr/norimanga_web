@@ -21,17 +21,17 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('manga.grid-list') }}">
-                        <i class="bi bi-journal-bookmark-fill me-2 text-warning"></i>Daftar Komik
+                        <i class="bi bi-journal-bookmark-fill me-2"></i>Daftar Komik
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('bookmark.index') }}">
-                        <i class="bi bi-bookmark-star-fill me-2 text-success"></i>Bookmark
+                        <i class="bi bi-bookmark-star-fill me-2"></i>Bookmark
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://forms.gle/woMnsABJ4DJhsN1B9" target="_blank">
-                        <i class="bi bi-flag-fill me-2 text-info"></i>Lapor
+                        <i class="bi bi-flag-fill me-2"></i>Lapor
                     </a>
                 </li>
             </ul>
