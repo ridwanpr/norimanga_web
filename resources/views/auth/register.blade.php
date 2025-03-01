@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@push('css')
+    @turnstileScripts()
+@endpush
 @section('title', 'Register - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Nori')
 @section('content')
     <section>
@@ -21,7 +24,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Minimal 8 karakter" required>
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="Minimal 8 karakter" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="password_confirmation" class="form-label">Confirm Password</label>
@@ -32,8 +36,7 @@
                                 <div class="d-grid gap-2 mt-3">
                                     <button type="submit" class="btn btn-primary">Register</button>
                                 </div>
-                                <p class="text-center mt-3">Sudah punya akun? <a
-                                        href="{{ route('login') }}">Login</a></p>
+                                <p class="text-center mt-3">Sudah punya akun? <a href="{{ route('login') }}">Login</a></p>
                             </form>
                         </div>
                     </div>

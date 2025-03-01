@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@push('css')
+    @turnstileScripts()
+@endpush
 @section('title', 'Login - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Nori')
 @section('content')
     <section>
@@ -23,7 +26,8 @@
                                 <div class="d-grid gap-2 mt-3">
                                     <button type="submit" class="btn btn-primary">Login</button>
                                 </div>
-                                <p class="text-center mt-3 mb-1">Belum punya akun? <a href="{{ route('register') }}">Register</a>
+                                <p class="text-center mt-3 mb-1">Belum punya akun? <a
+                                        href="{{ route('register') }}">Register</a>
                                 </p>
                                 <p class="text-center mt-0">Hubungi admin jika lupa password</p>
                             </form>
