@@ -38,39 +38,43 @@ class FetchMangaJob implements ShouldQueue
     {
         $url = $this->url;
         Log::info("Fetching: {$url}");
-
+    
         $response = Http::withHeaders([
             'User-Agent' => $this->getRandomUserAgent()
         ])->get($url);
-
+    
         if (!$response->successful()) {
             Log::error("Failed to fetch: {$url}");
             return;
         }
-
+    
         $html = $response->body();
         $dom = new DOMDocument();
         @$dom->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING);
         $xpath = new DOMXPath($dom);
-
+    
         DB::beginTransaction();
-
+    
         try {
+            // Extract slug directly from the URL
+            $slug = $this->extractSlugFromUrl($url);
+            if (empty($slug)) {
+                throw new \Exception("Failed to extract slug from URL: {$url}");
+            }
+    
             // Extract manga title
             $title = trim($xpath->evaluate('string(//h1[@class="entry-title"])'));
             if (empty($title)) {
                 throw new \Exception("Failed to extract manga title from: {$url}");
             }
-
-            // Generate slug
-            $slug = strtolower(str_replace(' ', '-', $title));
-
-            // Create or update manga record
+    
+            $domain = parse_url($url, PHP_URL_HOST);
+    
             $manga = Manga::updateOrCreate(
                 ['slug' => $slug],
-                ['title' => $title, 'is_project' => 0, 'is_featured' => 0]
+                ['title' => $title, 'is_project' => 0, 'is_featured' => 0, 'source' => $domain]
             );
-
+    
             // Extract manga details
             $status = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Status")]/i)') ?: '-';
             $type = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Type")]/a)') ?: '-';
@@ -80,19 +84,19 @@ class FetchMangaJob implements ShouldQueue
             $viewsText = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Views")]/i)');
             $views = preg_replace('/[^0-9]/', '', $viewsText) ?: 0;
             $synopsis = $xpath->evaluate('string(//div[@class="entry-content entry-content-single"]/p)') ?: 'No synopsis available';
-
+    
             // Extract cover image
             $coverImageUrl = $xpath->evaluate('string(//div[@class="thumb"]//img/@src)');
             $coverPath = null;
             $bucket = null;
-
+    
             if (!empty($coverImageUrl)) {
                 Log::debug("Fetching cover image: {$coverImageUrl}");
                 $imageResponse = Http::get($coverImageUrl);
                 if ($imageResponse->successful()) {
                     $extension = pathinfo($coverImageUrl, PATHINFO_EXTENSION);
                     $fileName = 'covers/' . $manga->id . '.' . $extension;
-
+    
                     try {
                         Log::debug("Attempting to store cover image to bucket: {$fileName}");
                         $storageInfo = $this->bucketManager->storeFile(
@@ -100,9 +104,9 @@ class FetchMangaJob implements ShouldQueue
                             $imageResponse->body(),
                             ['visibility' => 'public']
                         );
-
+    
                         Log::debug("Stored cover image to bucket: {$fileName}");
-
+    
                         $coverPath = $storageInfo['url'];
                         $bucket = $storageInfo['bucket'];
                     } catch (\Exception $e) {
@@ -111,7 +115,7 @@ class FetchMangaJob implements ShouldQueue
                     }
                 }
             }
-
+    
             // Save manga details
             MangaDetail::updateOrCreate(
                 ['manga_id' => $manga->id],
@@ -127,15 +131,15 @@ class FetchMangaJob implements ShouldQueue
                     'bucket' => $bucket,
                 ]
             );
-
+    
             // Attach genres
             $genreElements = $xpath->query('//span[@class="mgen"]/a');
             $genres = [];
-
+    
             foreach ($genreElements as $genre) {
                 $genres[] = trim($genre->textContent);
             }
-
+    
             if (!empty($genres)) {
                 $genreIds = [];
                 foreach ($genres as $genreName) {
@@ -144,25 +148,35 @@ class FetchMangaJob implements ShouldQueue
                 }
                 $manga->genres()->sync($genreIds);
             }
-
+    
             DB::commit();
-
+    
             Cache::flush();
-
+    
             Log::info("Successfully updated: {$manga->title}");
         } catch (\Exception $e) {
             DB::rollBack();
-
+    
             if (!empty($coverPath) && !empty($bucket)) {
                 $pathParts = parse_url($coverPath);
                 $relativePath = ltrim($pathParts['path'], '/');
                 $this->bucketManager->deleteFile($bucket, $relativePath);
                 Log::warning("Deleted uploaded cover for {$title} due to failure.");
             }
-
+    
             Log::error("Error processing {$title}: " . $e->getMessage());
         }
     }
+    
+    private function extractSlugFromUrl(string $url): string
+    {
+        // Extract the slug from the URL
+        $path = parse_url($url, PHP_URL_PATH);
+        $slug = basename($path);
+    
+        return $slug;
+    }
+    
 
     private function getRandomUserAgent()
     {

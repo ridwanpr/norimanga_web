@@ -20,16 +20,18 @@ class FetchChapterImageJob implements ShouldQueue
     public $tries = 3;
     private $chapter;
     private $bucketManager;
+    private $manga;
 
-    public function __construct($chapter)
+    public function __construct($chapter, $manga)
     {
         $this->chapter = $chapter;
+        $this->manga = $manga;
         $this->bucketManager = new BucketManager();
     }
 
     public function handle()
     {
-        $url = "https://manhwaindo.one/{$this->chapter->slug}";
+        $url = "https://{$this->manga->source}/{$this->chapter->slug}";
         Log::info("Fetching images for chapter: {$this->chapter->title} from {$url}");
 
         try {

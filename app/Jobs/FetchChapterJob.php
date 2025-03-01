@@ -28,7 +28,12 @@ class FetchChapterJob implements ShouldQueue
 
     public function handle()
     {
-        $url = "https://manhwaindo.one/series/{$this->manga->slug}/";
+        if ($this->manga->source == 'manhwaindo.one') {
+            $url = "https://{$this->manga->source}/series/{$this->manga->slug}/";
+        } elseif ($this->manga->source == 'westmanga.fun') {
+            $url = "https://{$this->manga->source}/manga/{$this->manga->slug}/";
+        }
+        
         Log::info("Fetching chapters for manga: {$this->manga->title} from {$url}");
 
         $response = Http::withHeaders([
@@ -85,9 +90,7 @@ class FetchChapterJob implements ShouldQueue
                 ]
             );
 
-            Log::info("Processed chapter '{$chapterNumber}' for manga: {$this->manga->title}");
-
-            dispatch(new FetchChapterImageJob($chapter))->delay(now()->addSeconds(random_int(5, 50)));
+            dispatch(new FetchChapterImageJob($chapter, $this->manga))->delay(now()->addSeconds(random_int(5, 50)));
         }
     }
 
