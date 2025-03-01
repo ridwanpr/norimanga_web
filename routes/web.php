@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MangaController;
 use App\Http\Controllers\StatsController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\MangaListController;
 use App\Http\Controllers\UserAccountController;
@@ -89,3 +90,8 @@ Route::get('bhilmnuqwecvrl', function () {
 });
 
 Route::get('mn92xc4go67', 'App\Http\Controllers\DatabaseBackupController@backup');
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
+Route::get('/sitemap-manga.xml', [SitemapController::class, 'manga']);
+Route::get('/sitemap-chapters.xml', [SitemapController::class, 'chapters']);
+Route::get('/sitemap-genres.xml', [SitemapController::class, 'genres']);
