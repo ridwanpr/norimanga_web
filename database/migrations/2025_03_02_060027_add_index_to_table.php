@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('manga', function (Blueprint $table) {
             $table->index('slug');
+            $table->index('updated_at');
         });
 
         Schema::table('manga_detail', function (Blueprint $table) {
@@ -24,6 +25,7 @@ return new class extends Migration
         Schema::table('manga_chapters', function (Blueprint $table) {
             $table->index('chapter_number');
             $table->index('slug');
+            $table->index('updated_at');
         });
 
         Schema::table('genres', function (Blueprint $table) {
@@ -38,6 +40,7 @@ return new class extends Migration
     {
         Schema::table('manga', function (Blueprint $table) {
             $table->dropIndex(['slug']);
+            $table->dropIndex(['updated_at']);
         });
 
         Schema::table('manga_detail', function (Blueprint $table) {
@@ -49,6 +52,7 @@ return new class extends Migration
         Schema::table('manga_chapters', function (Blueprint $table) {
             $table->dropIndex(['chapter_number']);
             $table->dropIndex(['slug']);
+            $table->dropIndex(['updated_at']);
         });
 
         Schema::table('genres', function (Blueprint $table) {
