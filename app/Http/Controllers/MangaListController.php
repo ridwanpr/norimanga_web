@@ -11,40 +11,45 @@ class MangaListController extends Controller
 {
     public function gridList(Request $request)
     {
-        $query = Manga::join('manga_detail', 'manga.id', '=', 'manga_detail.manga_id')
-            ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.release_year', 'manga_detail.updated_at');
+        $latestUpdateCacheKey = 'manga.grid-list.latest-update.' . implode('.', array_keys($request->only(['genre', 'search', 'year', 'type', 'status'])));
+        $genresCacheKey = 'manga.genres';
 
-        if ($request->filled('genre')) {
-            $query->whereHas('genres', function ($q) use ($request) {
-                $q->where('slug', $request->genre);
-            });
-        }
+        $latestUpdate = Cache::remember($latestUpdateCacheKey, now()->addHours(1), function () use ($request) {
+            $query = Manga::join('manga_detail', 'manga.id', '=', 'manga_detail.manga_id')
+                ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.release_year', 'manga_detail.updated_at');
 
-        if ($request->filled('search')) {
-            $query->whereRaw('LOWER(manga.title) LIKE ?', ['%' . strtolower($request->search) . '%']);
-        }
+            if ($request->filled('genre')) {
+                $query->whereHas('genres', function ($q) use ($request) {
+                    $q->where('slug', $request->genre);
+                });
+            }
 
-        if ($request->filled('year')) {
-            $query->where('manga_detail.release_year', $request->year);
-        }
+            if ($request->filled('search')) {
+                $query->whereRaw('LOWER(manga.title) LIKE ?', ['%' . strtolower($request->search) . '%']);
+            }
 
-        if ($request->filled('type')) {
-            $query->where('manga_detail.type', $request->type);
-        }
+            if ($request->filled('year')) {
+                $query->where('manga_detail.release_year', $request->year);
+            }
 
-        if ($request->filled('status')) {
-            $query->where('manga_detail.status', $request->status);
-        }
+            if ($request->filled('type')) {
+                $query->where('manga_detail.type', $request->type);
+            }
 
-        $latestUpdate = $query->orderBy('manga_detail.updated_at', 'desc')
-            ->paginate(24)
-            ->withQueryString()
-            ->through(function ($manga) {
-                $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
-                return $manga;
-            });
+            if ($request->filled('status')) {
+                $query->where('manga_detail.status', $request->status);
+            }
 
-        $genres = Cache::remember('genres', now()->addMinutes(15), function () {
+            return $query->orderBy('manga_detail.updated_at', 'desc')
+                ->paginate(24)
+                ->withQueryString()
+                ->through(function ($manga) {
+                    $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
+                    return $manga;
+                });
+        });
+
+        $genres = Cache::remember($genresCacheKey, now()->addHours(1), function () {
             return Genre::select('name', 'slug')->orderBy('name')->get();
         });
 

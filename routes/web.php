@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MangaController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\SitemapController;
@@ -96,41 +95,8 @@ Route::get('/sitemap-manga.xml', [SitemapController::class, 'manga']);
 Route::get('/sitemap-chapters.xml', [SitemapController::class, 'chapters']);
 Route::get('/sitemap-genres.xml', [SitemapController::class, 'genres']);
 
-Route::get('/wp-config.php', function () {
+Route::get('{path}', function ($path) {
     $ip = request()->ip();
-    return response("<h1>Hey $ip </h1><br><h1>Nice try, script kiddie. Too bad your skills are as weak as your mom’s parenting. Go cry to her about how you failed again—maybe she’ll finally teach you something useful, like how to not suck at life.</h1><br><h1>Fuck off, loser. You’re not even worth the bandwidth.</h1>", 200)
+    return response("<h1>Hey $ip </h1><br><h1>Nice try, script kiddie. Too bad your skills are as weak as your mom's parenting. Go cry to her about how you failed again—maybe she'll finally teach you something useful, like how to not suck at life.</h1><br><h1>Fuck off, loser. You're not even worth the bandwidth.</h1>", 403)
         ->header('Content-Type', 'text/html');
-});
-
-Route::get('/wp-admin/{path?}', function () {
-    $ip = request()->ip();
-    return response("<h1>Hey $ip </h1><br><h1>Nice try, script kiddie. Too bad your skills are as weak as your mom’s parenting. Go cry to her about how you failed again—maybe she’ll finally teach you something useful, like how to not suck at life.</h1><br><h1>Fuck off, loser. You’re not even worth the bandwidth.</h1>", 200)
-        ->header('Content-Type', 'text/html');
-})->where('path', '.*');
-
-Route::get('/wp-{path?}', function () {
-    $ip = request()->ip();
-    return response("<h1>Hey $ip </h1><br><h1>Nice try, script kiddie. Too bad your skills are as weak as your mom’s parenting. Go cry to her about how you failed again—maybe she’ll finally teach you something useful, like how to not suck at life.</h1><br><h1>Fuck off, loser. You’re not even worth the bandwidth.</h1>", 200)
-        ->header('Content-Type', 'text/html');
-})->where('path', '.*');
-
-Route::get('/config.php', function () {
-    $ip = request()->ip();
-    return response("<h1>Hey $ip </h1><br><h1>Nice try, script kiddie. Too bad your skills are as weak as your mom’s parenting. Go cry to her about how you failed again—maybe she’ll finally teach you something useful, like how to not suck at life.</h1><br><h1>Fuck off, loser. You’re not even worth the bandwidth.</h1>", 200)
-        ->header('Content-Type', 'text/html');
-});
-
-Route::get('/cgi-bin/{path?}', function ($path = null) {
-    return response("<h1>CGI-bin? More like See-GI Bye, you relic-hunting loser.</h1>", 200)
-        ->header('Content-Type', 'text/html');
-})->where('path', '.*');
-
-Route::get('/phpinfo.php', function () {
-    return response("<h1>Phpinfo? How about no-info, you talentless skidmark.</h1>", 200)
-        ->header('Content-Type', 'text/html');
-});
-
-Route::get('/xmlrpc.php', function () {
-    return response("<h1>XML-RPC attack? Your brain’s the only thing under attack here, and it’s losing bad.</h1>", 200)
-        ->header('Content-Type', 'text/html');
-});
+})->where('path', '^\.|wp-config\.php|config\.php|phpinfo\.php|xmlrpc\.php|wp-admin.*|wp-.*\.php|cgi-bin.*');

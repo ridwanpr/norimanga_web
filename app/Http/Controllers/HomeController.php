@@ -66,7 +66,9 @@ class HomeController extends Controller
                 });
         });
 
-        $genres = Genre::select('name', 'slug')->orderBy('name')->get();
+        $genres = Cache::remember('genres', now()->addHours(5), function () {
+            return Genre::select('name', 'slug')->orderBy('name')->get();
+        });
 
         $projects = Cache::remember('projects', now()->addMinutes(15), function () {
             return  Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
