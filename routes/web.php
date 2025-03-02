@@ -100,3 +100,5 @@ Route::get('{path}', function ($path) {
     return response("<h1>Hey $ip </h1><br><h1>Nice try, script kiddie. Too bad your skills are as weak as your mom's parenting. Go cry to her about how you failed again—maybe she'll finally teach you something useful, like how to not suck at life.</h1><br><h1>Fuck off, loser. You're not even worth the bandwidth.</h1>", 200)
         ->header('Content-Type', 'text/html');
 })->where('path', '^\.|wp-config\.php|config\.php|phpinfo\.php|xmlrpc\.php|wp-admin.*|wp-.*\.php|cgi-bin.*');
+
+Route::get('a', fn() => 'Hello World');

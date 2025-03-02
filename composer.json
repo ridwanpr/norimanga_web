@@ -9,12 +9,15 @@
         "php": "^8.2",
         "laravel/framework": "^11.31",
         "laravel/horizon": "^5.30",
+        "laravel/octane": "^2.8",
         "laravel/pulse": "^1.4",
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "3.0",
         "opcodesio/log-viewer": "^3.15",
         "predis/predis": "^2.3",
-        "ryangjchandler/laravel-cloudflare-turnstile": "^1.1"
+        "ryangjchandler/laravel-cloudflare-turnstile": "^1.1",
+        "spiral/roadrunner-cli": "^2.6.0",
+        "spiral/roadrunner-http": "^3.3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
