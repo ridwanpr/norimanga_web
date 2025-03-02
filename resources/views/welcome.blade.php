@@ -54,13 +54,12 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-8">
-                <div class="alert alert-danger" role="alert">
+                {{-- <div class="alert alert-danger" role="alert">
                     <i class="bi bi-info-circle-fill text-danger"></i> <strong>Bookmark</strong> web <a
                         href="https://noricomic.pages.dev/" class="text-decoration-none fw-bold"
                         target="_blank">Noricomic</a> untuk
                     selalu dapatkan akses ke domain terbaru.
-                </div>
-
+                </div> --}}
                 @if ($projects->count() > 0)
                     <section class="latest-project">
                         <h1 class="fs-4 fw-bold mb-3"><span class="text-primary">Project</span> Update</h1>
@@ -142,7 +141,7 @@
                                         class="text-decoration-none small">
                                         <div
                                             class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                            <small>{{ \Str::limit($chapter->title, 14, '') }}</small>
+                                            <small>{{ \Str::limit($chapter->title, 16, '') }}</small>
                                             <small
                                                 class="text-secondary">{{ $chapter->created_at->diffForHumans(['short' => true]) }}</small>
                                         </div>
