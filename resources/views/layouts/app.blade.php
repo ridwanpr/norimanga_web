@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="google-site-verification" content="3YJEL3qM5RMzMrxfjcKLNsyOPdDDLwuJkpc1V2RKOuE" />
-    <meta name="yandex-verification" content="5e8809097f552e34" />
+    <meta name="google-site-verification" content="4En0Y4O1xN_QQxyaYHva9T5Ri6ZqnvPrVjbtyTNNXqA" />
+    <meta name="yandex-verification" content="e2cac82f38813c16" />
     <link rel="canonical" href="{{ url()->current() }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/favicon/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/favicon/favicon-32x32.png') }}">
@@ -49,12 +49,12 @@
             window.LaravelSuccessMessage = @json(session('success'));
         </script>
     @endif
-
     @include('layouts.footer')
     @stack('js')
+
     <script type="text/javascript">
         var _Hasync = _Hasync || [];
-        _Hasync.push(['Histats.start', '1,4924774,4,0,0,0,00010000']);
+        _Hasync.push(['Histats.start', '1,4933052,4,0,0,0,00010000']);
         _Hasync.push(['Histats.fasi', '1']);
         _Hasync.push(['Histats.track_hits', '']);
         (function() {
@@ -65,8 +65,8 @@
             (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
         })();
     </script>
-    <noscript><a href="/" target="_blank"><img src="//sstatic1.histats.com/0.gif?4924774&101"
-                alt="counter easy hit" border="0"></a></noscript>
+    <noscript><a href="/" target="_blank"><img src="//sstatic1.histats.com/0.gif?4933052&101"
+                alt="free invisible hit counter" border="0"></a></noscript>
 </body>
 
 </html>
