@@ -18,6 +18,8 @@
                                 <div class="mb-3 position-relative">
                                     <input type="text" class="form-control me-1" name="url"
                                         placeholder="Input manga url">
+                                    <input type="text" class="form-control" name="bucket"
+                                        placeholder="Input bucket name">
                                 </div>
                                 <button type="submit" class="btn btn-grey">
                                     <i class="bi bi-cloud-download"></i> Fetch
@@ -38,6 +40,8 @@
                                 <div class="mb-3 position-relative">
                                     <input type="text" name="search_manga" id="search-manga" class="form-control"
                                         placeholder="Search manga">
+                                    <input type="text" class="form-control" name="bucket"
+                                        placeholder="Input bucket name">
                                     <input type="hidden" name="manga_id" id="manga-id">
                                     <div id="manga-results" class="dropdown-menu show w-100"></div>
                                 </div>
@@ -55,7 +59,8 @@
 
                         </div>
                         <div class="card-body">
-                            <a href="{{ route('refresh-cache') }}" class="btn btn-warning" onclick="return confirm('Are you sure you want to refresh the cache?');">
+                            <a href="{{ route('refresh-cache') }}" class="btn btn-warning"
+                                onclick="return confirm('Are you sure you want to refresh the cache?');">
                                 <i class="bi bi-arrow-repeat"></i> Refresh Cache
                             </a>
                         </div>

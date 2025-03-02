@@ -27,10 +27,12 @@ class FetchMangaJob implements ShouldQueue
 
     private $bucketManager;
     private $url;
+    private $bucket;
 
-    public function __construct($url)
+    public function __construct($url, $bucket)
     {
         $this->url = $url;
+        $this->bucket = $bucket;
         $this->bucketManager = new BucketManager();
     }
 
@@ -125,6 +127,7 @@ class FetchMangaJob implements ShouldQueue
                         $storageInfo = $this->bucketManager->storeFile(
                             $fileName,
                             $imageResponse->body(),
+                            $this->bucket,
                             ['visibility' => 'public']
                         );
 

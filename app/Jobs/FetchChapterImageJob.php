@@ -21,11 +21,13 @@ class FetchChapterImageJob implements ShouldQueue
     private $chapter;
     private $bucketManager;
     private $manga;
+    private $bucket; // Required bucket parameter
 
-    public function __construct($chapter, $manga)
+    public function __construct($chapter, $manga, string $bucket)
     {
         $this->chapter = $chapter;
         $this->manga = $manga;
+        $this->bucket = $bucket; // Store the required bucket
         $this->bucketManager = new BucketManager();
     }
 
@@ -60,7 +62,6 @@ class FetchChapterImageJob implements ShouldQueue
 
             $imageUrls = $jsonData['sources'][0]['images'];
             $storedImages = [];
-            $bucket = $this->chapter->bucket ?? null;
 
             DB::beginTransaction();
             try {
@@ -86,21 +87,12 @@ class FetchChapterImageJob implements ShouldQueue
                     $fileName = "chapters/{$this->chapter->manga_id}/{$this->chapter->id}/{$index}.{$extension}";
 
                     try {
-                        if (!$bucket) {
-                            $storageInfo = $this->bucketManager->storeFile(
-                                $fileName,
-                                $imageResponse->body(),
-                                ['visibility' => 'public']
-                            );
-                            $bucket = $storageInfo['bucket'];
-                            $this->chapter->bucket = $bucket;
-                        } else {
-                            $storageInfo = $this->bucketManager->storeFile(
-                                $fileName,
-                                $imageResponse->body(),
-                                ['visibility' => 'public', 'bucket' => $bucket]
-                            );
-                        }
+                        $storageInfo = $this->bucketManager->storeFile(
+                            $fileName,
+                            $imageResponse->body(),
+                            $this->bucket,
+                            ['visibility' => 'public']
+                        );
 
                         $storedImages[] = $storageInfo['url'];
 
@@ -112,18 +104,19 @@ class FetchChapterImageJob implements ShouldQueue
                 }
 
                 $this->chapter->image = json_encode($storedImages);
+                $this->chapter->bucket = $this->bucket; // Save the bucket to the chapter
                 $this->chapter->save();
 
                 DB::commit();
-                Log::info("Successfully processed {$this->chapter->title} with " . count($storedImages) . " images in bucket {$bucket}");
+                Log::info("Successfully processed {$this->chapter->title} with " . count($storedImages) . " images in bucket {$this->bucket}");
             } catch (\Exception $e) {
                 DB::rollBack();
 
-                if (!empty($storedImages) && !empty($bucket)) {
+                if (!empty($storedImages)) {
                     foreach ($storedImages as $url) {
                         $pathParts = parse_url($url);
                         $relativePath = ltrim($pathParts['path'], '/');
-                        $this->bucketManager->deleteFile($bucket, $relativePath);
+                        $this->bucketManager->deleteFile($this->bucket, $relativePath);
                     }
                 }
 

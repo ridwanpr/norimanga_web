@@ -36,20 +36,11 @@ class BucketManager
         return $currentBucket;
     }
 
-    public function storeFile(string $path, $contents, array $options = []): array
+    public function storeFile(string $path, $contents, string $bucket, array $options = []): array
     {
-        $bucket = Cache::remember('lock:' . md5($path), 5, function () {
-            return $this->getCurrentBucket();
-        });
-    
         try {
             Storage::disk($bucket)->put($path, $contents, $options);
             $url = Storage::disk($bucket)->url($path);
-    
-            $size = strlen($contents);
-    
-            $redisKey = "bucket_usage:{$bucket}";
-            Cache::increment($redisKey, $size);
     
             return [
                 'bucket' => $bucket,

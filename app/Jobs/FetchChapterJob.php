@@ -20,10 +20,12 @@ class FetchChapterJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $manga;
+    private $bucket; // Required bucket parameter
 
-    public function __construct(Manga $manga)
+    public function __construct(Manga $manga, string $bucket)
     {
         $this->manga = $manga;
+        $this->bucket = $bucket; // Store the required bucket
     }
 
     public function handle()
@@ -33,9 +35,8 @@ class FetchChapterJob implements ShouldQueue
         } elseif ($this->manga->source == 'westmanga.fun') {
             $url = "https://{$this->manga->source}/manga/{$this->manga->slug}/";
         }
-        
-        Log::info("Fetching chapters for manga: {$this->manga->title} from {$url}");
 
+        Log::info("Fetching chapters for manga: {$this->manga->title} from {$url}");
         $response = Http::withHeaders([
             'User-Agent' => $this->getRandomUserAgent()
         ])->get($url);
@@ -49,7 +50,6 @@ class FetchChapterJob implements ShouldQueue
         $dom = new DOMDocument();
         @$dom->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING);
         $xpath = new DOMXPath($dom);
-
         $chapterElements = $xpath->query('//div[@class="eplister"]//li');
 
         if (!$chapterElements || $chapterElements->length === 0) {
@@ -58,7 +58,6 @@ class FetchChapterJob implements ShouldQueue
         }
 
         $delay = 0;
-
         foreach ($chapterElements as $element) {
             $linkElement = $xpath->evaluate('.//div[@class="eph-num"]/a', $element)->item(0);
             if (!$linkElement) {
@@ -87,10 +86,13 @@ class FetchChapterJob implements ShouldQueue
                     'title' => $chapterTitle,
                     'slug' => $chapterSlug,
                     'image' => json_encode([]),
+                    'bucket' => $this->bucket, // Save bucket to the chapter
                 ]
             );
 
-            dispatch(new FetchChapterImageJob($chapter, $this->manga))->delay(now()->addSeconds(random_int(5, 50)));
+            // Pass the bucket parameter to the FetchChapterImageJob
+            dispatch(new FetchChapterImageJob($chapter, $this->manga, $this->bucket))
+                ->delay(now()->addSeconds(random_int(5, 50)));
         }
     }
 
