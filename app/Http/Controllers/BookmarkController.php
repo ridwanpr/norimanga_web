@@ -11,33 +11,39 @@ class BookmarkController extends Controller
 {
     public function index()
     {
-        $bookmarks = Auth::check()
-            ? Bookmark::where('user_id', Auth::id())
-            ->join('manga_detail', 'bookmarks.manga_id', '=', 'manga_detail.manga_id')
-            ->with(['manga.detail', 'manga.genres', 'manga.chapters'])
-            ->orderBy('manga_detail.updated_at', 'desc')
-            ->select('bookmarks.*')
-            ->paginate(10)
-            : collect();
+        if (Auth::check()) {
+            $bookmarks = Bookmark::where('bookmarks.user_id', Auth::id())
+                ->join('manga_detail', 'bookmarks.manga_id', '=', 'manga_detail.manga_id')
+                ->leftJoin('manga_chapters', function ($join) {
+                    $join->on('bookmarks.manga_id', '=', 'manga_chapters.manga_id')
+                        ->whereRaw('manga_chapters.id = (SELECT MAX(id) FROM manga_chapters WHERE manga_chapters.manga_id = bookmarks.manga_id)');
+                })
+                ->with(['manga.detail', 'manga.genres', 'manga.chapters'])
+                ->orderBy('manga_chapters.created_at', 'desc')
+                ->select('bookmarks.*')
+                ->paginate(10);
 
-        foreach ($bookmarks as $bookmark) {
-            if ($bookmark->manga && $bookmark->manga->chapters) {
-                $sortedChapters = $bookmark->manga->chapters->sortByDesc(function ($chapter) {
-                    preg_match('/(\d+(\.\d+)?)/', $chapter->chapter_number, $matches);
-                    return isset($matches[1]) ? (float) $matches[1] : 0;
-                });
+            foreach ($bookmarks as $bookmark) {
+                if ($bookmark->manga && $bookmark->manga->chapters) {
+                    $sortedChapters = $bookmark->manga->chapters->sortByDesc(function ($chapter) {
+                        preg_match('/(\d+(\.\d+)?)/', $chapter->chapter_number, $matches);
+                        return isset($matches[1]) ? (float) $matches[1] : 0;
+                    });
 
-                $bookmark->manga->lastChapter = $sortedChapters->first();
+                    $bookmark->manga->lastChapter = $sortedChapters->first();
+                }
+
+                // Fetch the latest read chapter for the user from the user_activity table
+                $userActivity = UserActivity::where('user_id', Auth::id())
+                    ->where('manga_id', $bookmark->manga->id)
+                    ->with('chapter')
+                    ->latest('updated_at')
+                    ->first();
+
+                $bookmark->manga->lastReadChapter = $userActivity ? $userActivity->chapter : null;
             }
-
-            // Fetch the latest read chapter for the user from the user_activity table
-            $userActivity = UserActivity::where('user_id', Auth::id())
-                ->where('manga_id', $bookmark->manga->id)
-                ->with('chapter')
-                ->latest('updated_at')
-                ->first();
-
-            $bookmark->manga->lastReadChapter = $userActivity ? $userActivity->chapter : null;
+        } else {
+            $bookmarks = collect();
         }
 
         return view('bookmark.index', compact('bookmarks'));

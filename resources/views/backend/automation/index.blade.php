@@ -18,8 +18,12 @@
                                 <div class="mb-3 position-relative">
                                     <input type="text" class="form-control me-1" name="url"
                                         placeholder="Input manga url">
-                                    <input type="text" class="form-control" name="bucket"
-                                        placeholder="Input bucket name">
+                                    <select name="bucket" class="form-select mt-2">
+                                        <option value="">Select Bucket</option>
+                                        <option value="s1">s1</option>
+                                        <option value="s2">s2</option>
+                                        <option value="s3">s3</option>
+                                    </select>
                                 </div>
                                 <button type="submit" class="btn btn-grey">
                                     <i class="bi bi-cloud-download"></i> Fetch
@@ -40,8 +44,12 @@
                                 <div class="mb-3 position-relative">
                                     <input type="text" name="search_manga" id="search-manga" class="form-control"
                                         placeholder="Search manga">
-                                    <input type="text" class="form-control" name="bucket"
-                                        placeholder="Input bucket name">
+                                    <select name="bucket" class="form-select mt-2">
+                                        <option value="">Select Bucket</option>
+                                        <option value="s1">s1</option>
+                                        <option value="s2">s2</option>
+                                        <option value="s3">s3</option>
+                                    </select>
                                     <input type="hidden" name="manga_id" id="manga-id">
                                     <div id="manga-results" class="dropdown-menu show w-100"></div>
                                 </div>

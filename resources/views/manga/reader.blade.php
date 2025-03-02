@@ -138,7 +138,7 @@
         <div class="reader mt-3 mt-md-4" id="reader">
             <div class="reader-container">
                 <div class="reader-img">
-                    <img src="https://s4.nori.my/nori.my-baca-komik-baru-tiap-hari.webp" alt="nori baca komik"
+                    <img src="https://s2.panelesia.my.id/panelesia.my.id.webp" alt="nori baca komik"
                         class="img-fluid">
                     @foreach ($images as $index => $image)
                         <img src="{{ $image }}" class="img-fluid"
@@ -146,7 +146,7 @@
                             onerror="this.onerror=null;this.src='{{ asset('assets/img/no-image.png') }}'"
                             @if ($index > 2) loading="lazy" @endif>
                     @endforeach
-                    <img src="https://s4.nori.my/nori.my-baca-komik-baru-tiap-hari.webp" alt="nori baca komik"
+                    <img src="https://s2.panelesia.my.id/panelesia.my.id.webp" alt="nori baca komik"
                         class="img-fluid">
                 </div>
             </div>

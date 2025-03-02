@@ -83,33 +83,28 @@
         </div>
 
         <div class="row g-2">
-            <div class="col-6 col-md-3">
+            <div class="col-6 col-md-6">
                 <div class="stat-card">
                     <h5>Total Manga Dibaca</h5>
-                    <p>0</p>
+                    <p>{{ $totalManga }}</p>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
+            <div class="col-6 col-md-6">
                 <div class="stat-card">
                     <h5>Total Chapter Dibaca</h5>
-                    <p>0</p>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <h5>Jumlah Scroll</h5>
-                    <p>0</p>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <h5>Total Waktu Membaca</h5>
-                    <p>0 Menit</p>
+                    <p>{{ $totalChapters }}</p>
                 </div>
             </div>
         </div>
-
         <div class="row mt-3">
+            <div class="col-12">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Perhatian!</strong> Riwayat baca memiliki delay hingga 10 menit.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-12">
                 <h4 class="fw-bold text-white fs-6">Riwayat Baca</h4>
 
@@ -120,13 +115,16 @@
                                 <img src="{{ $userActivity->manga->detail->cover }}" alt="Manga Cover" class="history-img">
                                 <div class="history-content">
                                     <span class="history-title">{{ $userActivity->manga->title }}</span>
-                                    <span class="history-meta">Chapter {{ $userActivity->chapter->title }}</span>
-                                    <span class="history-meta">{{ $userActivity->created_at->format('d M Y H:i:s') }}</span>
+                                    <span class="history-meta">{{ $userActivity->chapter->title }}</span>
+                                    <span class="history-meta">{{ $userActivity->created_at->format('d M Y H:i') }}</span>
                                 </div>
                             </div>
                         </a>
                     @endforeach
                 </div>
+            </div>
+            <div class="mt-3">
+                {{ $userActivities->links() }}
             </div>
         </div>
     </div>
