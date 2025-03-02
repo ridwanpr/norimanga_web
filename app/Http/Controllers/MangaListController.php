@@ -12,12 +12,15 @@ class MangaListController extends Controller
     public function gridList(Request $request)
     {
         $latestUpdateCacheKey = 'manga.grid-list.latest-update.' . implode('.', array_keys($request->only(['genre', 'search', 'year', 'type', 'status'])));
+
         $genresCacheKey = 'manga.genres';
 
-        $latestUpdate = Cache::remember($latestUpdateCacheKey, now()->addHours(1), function () use ($request) {
+        // Retrieve or calculate the query results without pagination
+        $queryResults = Cache::remember($latestUpdateCacheKey, now()->addHours(1), function () use ($request) {
             $query = Manga::join('manga_detail', 'manga.id', '=', 'manga_detail.manga_id')
                 ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.release_year', 'manga_detail.updated_at');
 
+            // Applying filters
             if ($request->filled('genre')) {
                 $query->whereHas('genres', function ($q) use ($request) {
                     $q->where('slug', $request->genre);
@@ -40,14 +43,19 @@ class MangaListController extends Controller
                 $query->where('manga_detail.status', $request->status);
             }
 
-            return $query->orderBy('manga_detail.updated_at', 'desc')
-                ->paginate(24)
-                ->withQueryString()
-                ->through(function ($manga) {
-                    $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
-                    return $manga;
-                });
+            return $query->orderBy('manga_detail.updated_at', 'desc')->get();
         });
+
+        $page = $request->input('page', 1);
+        $perPage = 24;
+        $offset = ($page - 1) * $perPage;
+        $latestUpdate = new \Illuminate\Pagination\LengthAwarePaginator(
+            array_slice($queryResults->toArray(), $offset, $perPage, true),
+            count($queryResults),
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
 
         $genres = Cache::remember($genresCacheKey, now()->addHours(1), function () {
             return Genre::select('name', 'slug')->orderBy('name')->get();

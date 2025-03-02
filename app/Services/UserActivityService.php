@@ -11,12 +11,10 @@ class UserActivityService
     int $mangaId,
     int $chapterId,
   ): UserActivity {
-    return UserActivity::updateOrCreate(
-      [
-        'user_id' => $userId,
-        'manga_id' => $mangaId,
-      ],
-      ['chapter_id' => $chapterId]
-    );
+    return UserActivity::create([
+      'user_id' => $userId,
+      'manga_id' => $mangaId,
+      'chapter_id' => $chapterId,
+    ]);
   }
 }
