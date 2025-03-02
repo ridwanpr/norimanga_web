@@ -55,7 +55,7 @@ class AutoMationController extends Controller
         $bucket = $request->input('bucket');
         
         $request->validate([
-            'manga_id' => 'required|exists:mangas,id',
+            'manga_id' => 'required',
             'bucket' => 'required|string',
         ]);
         
