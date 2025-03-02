@@ -1,14 +1,14 @@
 @extends('layouts.app')
 @section('meta')
     <meta name="description"
-        content="Baca Manga {{ $manga->title }} di Nori.my! Terjemahan Bahasa Indonesia, dan update tercepat gratis.">
+        content="Baca Manga {{ $manga->title }} di Panelesia! Terjemahan Bahasa Indonesia, dan update tercepat gratis.">
     <meta property="og:title" content="{{ $manga->title }} - Read Online Free">
     <meta property="og:description" content="{{ Str::limit($manga->detail->synopsis, 150) }}">
     <meta property="og:image" content="{{ $manga->detail->cover }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
 @endsection
-@section('title', "$manga->title Bahasa Indonesia - Nori - Manga Indonesia")
+@section('title', "$manga->title Bahasa Indonesia - Panelesia - Manga Indonesia")
 @push('css')
     <style>
         .cover-img {

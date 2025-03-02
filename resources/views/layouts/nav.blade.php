@@ -5,7 +5,7 @@
                font-weight: 800;
                font-size: 2rem;
                color: #4CAF50;">
-            Nori
+            Panelesia
         </a>
         <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true"

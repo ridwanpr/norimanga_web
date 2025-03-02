@@ -2,7 +2,7 @@
 @push('css')
     @turnstileScripts()
 @endpush
-@section('title', 'Login - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Nori')
+@section('title', 'Login - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Panelesia')
 @section('content')
     <section>
         <div class="container">

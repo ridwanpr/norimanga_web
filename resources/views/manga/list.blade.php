@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('meta')
     <meta name="description"
-        content="Jelajahi koleksi manga, manhwa, manhua di Nori.my! Cari komik favorit berdasarkan genre, tipe, atau tahun — tersedia dalam terjemahan Bahasa Indonesia berkualitas.">
+        content="Jelajahi koleksi manga, manhwa, manhua di Panelesia! Cari komik favorit berdasarkan genre, tipe, atau tahun — tersedia dalam terjemahan Bahasa Indonesia berkualitas.">
 @endsection
-@section('title', 'Daftar Komik - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Nori')
+@section('title', 'Daftar Komik - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Panelesia')
 @section('content')
     <div class="container">
         <div class="d-flex flex-wrap justify-content-between">

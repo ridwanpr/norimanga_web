@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Akun Saya - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Nori')
+@section('title', 'Akun Saya - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Panelesia')
 @push('css')
     <style>
         .alert:hover {

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Bookmark - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Nori')
+@section('title', 'Bookmark - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Panelesia')
 @push('css')
     <style>
         .img-manga {

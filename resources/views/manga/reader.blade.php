@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('meta')
     <meta name="description"
-        content="Baca Manga {{ $chapter->manga->title }} {{ $chapter->chapter_number }} bahasa Indonesia gratis di Nori.my! Terjemahan Bahasa Indonesia gratis.">
+        content="Baca Manga {{ $chapter->manga->title }} {{ $chapter->chapter_number }} bahasa Indonesia gratis di Panelesia! Terjemahan Bahasa Indonesia gratis.">
     <meta property="og:title"
-        content="{{ $chapter->title }} - {{ $chapter->manga->title }} - Nori.my">
+        content="{{ $chapter->title }} - {{ $chapter->manga->title }} - Panelesia">
     <meta property="og:description" content="{{ Str::limit($chapter->manga->detail->synopsis, 150) }}">
     <meta property="og:image" content="{{ $chapter->manga->detail->cover }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
 @endsection
-@section('title', "Baca {$chapter->manga->title} {$chapter->title} Bahasa Indonesia - Nori - Manga Indonesia")
+@section('title', "Baca {$chapter->manga->title} {$chapter->title} Bahasa Indonesia - Panelesia - Manga Indonesia")
 @push('css')
     <style>
         .breadcrumb-item,
@@ -87,9 +87,9 @@
                 </ol>
             </nav>
             <p>
-                Baca manga terbaru {{ $chapter->manga->title }} ID {{ $chapter->title }} di Nori. Komik manga
+                Baca manga terbaru {{ $chapter->manga->title }} ID {{ $chapter->title }} di Panelesia. Komik manga
                 {{ $chapter->manga->title }} Bahas Indo selalu
-                diperbarui di Nori.my. Jangan lupa untuk membaca pembaruan komik lainnya. Daftar koleksi komik Nori ada
+                diperbarui di Panelesia. Jangan lupa untuk membaca pembaruan komik lainnya. Daftar koleksi komik Panelesia ada
                 di menu Daftar Komik.
             </p>
             <div class="alert alert-warning w-100" role="alert">
@@ -191,7 +191,7 @@
                 {{ $chapter->manga->title }} {{ $chapter->title }} online, {{ $chapter->manga->title }}
                 {{ $chapter->title }} bab, {{ $chapter->manga->title }} {{ $chapter->title }} chapter,
                 {{ $chapter->manga->title }} {{ $chapter->title }} high quality, {{ $chapter->manga->title }}
-                {{ $chapter->title }} manga scan, {{ now()->format('F d, Y') }}, Nori.my</small>
+                {{ $chapter->title }} manga scan, {{ now()->format('F d, Y') }}, Panelesia</small>
         </div>
         <div class="comments bg-body-tertiary mt-4 py-1 px-3 rounded">
             <h1 class="fs-4 mb-3 fw-bold mt-2">Komentar</h1>

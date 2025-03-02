@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Nori - Baca Manga, Manhwa, Manhua Bahasa Indonesia')
+@section('title', 'Panelesia - Baca Manga, Manhwa, Manhua Bahasa Indonesia')
 @section('meta')
     <meta name="description"
-        content="Baca manga, manhwa, manhua terbaru di Nori.my! Koleksi lengkap, update harian, gratis dan terjemahan Bahasa Indonesia terbaik.">
+        content="Baca manga, manhwa, manhua terbaru di Panelesia! Koleksi lengkap, update harian, gratis dan terjemahan Bahasa Indonesia terbaik.">
 @endsection
 @push('css')
     <style>
@@ -41,9 +41,9 @@
             </div>
         </section>
         <div class="mt-4 mb-3 bg-dark p-4 rounded shadow-sm">
-            <h1 class="fs-5 mb-3 text-primary">Nori.my – Portal Baca Manga, Manhwa & Manhua Bahasa Indonesia</h1>
+            <h1 class="fs-5 mb-3 text-primary">Panelesia – Portal Baca Manga, Manhwa & Manhua Bahasa Indonesia</h1>
             <p class="mb-0">
-                Selamat datang di Nori.my, situs baca komik online yang menyediakan koleksi manga, manhwa, dan manhua
+                Selamat datang di Panelesia, situs baca komik online yang menyediakan koleksi manga, manhwa, dan manhua
                 dalam bahasa Indonesia.
             </p>
             <p class="mb-0">

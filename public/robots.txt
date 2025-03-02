@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://nori.my/sitemap.xml
+Sitemap: https://panelesia.my.id/sitemap.xml

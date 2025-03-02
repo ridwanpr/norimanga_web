@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('meta')
     <meta name="description"
-        content="Jelajahi koleksi manga, manhwa, manhua di Nori.my! Cari komik favorit berdasarkan genre, tipe, atau tahun — tersedia dalam terjemahan Bahasa Indonesia berkualitas.">
+        content="Jelajahi koleksi manga, manhwa, manhua di Panelesia! Cari komik favorit berdasarkan genre, tipe, atau tahun — tersedia dalam terjemahan Bahasa Indonesia berkualitas.">
 @endsection
-@section('title', 'Daftar Komik - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Nori')
+@section('title', 'Daftar Komik - Baca Manga, Manhwa, Manhua Bahasa Indonesia - Panelesia')
 @push('css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @vite('resources/css/select2.css')
