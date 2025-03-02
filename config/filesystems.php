@@ -60,7 +60,7 @@ return [
             'throw' => false,
         ],
 
-        's3' => [
+        's1' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
@@ -73,7 +73,7 @@ return [
             'report' => false,
         ],
 
-        's4' => [
+        's2' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID_2'),
             'secret' => env('AWS_SECRET_ACCESS_KEY_2'),
@@ -86,7 +86,7 @@ return [
             'report' => false,
         ],
 
-        's5' => [
+        's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID_3'),
             'secret' => env('AWS_SECRET_ACCESS_KEY_3'),
