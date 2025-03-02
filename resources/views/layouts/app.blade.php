@@ -8,6 +8,10 @@
     <meta name="google-site-verification" content="3YJEL3qM5RMzMrxfjcKLNsyOPdDDLwuJkpc1V2RKOuE" />
     <meta name="yandex-verification" content="5e8809097f552e34" />
     <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('assets/favicon/site.webmanifest') }}">
     @yield('meta')
     <title>@yield('title', 'Nori - Baca Manga, Manhwa, Manhua Bahasa Indonesia')</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap" rel="stylesheet">
