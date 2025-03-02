@@ -11,7 +11,8 @@ class MangaListController extends Controller
 {
     public function gridList(Request $request)
     {
-        $cacheKey = 'manga_grid_' . md5(json_encode([
+        // Generate a unique cache key based on all request parameters and pagination
+        $cacheKey = 'manga_grid_data_' . md5(json_encode([
             'genre' => $request->genre,
             'search' => $request->search,
             'year' => $request->year,
@@ -20,9 +21,11 @@ class MangaListController extends Controller
             'page' => $request->page ?? 1,
         ]));
 
-        $cacheDuration = 60;
+        // Cache duration in minutes
+        $cacheDuration = 60; // 1 hour, adjust as needed
 
-        return Cache::remember($cacheKey, $cacheDuration, function () use ($request) {
+        // Only cache the query builder - execute it fresh each time
+        $query = Cache::remember($cacheKey, $cacheDuration, function () use ($request) {
             $query = Manga::join('manga_detail', 'manga.id', '=', 'manga_detail.manga_id')
                 ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.release_year', 'manga_detail.updated_at');
 
@@ -48,20 +51,25 @@ class MangaListController extends Controller
                 $query->where('manga_detail.status', $request->status);
             }
 
-            $latestUpdate = $query->orderBy('manga_detail.updated_at', 'desc')
-                ->paginate(24)
-                ->withQueryString()
-                ->through(function ($manga) {
-                    $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
-                    return $manga;
-                });
-
-            $genres = Genre::select('name', 'slug')->orderBy('name')->get();
-
-            return view('manga.grid-list', compact('latestUpdate', 'genres'));
+            return $query->orderBy('manga_detail.updated_at', 'desc');
         });
-    }
 
+        // Execute the query after retrieving it from cache
+        $latestUpdate = $query->paginate(24)->withQueryString();
+
+        // Apply the cover transformation
+        $latestUpdate->through(function ($manga) {
+            $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
+            return $manga;
+        });
+
+        // Cache genres separately with a longer duration since they change less frequently
+        $genres = Cache::remember('manga_all_genres', 24 * 60, function () {
+            return Genre::select('name', 'slug')->orderBy('name')->get();
+        });
+
+        return view('manga.grid-list', compact('latestUpdate', 'genres'));
+    }
     public function textList()
     {
         $mangas = Cache::remember('manga.list', now()->addHours(1), function () {
