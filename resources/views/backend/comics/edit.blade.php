@@ -96,6 +96,17 @@
                 <label class="form-check-label">Is Featured?</label>
             </div>
 
+            <div class="mb-3">
+                <label class="form-label">Bucket Image</label>
+                <select name="bucket" class="form-select" required>
+                    <option value="">Select Bucket</option>
+                    <option value="s1" {{ $manage_comic->detail->bucket == 's1' ? 'selected' : '' }}>s1</option>
+                    <option value="s2" {{ $manage_comic->detail->bucket == 's2' ? 'selected' : '' }}>s2</option>
+                    <option value="s3" {{ $manage_comic->detail->bucket == 's3' ? 'selected' : '' }}>s3</option>
+                    <option value="s4" {{ $manage_comic->detail->bucket == 's4' ? 'selected' : '' }}>s4</option>
+                </select>
+            </div>
+
             <!-- Cover Image -->
             <div class="mb-3">
                 <label class="form-label">Cover Image</label>

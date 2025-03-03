@@ -65,6 +65,17 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label">Bucket Image</label>
+                        <select name="bucket" class="form-select" required>
+                            <option value="">Select Bucket</option>
+                            <option value="s1">s1</option>
+                            <option value="s2">s2</option>
+                            <option value="s3">s3</option>
+                            <option value="s4">s4</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label">Cover</label>
                         <input type="file" name="cover" class="form-control">
                     </div>

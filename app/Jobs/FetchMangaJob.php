@@ -7,29 +7,27 @@ use DOMDocument;
 use App\Models\Genre;
 use App\Models\Manga;
 use App\Models\MangaDetail;
-use App\Models\MangaChapter;
 use Illuminate\Bus\Queueable;
 use App\Services\BucketManager;
+use App\Factories\MangaScraperFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Symfony\Component\ErrorHandler\Debug;
 
 class FetchMangaJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $bucketManager;
     private $url;
     private $bucket;
+    private $bucketManager;
 
-    public function __construct($url, $bucket)
+    public function __construct(string $url, string $bucket)
     {
         $this->url = $url;
         $this->bucket = $bucket;
@@ -41,120 +39,83 @@ class FetchMangaJob implements ShouldQueue
         $url = $this->url;
         Log::info("Fetching: {$url}");
 
+        try {
+            // Fetch the HTML content
+            $html = $this->fetchContent($url);
+
+            // Parse the HTML
+            $dom = new DOMDocument();
+            @$dom->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING);
+            $xpath = new DOMXPath($dom);
+
+            // Create appropriate scraper based on the domain
+            $scraper = MangaScraperFactory::create($url, $xpath);
+
+            // Process the manga
+            $this->processManga($scraper, $url);
+        } catch (\Exception $e) {
+            Log::error("Error in FetchMangaJob: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Fetch content from URL
+     */
+    private function fetchContent(string $url): string
+    {
         $response = Http::withHeaders([
             'User-Agent' => $this->getRandomUserAgent()
         ])->get($url);
 
         if (!$response->successful()) {
-            Log::error("Failed to fetch: {$url}");
-            return;
+            throw new \Exception("Failed to fetch: {$url}");
         }
 
-        $html = $response->body();
-        $dom = new DOMDocument();
-        @$dom->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING);
-        $xpath = new DOMXPath($dom);
+        return $response->body();
+    }
 
-        // Determine which domain we're dealing with
-        $domain = parse_url($url, PHP_URL_HOST);
-        $isWestManga = str_contains($domain, 'westmanga');
-
+    /**
+     * Process manga data
+     */
+    private function processManga($scraper, $url): void
+    {
         DB::beginTransaction();
+        $coverPath = null;
+        $bucket = null;
 
         try {
-            // Extract and sanitize slug from the URL
-            $slug = $this->extractAndSanitizeSlug($url);
-            if (empty($slug)) {
-                throw new \Exception("Failed to extract slug from URL: {$url}");
+            // Extract manga data
+            $mangaData = $scraper->extractBasicInfo();
+            $slug = $this->sanitizeSlug($mangaData['slug'] ?? $this->extractSlugFromUrl($url));
+
+            if (empty($slug) || empty($mangaData['title'])) {
+                throw new \Exception("Failed to extract essential data from URL: {$url}");
             }
 
-            $domain = parse_url($url, PHP_URL_HOST);
-            $isWestManga = str_contains($domain, 'westmanga');
-            $isApkomik = str_contains($domain, 'apkomik');
-
-            if ($isWestManga) {
-                $title = trim($xpath->evaluate('string(//h1[@class="entry-title"])'));
-            } else if ($isApkomik) {
-                $title = trim($xpath->evaluate('string(//h1[@class="entry-title"])'));
-            } else {
-                $title = trim($xpath->evaluate('string(//h1[@class="entry-title"])'));
-            }
-
-            if (empty($title)) {
-                throw new \Exception("Failed to extract manga title from: {$url}");
-            }
-
+            // Create or update manga record
             $manga = Manga::updateOrCreate(
                 ['slug' => $slug],
-                ['title' => $title, 'is_project' => 0, 'is_featured' => 0, 'source' => $domain]
+                [
+                    'title' => $mangaData['title'],
+                    'is_project' => 0,
+                    'is_featured' => 0,
+                    'source' => parse_url($url, PHP_URL_HOST)
+                ]
             );
 
-            if ($isWestManga) {
-                // WestManga uses a table structure
-                $status = $this->getWestMangaTableValue($xpath, 'Status') ?: '-';
-                $type = $this->getWestMangaTableValue($xpath, 'Type') ?: '-';
-                $releaseYear = $this->extractYearFromWestManga($xpath) ?: '-';
-                $author = $this->getWestMangaTableValue($xpath, 'Author') ?: '-';
-                $artist = $author; // Use same as author if not explicitly stated
-                $views = 0; // WestManga doesn't show views
-                $synopsis = $xpath->evaluate('string(//div[contains(@class, "entry-content")]//p)') ?: 'No synopsis available';
+            // Extract detailed manga information
+            $detailsData = $scraper->extractDetails();
 
-                // Extract cover image for WestManga
-                $coverImageUrl = $xpath->evaluate('string(//div[contains(@class, "thumb")]//img/@src)');
-            } else if ($isApkomik) {
-                // Apkomik.cc structure
-                $status = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Status")]/i)') ?: '-';
-                $type = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Type")]/a)') ?: '-';
-                $releaseYear = $xpath->evaluate('string(//div[contains(@class, "fmed")][b[text()="Released"]]/span)') ?: '-';
-                $author = $xpath->evaluate('string(//div[contains(@class, "fmed")][b[text()="Author"]]/span)') ?: '-';
-                $artist = $xpath->evaluate('string(//div[contains(@class, "fmed")][b[text()="Artist"]]/span)') ?: '-';
-                $views = 0; // Apkomik doesn't seem to show views like this
-                $synopsis = $xpath->evaluate('string(//div[@class="entry-content entry-content-single"])') ?: 'No synopsis available';
+            // Process cover image if available
+            if (!empty($detailsData['coverImageUrl'])) {
+                $coverUploadResult = $this->processCoverImage(
+                    $detailsData['coverImageUrl'],
+                    $manga->id
+                );
 
-                // Extract cover image for Apkomik
-                $coverImageUrl = $xpath->evaluate('string(//div[contains(@class, "thumb")]//img/@src)');
-            } else {
-                // Original code for manhwaindo.one
-                $status = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Status")]/i)') ?: '-';
-                $type = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Type")]/a)') ?: '-';
-                $releaseYear = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Released")]/i)') ?: '-';
-                $author = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Author")]/i)') ?: '-';
-                $artist = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Artist")]/i)') ?: '-';
-                $viewsText = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Views")]/i)');
-                $views = preg_replace('/[^0-9]/', '', $viewsText) ?: 0;
-                $synopsis = $xpath->evaluate('string(//div[@class="entry-content entry-content-single"]/p)') ?: 'No synopsis available';
-
-                // Extract cover image for manhwaindo.one
-                $coverImageUrl = $xpath->evaluate('string(//div[@class="thumb"]//img/@src)');
-            }
-
-            $coverPath = null;
-            $bucket = null;
-
-            if (!empty($coverImageUrl)) {
-                Log::debug("Fetching cover image: {$coverImageUrl}");
-                $imageResponse = Http::get($coverImageUrl);
-                if ($imageResponse->successful()) {
-                    $extension = pathinfo($coverImageUrl, PATHINFO_EXTENSION);
-                    $fileName = 'covers/' . $manga->id . '.' . $extension;
-
-                    try {
-                        Log::debug("Attempting to store cover image to bucket: {$fileName}");
-                        $storageInfo = $this->bucketManager->storeFile(
-                            $fileName,
-                            $imageResponse->body(),
-                            $this->bucket,
-                            ['visibility' => 'public']
-                        );
-
-                        Log::debug("Stored cover image to bucket: {$fileName}");
-
-                        $coverPath = $storageInfo['url'];
-                        $bucket = $storageInfo['bucket'];
-                    } catch (\Exception $e) {
-                        Log::error("Failed to store cover image for manga {$title}: " . $e->getMessage());
-                        throw $e;
-                    }
+                if ($coverUploadResult) {
+                    $coverPath = $coverUploadResult['url'];
+                    $bucket = $coverUploadResult['bucket'];
                 }
             }
 
@@ -162,104 +123,99 @@ class FetchMangaJob implements ShouldQueue
             MangaDetail::updateOrCreate(
                 ['manga_id' => $manga->id],
                 [
-                    'status' => $status,
-                    'type' => $type,
-                    'release_year' => $releaseYear,
-                    'author' => $author,
-                    'artist' => $artist,
-                    'views' => $views,
-                    'synopsis' => $synopsis,
+                    'status' => $detailsData['status'] ?? '-',
+                    'type' => $detailsData['type'] ?? '-',
+                    'release_year' => $detailsData['releaseYear'] ?? '-',
+                    'author' => $detailsData['author'] ?? '-',
+                    'artist' => $detailsData['artist'] ?? '-',
+                    'views' => $detailsData['views'] ?? 0,
+                    'synopsis' => $detailsData['synopsis'] ?? 'No synopsis available',
                     'cover' => $coverPath,
                     'bucket' => $bucket,
                 ]
             );
 
-            if ($isWestManga) {
-                $genreElements = $xpath->query('//div[@class="seriestugenre"]/a');
-            } else if ($isApkomik) {
-                $genreElements = $xpath->query('//div[@class="wd-full"]/span[@class="mgen"]/a');
-            } else {
-                $genreElements = $xpath->query('//span[@class="mgen"]/a');
-            }
-
-            $genres = [];
-            foreach ($genreElements as $genre) {
-                $genres[] = trim($genre->textContent);
-            }
-
+            // Process genres
+            $genres = $scraper->extractGenres();
             if (!empty($genres)) {
-                $genreIds = [];
-                foreach ($genres as $genreName) {
-                    $genre = Genre::firstOrCreate(['name' => $genreName], ['slug' => strtolower(str_replace(' ', '-', $genreName))]);
-                    $genreIds[] = $genre->id;
-                }
-                $manga->genres()->sync($genreIds);
+                $this->processGenres($manga, $genres);
             }
 
             DB::commit();
-
             Cache::flush();
-
             Log::info("Successfully updated: {$manga->title}");
         } catch (\Exception $e) {
             DB::rollBack();
 
+            // Clean up uploaded cover if transaction failed
             if (!empty($coverPath) && !empty($bucket)) {
                 $pathParts = parse_url($coverPath);
                 $relativePath = ltrim($pathParts['path'], '/');
                 $this->bucketManager->deleteFile($bucket, $relativePath);
-                Log::warning("Deleted uploaded cover for {$title} due to failure.");
+                Log::warning("Deleted uploaded cover due to failure.");
             }
 
-            Log::error("Error processing {$title}: " . $e->getMessage());
+            Log::error("Error processing manga: " . $e->getMessage());
         }
     }
 
     /**
-     * Helper method to extract values from WestManga's table structure
+     * Process cover image
      */
-    private function getWestMangaTableValue(DOMXPath $xpath, string $label): ?string
+    private function processCoverImage(string $coverImageUrl, int $mangaId): ?array
     {
-        $query = "//div[contains(@class, 'seriestucontr')]//table//tr[td[text()='{$label}']]/td[2]";
-        $result = $xpath->evaluate("string({$query})");
-        return !empty($result) ? trim($result) : null;
-    }
+        try {
+            Log::debug("Fetching cover image: {$coverImageUrl}");
+            $imageResponse = Http::get($coverImageUrl);
 
-    /**
-     * Extract year from WestManga's posted date
-     */
-    private function extractYearFromWestManga(DOMXPath $xpath): ?string
-    {
-        $postedDate = $this->getWestMangaTableValue($xpath, 'Posted On');
-        if (!empty($postedDate)) {
-            // Extract year from date string like "May 19, 2019"
-            if (preg_match('/(\d{4})/', $postedDate, $matches)) {
-                return $matches[1];
+            if (!$imageResponse->successful()) {
+                Log::warning("Failed to download cover image: {$coverImageUrl}");
+                return null;
             }
+
+            $extension = pathinfo($coverImageUrl, PATHINFO_EXTENSION);
+            $fileName = 'covers/' . $mangaId . '.' . $extension;
+
+            $storageInfo = $this->bucketManager->storeFile(
+                $fileName,
+                $imageResponse->body(),
+                $this->bucket,
+                ['visibility' => 'public']
+            );
+
+            Log::debug("Stored cover image to bucket: {$fileName}");
+            return $storageInfo;
+        } catch (\Exception $e) {
+            Log::error("Failed to process cover image: " . $e->getMessage());
+            return null;
         }
-        return null;
     }
 
     /**
-     * Extract and sanitize slug from URL
+     * Process and associate genres with manga
      */
-    private function extractAndSanitizeSlug(string $url): string
+    private function processGenres(Manga $manga, array $genres): void
     {
-        // Parse the URL to get the path
-        $path = parse_url($url, PHP_URL_PATH);
+        $genreIds = [];
+        foreach ($genres as $genreName) {
+            $genre = Genre::firstOrCreate(
+                ['name' => $genreName],
+                ['slug' => strtolower(str_replace(' ', '-', $genreName))]
+            );
+            $genreIds[] = $genre->id;
+        }
+        $manga->genres()->sync($genreIds);
+    }
 
-        // Remove trailing slash if present
-        $path = rtrim($path, '/');
-
-        // Get the last segment of the path (the slug)
-        $pathSegments = explode('/', $path);
-        $rawSlug = end($pathSegments);
-
+    /**
+     * Sanitize a slug
+     */
+    private function sanitizeSlug(string $rawSlug): string
+    {
         // URL decode the slug to handle encoded characters
         $decodedSlug = urldecode($rawSlug);
 
         // Sanitize: Replace special characters and spaces with hyphens
-        // Keep alphanumeric characters, hyphens, and underscores
         $sanitizedSlug = preg_replace('/[^a-zA-Z0-9_-]/', '-', $decodedSlug);
 
         // Remove consecutive hyphens
@@ -269,24 +225,29 @@ class FetchMangaJob implements ShouldQueue
         $sanitizedSlug = trim($sanitizedSlug, '-');
 
         // Convert to lowercase
-        $sanitizedSlug = strtolower($sanitizedSlug);
-
-        Log::info("Original slug: {$rawSlug}, Sanitized slug: {$sanitizedSlug}");
-
-        return $sanitizedSlug;
+        return strtolower($sanitizedSlug);
     }
 
+    /**
+     * Extract slug from URL
+     */
     private function extractSlugFromUrl(string $url): string
     {
-        // Extract the slug from the URL
+        // Parse the URL to get the path
         $path = parse_url($url, PHP_URL_PATH);
-        $slug = basename($path);
 
-        return $slug;
+        // Remove trailing slash if present
+        $path = rtrim($path, '/');
+
+        // Get the last segment of the path (the slug)
+        $pathSegments = explode('/', $path);
+        return end($pathSegments);
     }
 
-
-    private function getRandomUserAgent()
+    /**
+     * Get a random User-Agent
+     */
+    private function getRandomUserAgent(): string
     {
         $userAgents = [
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",

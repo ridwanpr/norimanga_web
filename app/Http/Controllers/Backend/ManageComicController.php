@@ -50,6 +50,7 @@ class ManageComicController extends Controller
             'artist' => 'nullable|string|max:255',
             'synopsis' => 'nullable|string',
             'cover' => 'nullable|image|max:2048',
+            'bucket' => 'string',
         ]);
 
         return DB::transaction(function () use ($request) {
@@ -78,6 +79,7 @@ class ManageComicController extends Controller
                         $upload = $this->bucketManager->storeFile(
                             $fileName,
                             file_get_contents($file),
+                            $request->bucket,
                             ['visibility' => 'public']
                         );
 
@@ -119,8 +121,9 @@ class ManageComicController extends Controller
     }
 
 
-    public function edit(Manga $manage_comic)
+    public function edit($id)
     {
+        $manage_comic = Manga::with('detail')->where('id', $id)->first();
         return view('backend.comics.edit', compact('manage_comic'));
     }
 
@@ -137,6 +140,7 @@ class ManageComicController extends Controller
             'artist' => 'nullable|string|max:255',
             'synopsis' => 'nullable|string',
             'cover' => 'nullable|image|max:2048',
+            'bucket' => 'string',
         ]);
 
         return DB::transaction(function () use ($request, $manage_comic) {
@@ -157,6 +161,7 @@ class ManageComicController extends Controller
                     $upload = $this->bucketManager->storeFile(
                         $path,
                         file_get_contents($file),
+                        $request->bucket,
                         ['visibility' => 'public']
                     );
 
