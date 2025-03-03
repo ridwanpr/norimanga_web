@@ -27,7 +27,7 @@ class ApkomikScraper extends BaseMangaScraper
       'releaseYear' => $this->xpath->evaluate('string(//div[contains(@class, "fmed")][b[text()="Released"]]/span)') ?: '-',
       'author' => $this->xpath->evaluate('string(//div[contains(@class, "fmed")][b[text()="Author"]]/span)') ?: '-',
       'artist' => $this->xpath->evaluate('string(//div[contains(@class, "fmed")][b[text()="Artist"]]/span)') ?: '-',
-      'views' => 0, // Apkomik doesn't show views
+      'views' => 0,
       'synopsis' => $this->xpath->evaluate('string(//div[@class="entry-content entry-content-single"])') ?: 'No synopsis available',
       'coverImageUrl' => $this->xpath->evaluate('string(//div[contains(@class, "thumb")]//img/@src)')
     ];

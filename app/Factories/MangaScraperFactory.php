@@ -7,6 +7,7 @@ use App\Scrapers\WestMangaScraper;
 use App\Scrapers\ApkomikScraper;
 use App\Scrapers\ManhwaindoScraper;
 use App\Scrapers\Interfaces\MangaScraperInterface;
+use App\Scrapers\ManhwaIDScraper;
 
 class MangaScraperFactory
 {
@@ -21,8 +22,9 @@ class MangaScraperFactory
       return new WestMangaScraper($xpath, $url);
     } else if (str_contains($domain, 'apkomik')) {
       return new ApkomikScraper($xpath, $url);
+    } else if (str_contains($domain, 'manhwaid')) {
+      return new ManhwaIDScraper($xpath, $url);
     } else {
-      // Default to ManhwaindoScraper
       return new ManhwaindoScraper($xpath, $url);
     }
   }

@@ -50,7 +50,6 @@ class FetchMangaJob implements ShouldQueue
 
             // Create appropriate scraper based on the domain
             $scraper = MangaScraperFactory::create($url, $xpath);
-
             // Process the manga
             $this->processManga($scraper, $url);
         } catch (\Exception $e) {
