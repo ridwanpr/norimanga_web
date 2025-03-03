@@ -68,8 +68,13 @@ class FetchMangaJob implements ShouldQueue
                 throw new \Exception("Failed to extract slug from URL: {$url}");
             }
 
-            // Extract manga title - different XPath for each domain
+            $domain = parse_url($url, PHP_URL_HOST);
+            $isWestManga = str_contains($domain, 'westmanga');
+            $isApkomik = str_contains($domain, 'apkomik');
+
             if ($isWestManga) {
+                $title = trim($xpath->evaluate('string(//h1[@class="entry-title"])'));
+            } else if ($isApkomik) {
                 $title = trim($xpath->evaluate('string(//h1[@class="entry-title"])'));
             } else {
                 $title = trim($xpath->evaluate('string(//h1[@class="entry-title"])'));
@@ -84,18 +89,29 @@ class FetchMangaJob implements ShouldQueue
                 ['title' => $title, 'is_project' => 0, 'is_featured' => 0, 'source' => $domain]
             );
 
-            // Extract manga details based on the domain
             if ($isWestManga) {
                 // WestManga uses a table structure
                 $status = $this->getWestMangaTableValue($xpath, 'Status') ?: '-';
                 $type = $this->getWestMangaTableValue($xpath, 'Type') ?: '-';
                 $releaseYear = $this->extractYearFromWestManga($xpath) ?: '-';
-                $author = $this->getWestMangaTableValue($xpath, 'Posted By') ?: '-';
+                $author = $this->getWestMangaTableValue($xpath, 'Author') ?: '-';
                 $artist = $author; // Use same as author if not explicitly stated
                 $views = 0; // WestManga doesn't show views
                 $synopsis = $xpath->evaluate('string(//div[contains(@class, "entry-content")]//p)') ?: 'No synopsis available';
 
                 // Extract cover image for WestManga
+                $coverImageUrl = $xpath->evaluate('string(//div[contains(@class, "thumb")]//img/@src)');
+            } else if ($isApkomik) {
+                // Apkomik.cc structure
+                $status = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Status")]/i)') ?: '-';
+                $type = $xpath->evaluate('string(//div[contains(@class, "imptdt")][contains(text(), "Type")]/a)') ?: '-';
+                $releaseYear = $xpath->evaluate('string(//div[contains(@class, "fmed")][b[text()="Released"]]/span)') ?: '-';
+                $author = $xpath->evaluate('string(//div[contains(@class, "fmed")][b[text()="Author"]]/span)') ?: '-';
+                $artist = $xpath->evaluate('string(//div[contains(@class, "fmed")][b[text()="Artist"]]/span)') ?: '-';
+                $views = 0; // Apkomik doesn't seem to show views like this
+                $synopsis = $xpath->evaluate('string(//div[@class="entry-content entry-content-single"])') ?: 'No synopsis available';
+
+                // Extract cover image for Apkomik
                 $coverImageUrl = $xpath->evaluate('string(//div[contains(@class, "thumb")]//img/@src)');
             } else {
                 // Original code for manhwaindo.one
@@ -158,9 +174,10 @@ class FetchMangaJob implements ShouldQueue
                 ]
             );
 
-            // Attach genres - different for each domain
             if ($isWestManga) {
                 $genreElements = $xpath->query('//div[@class="seriestugenre"]/a');
+            } else if ($isApkomik) {
+                $genreElements = $xpath->query('//div[@class="wd-full"]/span[@class="mgen"]/a');
             } else {
                 $genreElements = $xpath->query('//span[@class="mgen"]/a');
             }
