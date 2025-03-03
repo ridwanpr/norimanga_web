@@ -24,7 +24,7 @@ abstract class BaseChapterScraper implements MangaChapterScraperInterface
 
   /**
    * Get the manga detail URL for the specific source
-   * 
+   *
    * @param Manga $manga
    * @return string
    */
@@ -32,7 +32,7 @@ abstract class BaseChapterScraper implements MangaChapterScraperInterface
 
   /**
    * Get the chapter detail URL for the specific source
-   * 
+   *
    * @param MangaChapter $chapter
    * @param Manga $manga
    * @return string
@@ -41,7 +41,7 @@ abstract class BaseChapterScraper implements MangaChapterScraperInterface
 
   /**
    * Extract chapter data from DOM elements
-   * 
+   *
    * @param DOMXPath $xpath
    * @param \DOMNode $element
    * @param Manga $manga
@@ -51,7 +51,7 @@ abstract class BaseChapterScraper implements MangaChapterScraperInterface
 
   /**
    * Extract image URLs from chapter page
-   * 
+   *
    * @param string $html
    * @return array
    */
@@ -59,7 +59,7 @@ abstract class BaseChapterScraper implements MangaChapterScraperInterface
 
   /**
    * Fetch chapters from the source website
-   * 
+   *
    * @param Manga $manga
    * @param string $bucket
    * @return array
@@ -124,7 +124,7 @@ abstract class BaseChapterScraper implements MangaChapterScraperInterface
 
   /**
    * Fetch images for a specific chapter
-   * 
+   *
    * @param MangaChapter $chapter
    * @param Manga $manga
    * @param string $bucket
@@ -224,7 +224,7 @@ abstract class BaseChapterScraper implements MangaChapterScraperInterface
 
   /**
    * Get a random user agent
-   * 
+   *
    * @return string
    */
   protected function getRandomUserAgent(): string
