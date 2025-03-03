@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
-        Model::preventLazyLoading(! app()->isProduction());
+        Model::preventLazyLoading(!app()->isProduction());
 
         if (app()->isProduction()) {
             URL::forceScheme('https');
@@ -36,8 +36,8 @@ class AppServiceProvider extends ServiceProvider
             return $user->email === 'admin@nori.my';
         });
 
-        LogViewer::auth(function ($request) {
-            return $request->user()->hasRole('admin');
+        Gate::define('viewLogViewer', function (?User $user) {
+            return $user->email === 'admin@nori.my';
         });
     }
 }
