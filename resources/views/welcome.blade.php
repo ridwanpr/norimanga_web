@@ -62,7 +62,7 @@
                 </div> --}}
                 @if ($projects->count() > 0)
                     <section class="latest-project">
-                        <h1 class="fs-4 fw-bold mb-3"><span class="text-primary">Project</span> Update</h1>
+                        <h2 class="fs-4 fw-bold mb-3"><span class="text-primary">Project</span> Update</h2>
                         <div class="row g-2">
 
                             @foreach ($projects as $project)
@@ -100,7 +100,7 @@
                 @endif
 
                 <section class="latest-update">
-                    <h1 class="fs-4 mb-3 fw-bold"><span class="text-primary">Latest</span> Update</h1>
+                    <h2 class="fs-4 mb-3 fw-bold"><span class="text-primary">Update</span> Terbaru</h2>
                     <div class="row g-2">
                         @foreach ($latestUpdate as $update)
                             <div class="col-6 col-md-3">
@@ -161,7 +161,7 @@
 
             <div class="col-12 col-md-4">
                 <section class="trendings">
-                    <h1 class="fs-4 fw-bold mt-3 mt-md-0 mb-3"><i class="bi bi-fire"></i> Trending</h1>
+                    <h2 class="fs-4 fw-bold mt-3 mt-md-0 mb-3"><i class="bi bi-fire"></i> Trending</h2>
                     <ul class="nav nav-pills mb-3" id="trendingPills" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active d-flex align-items-center" id="today-pill" data-bs-toggle="pill"
@@ -264,7 +264,7 @@
                     </div>
                 </section>
                 <section class="genres mt-4">
-                    <h1 class="fs-4 fw-bold mt-3 mt-md-0 mb-3"><i class="bi bi-grid"></i> Genre</h1>
+                    <h2 class="fs-4 fw-bold mt-3 mt-md-0 mb-3"><i class="bi bi-grid"></i> Genre</h2>
                     <div class="genre-list bg-dark">
                         <div class="row row-cols-2 row-cols-sm-3 g-2">
                             @foreach ($genres as $genre)
