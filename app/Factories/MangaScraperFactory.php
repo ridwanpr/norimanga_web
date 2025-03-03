@@ -24,6 +24,8 @@ class MangaScraperFactory
       return new ApkomikScraper($xpath, $url);
     } else if (str_contains($domain, 'manhwaid')) {
       return new ManhwaIDScraper($xpath, $url);
+    } else if (str_contains($domain, 'comicaso')) {
+      return new WestMangaScraper($xpath, $url);
     } else {
       return new ManhwaindoScraper($xpath, $url);
     }

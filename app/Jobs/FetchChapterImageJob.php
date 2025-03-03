@@ -3,10 +3,8 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use App\Services\BucketManager;
-use Illuminate\Support\Facades\DB;
+use App\Factories\ChapterScraperFactory;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,124 +17,27 @@ class FetchChapterImageJob implements ShouldQueue
     public $timeout = 300;
     public $tries = 3;
     private $chapter;
-    private $bucketManager;
     private $manga;
-    private $bucket; // Required bucket parameter
+    private $bucket;
 
     public function __construct($chapter, $manga, string $bucket)
     {
         $this->chapter = $chapter;
         $this->manga = $manga;
-        $this->bucket = $bucket; // Store the required bucket
-        $this->bucketManager = new BucketManager();
+        $this->bucket = $bucket;
     }
 
     public function handle()
     {
-        $url = "https://{$this->manga->source}/{$this->chapter->slug}";
-        Log::info("Fetching images for chapter: {$this->chapter->title} from {$url}");
-
         try {
-            $response = Http::withHeaders([
-                'User-Agent' => $this->getRandomUserAgent()
-            ])->get($url);
+            $scraper = ChapterScraperFactory::getScraper($this->manga);
+            $images = $scraper->fetchChapterImages($this->chapter, $this->manga, $this->bucket);
 
-            if (!$response->successful()) {
-                Log::error("Failed to fetch chapter page: {$url}");
-                return;
-            }
-
-            $html = $response->body();
-
-            preg_match('/ts_reader\.run\((.*?)\);<\/script>/', $html, $matches);
-            if (!isset($matches[1])) {
-                Log::error("Failed to extract image data from script for chapter: {$this->chapter->title}");
-                return;
-            }
-
-            $jsonData = json_decode($matches[1], true);
-            if (!$jsonData || !isset($jsonData['sources'][0]['images'])) {
-                Log::warning("No images found in script for chapter: {$this->chapter->title}");
-                return;
-            }
-
-            $imageUrls = $jsonData['sources'][0]['images'];
-            $storedImages = [];
-
-            DB::beginTransaction();
-            try {
-                foreach ($imageUrls as $index => $imageUrl) {
-                    if (empty($imageUrl)) {
-                        continue;
-                    }
-
-                    $filename = basename(parse_url($imageUrl, PHP_URL_PATH));
-
-                    if (preg_match('/(ads|banner|advertisement)/i', $filename)) {
-                        Log::info("Skipping ad/banner image: {$filename}");
-                        continue;
-                    }
-
-                    $imageResponse = Http::timeout(30)->get($imageUrl);
-                    if (!$imageResponse->successful()) {
-                        Log::warning("Failed to download image {$index} for chapter {$this->chapter->title}");
-                        continue;
-                    }
-
-                    $extension = pathinfo($filename, PATHINFO_EXTENSION) ?: 'jpg';
-                    $fileName = "chapters/{$this->chapter->manga_id}/{$this->chapter->id}/{$index}.{$extension}";
-
-                    try {
-                        $storageInfo = $this->bucketManager->storeFile(
-                            $fileName,
-                            $imageResponse->body(),
-                            $this->bucket,
-                            ['visibility' => 'public']
-                        );
-
-                        $storedImages[] = $storageInfo['url'];
-
-                        usleep(500000);
-                    } catch (\Exception $e) {
-                        Log::error("Failed to store image {$index} for chapter {$this->chapter->title}: " . $e->getMessage());
-                        throw $e;
-                    }
-                }
-
-                $this->chapter->image = json_encode($storedImages);
-                $this->chapter->bucket = $this->bucket; // Save the bucket to the chapter
-                $this->chapter->save();
-
-                DB::commit();
-                Log::info("Successfully processed {$this->chapter->title} with " . count($storedImages) . " images in bucket {$this->bucket}");
-            } catch (\Exception $e) {
-                DB::rollBack();
-
-                if (!empty($storedImages)) {
-                    foreach ($storedImages as $url) {
-                        $pathParts = parse_url($url);
-                        $relativePath = ltrim($pathParts['path'], '/');
-                        $this->bucketManager->deleteFile($this->bucket, $relativePath);
-                    }
-                }
-
-                throw $e;
-            }
+            Log::info("Fetched " . count($images) . " images for chapter: {$this->chapter->title}");
         } catch (\Exception $e) {
-            Log::error("Error processing chapter {$this->chapter->title}: " . $e->getMessage());
+            Log::error("Failed to fetch images for chapter {$this->chapter->title}: " . $e->getMessage());
             throw $e;
         }
-    }
-
-    private function getRandomUserAgent()
-    {
-        $userAgents = [
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-        ];
-        return $userAgents[array_rand($userAgents)];
     }
 
     public function failed(\Throwable $exception)
