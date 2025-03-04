@@ -21,11 +21,11 @@ class MangaController extends Controller
             ->with('detail', 'genres', 'chapters')
             ->firstOrFail();
 
-            $sortedChapters = $manga->chapters->sortByDesc(function($chapter) {
-                // Extract numeric part and convert to float
-                preg_match('/(\d+(\.\d+)?)/', $chapter->chapter_number, $matches);
-                return isset($matches[1]) ? (float) $matches[1] : 0;
-            });
+        $sortedChapters = $manga->chapters->sortByDesc(function ($chapter) {
+            // Extract numeric part and convert to float
+            preg_match('/(\d+(\.\d+)?)/', $chapter->chapter_number, $matches);
+            return isset($matches[1]) ? (float) $matches[1] : 0;
+        });
 
         $firstChapter = $sortedChapters->last();
         $lastChapter = $sortedChapters->first();
@@ -38,9 +38,18 @@ class MangaController extends Controller
         $alsoRead = Cache::remember("alsoRead_{$manga->id}", now()->addHours(2), function () {
             return Manga::with('genres')
                 ->join('manga_detail', 'manga.id', 'manga_detail.manga_id')
-                ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
+                ->select(
+                    'manga.title',
+                    'manga.slug',
+                    'manga_detail.cover',
+                    'manga_detail.type',
+                    'manga_detail.status',
+                    'manga_detail.updated_at',
+                    'manga.id',
+                    'manga_detail.type'
+                )
                 ->inRandomOrder()
-                ->limit(4)
+                ->limit(5)
                 ->get()
                 ->map(function ($manga) {
                     $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);

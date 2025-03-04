@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('meta')
     <meta name="description"
-        content="Baca Manga {{ $manga->title }} di Panelesia! Terjemahan Bahasa Indonesia, dan update tercepat gratis.">
+        content="Baca Komik {{ $manga->detail->type }} {{ $manga->title }} di Panelesia! Terjemahan Bahasa Indonesia, dan update tercepat gratis.">
     <meta property="og:title" content="{{ $manga->title }} - Read Online Free">
     <meta property="og:description" content="{{ Str::limit($manga->detail->synopsis, 150) }}">
     <meta property="og:image" content="{{ $manga->detail->cover }}">
@@ -17,10 +17,18 @@
             width: 160px;
         }
 
+        .also-read-wrapper {
+            height: 100px;
+        }
+
+        .also-read-img-wrapper {
+            height: 100px;
+        }
+
         .also-read-img {
             object-fit: cover;
-            object-position: center;
-            height: 130px;
+            object-position: top;
+            height: 100%;
             width: 100%;
         }
 
@@ -176,32 +184,28 @@
             <div class="col-12 col-md-4 mt-4 mt-md-0">
                 <h1 class="fs-4 mb-3 fw-bold">Baca Juga</h1>
                 @foreach ($alsoRead as $item)
-                    <div class="card mb-1">
+                    <a href="{{ route('manga.show', $item->slug) }}"
+                        class="card also-read-wrapper mb-1 text-decoration-none">
                         <div class="row g-0">
-                            <div class="col-4">
-                                <a href="{{ route('manga.show', $item->slug) }}">
-                                    <img src="{{ $item->cover }}" class="img-fluid rounded-start also-read-img"
-                                        alt="{{ $item->title }}"
-                                        onerror="this.onerror=null;this.src='{{ asset('assets/img/no-image.png') }}';">
-                                </a>
+                            <div class="col-3 also-read-img-wrapper">
+                                <img src="{{ $item->cover }}" class="rounded-start also-read-img"
+                                    alt="{{ $item->title }}"
+                                    onerror="this.onerror=null;this.src='{{ asset('assets/img/no-image.png') }}';">
                             </div>
-                            <div class="col-8 d-flex align-items-center">
-                                <div class="card-body">
-                                    <h5 class="card-title m-0"><a href="{{ route('manga.show', $item->slug) }}"
-                                            class="text-decoration-none fs-6">{{ Str::limit($item->title, 40, '...') }}</a>
-                                    </h5>
+                            <div class="col-9 d-flex align-items-center">
+                                <div class="card-body px-3 py-1">
+                                    <h5 class="card-title m-0 fs-6">{{ Str::limit($item->title, 48, '...') }}</h5>
                                     <p class="card-text genre-text m-0">
-                                        <small class="text-secondary">Genres:</small>&nbsp;
                                         <small class="text-light">
-                                            @foreach ($item->genres as $genre)
-                                                {{ $genre->name . ', ' }}
+                                            @foreach (array_slice($item->genres->toArray(), 0, 8) as $index => $genreItem)
+                                                {{ $genreItem['name'] }}{{ $index < count(array_slice($item->genres->toArray(), 0, 8)) - 1 ? ',' : '' }}
                                             @endforeach
                                         </small>
                                     </p>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         </div>

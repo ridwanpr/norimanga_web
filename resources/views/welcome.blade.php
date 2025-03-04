@@ -201,7 +201,7 @@
                                         <div
                                             class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
                                             <small
-                                                style="font-size: 11px">{{ \Str::limit($chapter->title, 16, '') }}</small>
+                                                style="font-size: 11px">{{ \Str::limit($chapter->title, 18, '') }}</small>
                                             <small class="text-secondary"
                                                 style="font-size: 11px">{{ $chapter->created_at->diffForHumans(['short' => true]) }}</small>
                                         </div>
@@ -269,7 +269,9 @@
                                                         {{ $daily->title }}
                                                     </h5>
                                                     <p class="card-text text-secondary small mb-0">
-                                                        Action, Adventure
+                                                        @foreach (array_slice($daily->genres->toArray(), 0, 8) as $index => $dailyGenre)
+                                                            {{ $dailyGenre['name'] }}{{ $index < count(array_slice($daily->genres->toArray(), 0, 8)) - 1 ? ',' : '' }}
+                                                        @endforeach
                                                     </p>
                                                 </div>
                                             </div>
@@ -297,7 +299,9 @@
                                                         {{ $weekly->title }}
                                                     </h5>
                                                     <p class="card-text text-secondary small mb-0">
-                                                        Action, Adventure
+                                                        @foreach (array_slice($weekly->genres->toArray(), 0, 8) as $index => $weeklyGenre)
+                                                            {{ $weeklyGenre['name'] }}{{ $index < count(array_slice($weekly->genres->toArray(), 0, 8)) - 1 ? ',' : '' }}
+                                                        @endforeach
                                                     </p>
                                                 </div>
                                             </div>
@@ -325,7 +329,9 @@
                                                         {{ $monthly->title }}
                                                     </h5>
                                                     <p class="card-text text-secondary small mb-0">
-                                                        Action, Adventure
+                                                        @foreach (array_slice($monthly->genres->toArray(), 0, 8) as $index => $monthlyGenre)
+                                                            {{ $monthlyGenre['name'] }}{{ $index < count(array_slice($monthly->genres->toArray(), 0, 8)) - 1 ? ',' : '' }}
+                                                        @endforeach
                                                     </p>
                                                 </div>
                                             </div>
