@@ -27,9 +27,12 @@ class HomeController extends Controller
                 })
                 ->with([
                     'chapters' => function ($query) {
-                        $query->latest('chapter_number')
-                            ->take(2)
-                            ->orderBy('chapter_number', 'desc');
+                        $query->orderByRaw("
+                            CAST(
+                                REGEXP_SUBSTR(chapter_number, '[0-9]+(\\.[0-9]+)?') AS DECIMAL(10,2)
+                            ) DESC
+                        ")
+                            ->take(2);
                     }
                 ])
                 ->latest('manga_detail.updated_at')
