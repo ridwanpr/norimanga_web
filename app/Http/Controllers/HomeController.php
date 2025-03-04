@@ -6,6 +6,7 @@ use App\Models\Genre;
 use App\Models\Manga;
 use App\Models\MangaChapter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,30 +15,28 @@ class HomeController extends Controller
     public function index()
     {
         $latestUpdate = Cache::remember('latest_update', now()->addMinutes(15), function () {
-            return Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
-                ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
+            return Manga::query()
+                ->join('manga_detail', 'manga.id', '=', 'manga_detail.manga_id')
+                ->select('manga.id', 'manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at')
                 ->where('manga.is_project', false)
-                ->orderBy('manga_detail.updated_at', 'desc')
+                ->whereExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('manga_chapters')
+                        ->whereColumn('manga_chapters.manga_id', 'manga.id')
+                        ->limit(1);
+                })
+                ->with([
+                    'chapters' => function ($query) {
+                        $query->latest('chapter_number')
+                            ->take(2)
+                            ->orderBy('chapter_number', 'desc');
+                    }
+                ])
+                ->latest('manga_detail.updated_at')
                 ->take(20)
                 ->get()
                 ->map(function ($manga) {
                     $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
-
-                    // Get all chapter numbers and sort them naturally in PHP first
-                    $allChapterNumbers = MangaChapter::where('manga_id', $manga->id)
-                        ->pluck('chapter_number')
-                        ->toArray();
-
-                    // Natural sort in PHP
-                    natsort($allChapterNumbers);
-                    // Get only the last 2 keys (latest chapters)
-                    $latestChapterNumbers = array_slice(array_reverse($allChapterNumbers), 0, 2);
-
-                    // Now fetch only those specific chapters
-                    $manga->chapters = MangaChapter::where('manga_id', $manga->id)
-                        ->whereIn('chapter_number', $latestChapterNumbers)
-                        ->get();
-
                     return $manga;
                 });
         });
@@ -71,7 +70,7 @@ class HomeController extends Controller
         });
 
         $projects = Cache::remember('projects', now()->addMinutes(15), function () {
-            return  Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
+            return Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
                 ->where('is_project', 1)
                 ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
                 ->orderBy('manga_detail.updated_at', 'desc')
@@ -88,7 +87,7 @@ class HomeController extends Controller
         });
 
         $featureds = Cache::remember('featureds', now()->addHour(), function () {
-            return  Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
+            return Manga::join('manga_detail', 'manga.id', 'manga_detail.manga_id')
                 ->where('is_featured', 1)
                 ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at', 'manga.id')
                 ->orderBy('manga_detail.updated_at', 'desc')
