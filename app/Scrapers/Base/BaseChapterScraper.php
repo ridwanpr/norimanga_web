@@ -169,7 +169,7 @@ abstract class BaseChapterScraper implements MangaChapterScraperInterface
             continue;
           }
 
-          $imageResponse = Http::timeout(500)->get($imageUrl);
+          $imageResponse = Http::timeout(60)->get($imageUrl);
           if (!$imageResponse->successful()) {
             Log::warning("Failed to download image {$index} for chapter {$chapter->title} for manga {$chapter->manga_id}");
             continue;
@@ -188,7 +188,7 @@ abstract class BaseChapterScraper implements MangaChapterScraperInterface
 
             $storedImages[] = $storageInfo['url'];
 
-            usleep(500000);
+            usleep(2000000);
           } catch (\Exception $e) {
             Log::error("Failed to store image {$index} for chapter {$chapter->title}: " . $e->getMessage());
             throw $e;
