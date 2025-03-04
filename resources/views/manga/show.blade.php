@@ -119,7 +119,7 @@
                                 <li class="mb-2">
                                     <strong>Status:</strong>
                                     <span
-                                        class="badge 
+                                        class="badge
                                         {{ $manga->detail->status === 'Ongoing'
                                             ? 'bg-primary'
                                             : ($manga->detail->status === 'Completed'
@@ -152,7 +152,7 @@
             </div>
             <div class="col-12 col-md-8">
                 <input type="text" id="chapterSearch" class="form-control mb-3" placeholder="Search Chapter...">
-                <div class="chapter-list border rounded p-3" style="max-height: 450px; overflow-y: auto;">
+                <div class="chapter-list border rounded p-3" style="max-height: 420px; overflow-y: auto;">
                     <div class="row g-2" id="chapterContainer">
                         @foreach ($sortedChapters as $chapter)
                             <div class="col-6 col-md-3">
