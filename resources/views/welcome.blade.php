@@ -34,7 +34,7 @@
                                 <img src="{{ $featured->cover }}" class="img-fluid rounded fixed-size-img"
                                     alt="{{ $featured->title }}">
                             </a>
-                            <div class="image-title">{{ $featured->title }}</div>
+                            <div class="image-title text-capitalize">  {{ \Str::limit(\Str::title(strtolower($featured->title)), 40, '...') }}</div>
                         </div>
                     </div>
                 @endforeach
@@ -71,8 +71,8 @@
                                         <div class="image-container mb-1">
                                             <img src="{{ $project->cover }}" class="img-fluid rounded fixed-size-latest"
                                                 alt="{{ $project->title }}" loading="lazy">
-                                            <div class="image-title">
-                                                {{ $project->title }}
+                                            <div class="image-title text-capitalize">
+                                                {{ \Str::limit(\Str::title(strtolower($project->title)), 40, '...') }}
                                             </div>
                                         </div>
                                     </a>
@@ -132,7 +132,9 @@
                                             @break
                                         @endswitch
                                         <div class="image-title">
-                                            {{ \Str::limit($update->title, 40, '...') }}
+                                            <span class="text-capitalize">
+                                                {{ \Str::limit(\Str::title(strtolower($update->title)), 40, '...') }}
+                                            </span>
                                         </div>
                                     </div>
                                 </a>
@@ -141,9 +143,9 @@
                                         class="text-decoration-none small">
                                         <div
                                             class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                            <small>{{ \Str::limit($chapter->title, 16, '') }}</small>
+                                            <small style="font-size: 11px">{{ \Str::limit($chapter->title, 16, '') }}</small>
                                             <small
-                                                class="text-secondary">{{ $chapter->created_at->diffForHumans(['short' => true]) }}</small>
+                                                class="text-secondary" style="font-size: 11px">{{ $chapter->created_at->diffForHumans(['short' => true]) }}</small>
                                         </div>
                                     </a>
                                 @endforeach
@@ -270,7 +272,7 @@
                             @foreach ($genres as $genre)
                                 <div class="col">
                                     <a href="{{ route('manga.grid-list', ['genre' => $genre->slug]) }}"
-                                        class="genre-item">{{ $genre->name }}</a>
+                                        class="genre-item text-capitalize">{{ $genre->name }}</a>
                                 </div>
                             @endforeach
                         </div>
