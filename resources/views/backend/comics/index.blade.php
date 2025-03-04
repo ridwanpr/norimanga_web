@@ -43,14 +43,16 @@
                                     <td>{{ $comic->is_featured ? 'Yes' : 'No' }}</td>
                                     <td>{{ $comic->is_project ? 'Yes' : 'No' }}</td>
                                     <td>
+                                        <a href="{{ route('chapter.index', $comic->id) }}" class="btn btn-sm btn-info"><i class="bi bi-book"></i></a>
                                         <a href="{{ route('manage-comic.edit', $comic->id) }}"
-                                            class="btn btn-sm btn-warning">Edit</a>
+                                            class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
                                         <form action="{{ route('manage-comic.destroy', $comic->id) }}" method="POST"
                                             class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Are you sure?')">Delete</button>
+                                                onclick="return confirm('Are you sure?')"><i
+                                                    class="bi bi-trash"></i></button>
                                         </form>
                                     </td>
                                 </tr>

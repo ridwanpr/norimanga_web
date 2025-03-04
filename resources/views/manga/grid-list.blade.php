@@ -85,7 +85,7 @@
                 @endif
             @endforeach
         </div>
-        <div class="mt-4">
+        <div class="mt-1">
             {{ $latestUpdate->links() }}
         </div>
     </div>

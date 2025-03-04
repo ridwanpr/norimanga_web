@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\ChapterController;
 use App\Jobs\SyncBucketUsageJob;
 use App\Jobs\UpdateBucketUsageJob;
 use Illuminate\Support\Facades\Route;
@@ -59,6 +60,10 @@ Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
         Route::get('/manga-chapters/manga-list', [MangaChapterController::class, 'mangaList'])->name('manga-chapters.manga-list');
         Route::resource('manga-chapters', MangaChapterController::class);
     });
+
+    Route::get('chapter/{mangaId}', [ChapterController::class, 'index'])->name('chapter.index');
+    Route::get('chapter/{mangaId}/{chapterId}/edit', [ChapterController::class, 'edit'])->name('chapter.edit');
+    Route::put('chapter/{mangaId}/{chapterId}/update', [ChapterController::class, 'update'])->name('chapter.update');
 
     Route::get('automation', [AutoMationController::class, 'index'])->name('automation.index');
     Route::get('/manga/search', [AutoMationController::class, 'search'])->name('automation.chapter.search');

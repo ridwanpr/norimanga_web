@@ -37,7 +37,8 @@ class MangaChapterController extends Controller
             'manga_id' => 'required|exists:manga,id',
             'title' => 'required|string|max:255',
             'chapter_number' => 'required|numeric',
-            'images.*' => 'image|max:2048'
+            'images.*' => 'image|max:2048',
+            'bucket' => 'required',
         ]);
 
         DB::beginTransaction();
@@ -47,7 +48,7 @@ class MangaChapterController extends Controller
                 'title' => $request->title,
                 'chapter_number' => $request->chapter_number,
                 'slug' => Str::slug($request->title),
-                'bucket' => $bucketManager->getCurrentBucket()
+                'bucket' => $request->bucket
             ]);
 
             $uploadedImages = [];
@@ -55,7 +56,7 @@ class MangaChapterController extends Controller
                 foreach ($request->file('images') as $index => $image) {
                     $extension = $image->getClientOriginalExtension();
                     $fileName = "chapters/{$chapter->manga_id}/{$chapter->id}/{$index}.{$extension}";
-                    $result = $bucketManager->storeFile($fileName, file_get_contents($image));
+                    $result = $bucketManager->storeFile($fileName, $request->bucket, file_get_contents($image));
                     $uploadedImages[] = $result['url'];
                 }
             }
