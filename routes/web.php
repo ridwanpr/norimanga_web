@@ -64,6 +64,8 @@ Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
     Route::get('chapter/{mangaId}', [ChapterController::class, 'index'])->name('chapter.index');
     Route::get('chapter/{mangaId}/{chapterId}/edit', [ChapterController::class, 'edit'])->name('chapter.edit');
     Route::put('chapter/{mangaId}/{chapterId}/update', [ChapterController::class, 'update'])->name('chapter.update');
+    Route::get('chapter/{mangaId}/create', [ChapterController::class, 'create'])->name('chapter.create');
+    Route::post('chapter/{mangaId}', [ChapterController::class, 'store'])->name('chapter.store');
 
     Route::get('automation', [AutoMationController::class, 'index'])->name('automation.index');
     Route::get('/manga/search', [AutoMationController::class, 'search'])->name('automation.chapter.search');

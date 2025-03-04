@@ -199,6 +199,10 @@ abstract class BaseChapterScraper implements MangaChapterScraperInterface
         $chapter->bucket = $bucket;
         $chapter->save();
 
+        DB::table('manga_detail')->where('manga_id', $chapter->manga_id)->update([
+            'updated_at' => now()
+        ]);
+
         DB::commit();
         Log::info("Successfully processed {$chapter->title} with " . count($storedImages) . " images in bucket {$bucket}");
 

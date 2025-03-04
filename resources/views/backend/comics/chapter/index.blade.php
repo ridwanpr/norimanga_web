@@ -7,7 +7,7 @@
         <div class="card shadow-sm mt-4">
             <div class="card-header">
                 Manage Chapter | <strong>{{ $manga->title }}</strong>
-                <a href="" class="btn btn-sm btn-primary float-end"><i class="bi bi-plus-circle"></i> Add Chapter</a>
+                <a href="{{ route('chapter.create', $manga->id) }}" class="btn btn-sm btn-primary float-end"><i class="bi bi-plus-circle"></i> Add Chapter</a>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">

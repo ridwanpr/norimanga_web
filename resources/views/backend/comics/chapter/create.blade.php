@@ -6,41 +6,37 @@
 
         <div class="card shadow-sm mt-4">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Edit Chapter | <span class="fw-bold">{{ $chapter->manga->title }}</span></h5>
-                <a href="{{ route('chapter.index', $chapter->manga_id) }}" class="btn btn-sm btn-outline-secondary text-white">Back to Chapter
+                <h5 class="mb-0">Add Chapter | <span class="fw-bold">{{ $manga->title }}</span></h5>
+                <a href="{{ route('chapter.index', $manga->id) }}" class="btn btn-sm btn-outline-secondary text-white">Back to Chapter
                     List</a>
             </div>
             <div class="card-body">
-                <form method="POST" action="{{ route('chapter.update', [$chapter->manga_id, $chapter->id]) }}"
-                    enctype="multipart/form-data">
+                <form method="POST" action="{{ route('chapter.store', [$manga->id]) }}" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
                     <div class="mb-3">
                         <label for="title" class="form-label">Chapter Title</label>
-                        <input type="text" name="title" class="form-control"
-                            value="{{ old('title', $chapter->title) }}" required>
+                        <input type="text" name="title" class="form-control" value="{{ old('title') }}" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="chapter_number" class="form-label">Chapter Number</label>
-                        <input type="text" name="chapter_number" class="form-control"
-                            value="{{ old('chapter_number', $chapter->chapter_number) }}" required>
+                        <input type="text" name="chapter_number" class="form-control" value="{{ old('chapter_number') }}"
+                            required>
                     </div>
 
                     <div class="mb-3">
                         <label for="slug" class="form-label">Slug</label>
-                        <input type="text" name="slug" class="form-control"
-                            value="{{ old('slug', $chapter->slug) }}" required>
+                        <input type="text" name="slug" class="form-control" value="{{ old('slug') }}" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Bucket Image</label>
                         <select name="bucket" class="form-select" required>
                             <option value="">Select Bucket</option>
-                            <option value="s1" {{ $chapter->bucket == 's1' ? 'selected' : '' }}>s1</option>
-                            <option value="s2" {{ $chapter->bucket == 's2' ? 'selected' : '' }}>s2</option>
-                            <option value="s3" {{ $chapter->bucket == 's3' ? 'selected' : '' }}>s3</option>
-                            <option value="s4" {{ $chapter->bucket == 's4' ? 'selected' : '' }}>s4</option>
+                            <option value="s1">s1</option>
+                            <option value="s2">s2</option>
+                            <option value="s3">s3</option>
+                            <option value="s4">s4</option>
                         </select>
                     </div>
 
@@ -53,10 +49,8 @@
                     <div class="mb-3 text-center">
                         <label for="images" class="form-label">Preview Chapter</label>
                         <div id="preview-container" style="max-height: 400px; overflow-y: auto;">
-                            @foreach ($formattedImages as $img)
-                                <img src="{{ $img }}" class="img-fluid mb-2" alt="{{ $chapter->title }}"
-                                    style="max-width: 400px; display: block; margin: 0 auto;">
-                            @endforeach
+                            <img src="" class="img-fluid mb-2" alt="Preview image"
+                                style="max-width: 400px; display: block; margin: 0 auto;">
                         </div>
                     </div>
 

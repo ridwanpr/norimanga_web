@@ -16,6 +16,7 @@ class AutoMationController extends Controller
     {
         $latestManga = Manga::whereHas('detail')->latest()->take(10)->get();
         $latestChapter = MangaChapter::with('manga')->whereJsonLength('image', '>', 0)->orderBy('updated_at', 'desc')->take(10)->get();
+        
         return view('backend.automation.index', compact('latestManga', 'latestChapter'));
     }
 
@@ -53,16 +54,16 @@ class AutoMationController extends Controller
     {
         $id = $request->input('manga_id');
         $bucket = $request->input('bucket');
-        
+
         $request->validate([
             'manga_id' => 'required',
             'bucket' => 'required|string',
         ]);
-        
+
         $manga = Manga::findOrFail($id);
-        
+
         dispatch(new FetchChapterJob($manga, $bucket));
-        
+
         return back()->with('success', "Job dispatched successfully to bucket: {$bucket}");
     }
 }

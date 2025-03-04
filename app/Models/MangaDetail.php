@@ -20,6 +20,7 @@ class MangaDetail extends Model
         'synopsis',
         'cover',
         'bucket',
+        'updated_at'
     ];
 
     // ✅ One-to-One: MangaDetail belongs to Manga
