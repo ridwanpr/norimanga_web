@@ -225,8 +225,7 @@
                         <i class="bi bi-fire me-2"></i> Trending
                     </h2>
 
-                    <ul class="nav nav-pills nav-fill mb-3 bg-dark rounded p-1" id="trendingPills"
-                        role="tablist">
+                    <ul class="nav nav-pills nav-fill mb-3 bg-dark rounded p-1" id="trendingPills" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active btn-sm d-flex align-items-center justify-content-center"
                                 id="today-pill" data-bs-toggle="pill" data-bs-target="#today" type="button" role="tab"
@@ -352,6 +351,5 @@
                 </section>
             </div>
         </div>
-
     </div>
 @endsection

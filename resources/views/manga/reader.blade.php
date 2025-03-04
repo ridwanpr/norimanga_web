@@ -2,8 +2,7 @@
 @section('meta')
     <meta name="description"
         content="Baca Manga {{ $chapter->manga->title }} {{ $chapter->chapter_number }} bahasa Indonesia gratis di Panelesia! Terjemahan Bahasa Indonesia gratis.">
-    <meta property="og:title"
-        content="{{ $chapter->title }} - {{ $chapter->manga->title }} - Panelesia">
+    <meta property="og:title" content="{{ $chapter->title }} - {{ $chapter->manga->title }} - Panelesia">
     <meta property="og:description" content="{{ Str::limit($chapter->manga->detail->synopsis, 150) }}">
     <meta property="og:image" content="{{ $chapter->manga->detail->cover }}">
     <meta property="og:url" content="{{ url()->current() }}">
@@ -89,7 +88,8 @@
             <p>
                 Baca manga terbaru {{ $chapter->manga->title }} ID {{ $chapter->title }} di Panelesia. Komik manga
                 {{ $chapter->manga->title }} Bahas Indo selalu
-                diperbarui di Panelesia. Jangan lupa untuk membaca pembaruan komik lainnya. Daftar koleksi komik Panelesia ada
+                diperbarui di Panelesia. Jangan lupa untuk membaca pembaruan komik lainnya. Daftar koleksi komik Panelesia
+                ada
                 di menu Daftar Komik.
             </p>
             <div class="alert alert-warning w-100" role="alert">
@@ -138,16 +138,14 @@
         <div class="reader mt-3 mt-md-4" id="reader">
             <div class="reader-container">
                 <div class="reader-img">
-                    <img src="https://s2.panelesia.my.id/panelesia.my.id.webp" alt="nori baca komik"
-                        class="img-fluid">
+                    <img src="https://s2.panelesia.my.id/panelesia.my.id.webp" alt="nori baca komik" class="img-fluid">
                     @foreach ($images as $index => $image)
                         <img src="{{ $image }}" class="img-fluid"
                             alt="{{ $chapter->manga->title }} {{ $chapter->title }}"
                             onerror="this.onerror=null;this.src='{{ asset('assets/img/no-image.png') }}'"
                             @if ($index > 2) loading="lazy" @endif>
                     @endforeach
-                    <img src="https://s2.panelesia.my.id/panelesia.my.id.webp" alt="nori baca komik"
-                        class="img-fluid">
+                    <img src="https://s2.panelesia.my.id/panelesia.my.id.webp" alt="nori baca komik" class="img-fluid">
                 </div>
             </div>
         </div>
@@ -184,7 +182,7 @@
                 @endif
             </div>
         </div>
-        <div class="tags mt-4 py-0 px-1 bg-dark rounded">
+        <div style="height: 25px; overflow-y: auto;" class="tags mt-4 py-0 px-1 bg-dark rounded">
             <small class="text-light">Tags: baca manga {{ $chapter->manga->title }} {{ $chapter->title }} bahasa
                 Indonesia,
                 komik {{ $chapter->manga->title }} {{ $chapter->title }} bahasa Indonesia, baca
