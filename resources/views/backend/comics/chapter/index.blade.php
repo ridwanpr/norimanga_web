@@ -46,6 +46,9 @@
                     </table>
                 </div>
             </div>
+            <div class="card-footer">
+                {{ $chapters->links() }}
+            </div>
         </div>
     </div>
 @endsection
