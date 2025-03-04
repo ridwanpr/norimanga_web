@@ -45,7 +45,7 @@ class HomeController extends Controller
         });
 
         $trendingDaily = Cache::remember('trending_daily', now()->addHour(), function () {
-            return Manga::trending('daily')->with('detail')->take(5)->get()
+            return Manga::trending('daily')->with('detail')->take(8)->get()
                 ->map(function ($manga) {
                     $manga->detail->cover = str_replace('.s3.tebi.io', '', $manga->detail->cover);
                     return $manga;
@@ -53,7 +53,7 @@ class HomeController extends Controller
         });
 
         $trendingWeekly = Cache::remember('trending_weekly', now()->addHours(3), function () {
-            return Manga::trending('weekly')->with('detail')->take(5)->get()
+            return Manga::trending('weekly')->with('detail')->take(8)->get()
                 ->map(function ($manga) {
                     $manga->detail->cover = str_replace('.s3.tebi.io', '', $manga->detail->cover);
                     return $manga;
@@ -61,7 +61,7 @@ class HomeController extends Controller
         });
 
         $trendingMonthly = Cache::remember('trending_monthly', now()->addHours(5), function () {
-            return Manga::trending('monthly')->with('detail')->take(5)->get()
+            return Manga::trending('monthly')->with('detail')->take(8)->get()
                 ->map(function ($manga) {
                     $manga->detail->cover = str_replace('.s3.tebi.io', '', $manga->detail->cover);
                     return $manga;

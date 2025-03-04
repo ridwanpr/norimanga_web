@@ -15,6 +15,62 @@
                 font-size: 13px;
             }
         }
+
+        .trending-card {
+            transition: all 0.2s ease;
+            border-radius: 0.5rem;
+        }
+
+        .trending-img-container {
+            padding: 7px 0 7px 7px;
+            height: 70px;
+        }
+
+        .manga-cover-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 0.375rem;
+        }
+
+        .trending-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .manga-title {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.2;
+            max-height: 2.4em;
+            font-size: 0.85rem !important;
+            margin-bottom: 0.2rem !important;
+        }
+
+        .card-text {
+            font-size: 0.7rem;
+            line-height: 1;
+        }
+
+        .nav-pills .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.8rem;
+        }
+
+        .trendings .nav-pills {
+            margin-bottom: 0.75rem !important;
+        }
+
+        .trendings h2 {
+            margin-bottom: 0.5rem !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -34,7 +90,8 @@
                                 <img src="{{ $featured->cover }}" class="img-fluid rounded fixed-size-img"
                                     alt="{{ $featured->title }}">
                             </a>
-                            <div class="image-title text-capitalize">  {{ \Str::limit(\Str::title(strtolower($featured->title)), 40, '...') }}</div>
+                            <div class="image-title text-capitalize">
+                                {{ \Str::limit(\Str::title(strtolower($featured->title)), 40, '...') }}</div>
                         </div>
                     </div>
                 @endforeach
@@ -143,9 +200,10 @@
                                         class="text-decoration-none small">
                                         <div
                                             class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
-                                            <small style="font-size: 11px">{{ \Str::limit($chapter->title, 16, '') }}</small>
                                             <small
-                                                class="text-secondary" style="font-size: 11px">{{ $chapter->created_at->diffForHumans(['short' => true]) }}</small>
+                                                style="font-size: 11px">{{ \Str::limit($chapter->title, 16, '') }}</small>
+                                            <small class="text-secondary"
+                                                style="font-size: 11px">{{ $chapter->created_at->diffForHumans(['short' => true]) }}</small>
                                         </div>
                                     </a>
                                 @endforeach
@@ -161,51 +219,58 @@
                 </section>
             </div>
 
-            <div class="col-12 col-md-4">
-                <section class="trendings">
-                    <h2 class="fs-4 fw-bold mt-3 mt-md-0 mb-3"><i class="bi bi-fire"></i> Trending</h2>
-                    <ul class="nav nav-pills mb-3" id="trendingPills" role="tablist">
+            <div class="col-12 col-md-4 mt-4">
+                <section class="trendings rounded shadow-sm p-3 bg-dark mb-4">
+                    <h2 class="fs-5 fw-bold mb-3 d-flex align-items-center">
+                        <i class="bi bi-fire me-2"></i> Trending
+                    </h2>
+
+                    <ul class="nav nav-pills nav-fill mb-3 bg-dark rounded p-1" id="trendingPills"
+                        role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active d-flex align-items-center" id="today-pill" data-bs-toggle="pill"
-                                data-bs-target="#today" type="button" role="tab" aria-controls="today"
-                                aria-selected="true">
-                                <i class="bi bi-calendar-date me-2"></i> Today
+                            <button class="nav-link active btn-sm d-flex align-items-center justify-content-center"
+                                id="today-pill" data-bs-toggle="pill" data-bs-target="#today" type="button" role="tab"
+                                aria-controls="today" aria-selected="true">
+                                <i class="bi bi-calendar-date me-1"></i> Today
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link d-flex align-items-center" id="daily-pill" data-bs-toggle="pill"
-                                data-bs-target="#daily" type="button" role="tab" aria-controls="daily"
-                                aria-selected="false">
-                                <i class="bi bi-calendar-day me-2"></i> Weekly
+                            <button class="nav-link btn-sm d-flex align-items-center justify-content-center"
+                                id="daily-pill" data-bs-toggle="pill" data-bs-target="#daily" type="button"
+                                role="tab" aria-controls="daily" aria-selected="false">
+                                <i class="bi bi-calendar-day me-1"></i> Weekly
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link d-flex align-items-center" id="weekly-pill" data-bs-toggle="pill"
-                                data-bs-target="#weekly" type="button" role="tab" aria-controls="weekly"
-                                aria-selected="false">
-                                <i class="bi bi-calendar-week me-2"></i> Monthly
+                            <button class="nav-link btn-sm d-flex align-items-center justify-content-center"
+                                id="weekly-pill" data-bs-toggle="pill" data-bs-target="#weekly" type="button"
+                                role="tab" aria-controls="weekly" aria-selected="false">
+                                <i class="bi bi-calendar-week me-1"></i> Monthly
                             </button>
                         </li>
                     </ul>
+
                     <div class="tab-content" id="trendingPillsContent">
                         <div class="tab-pane fade show active" id="today" role="tabpanel"
                             aria-labelledby="today-pill">
                             @foreach ($trendingDaily as $daily)
                                 <a href="{{ route('manga.show', $daily->slug) }}" class="text-decoration-none">
-                                    <div class="card mb-1">
+                                    <div class="card mb-1 trending-card border-0 overflow-hidden">
                                         <div class="row g-0">
-                                            <div class="col-4">
-                                                <img src="{{ $daily->detail->cover }}"
-                                                    class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
+                                            <div class="col-3 trending-img-container">
+                                                <div class="manga-cover-wrapper">
+                                                    <img src="{{ $daily->detail->cover }}" class="trending-img"
+                                                        alt="{{ $daily->title }}">
+                                                </div>
                                             </div>
-                                            <div class="col-8 d-flex align-items-center">
-                                                <div class="card-body">
-                                                    <h5 class="card-title sidebar-text m-0">
-                                                        {{ Str::limit($daily->title, 40, '...') }}
+                                            <div class="col-9 d-flex align-items-center">
+                                                <div class="card-body py-1 px-2">
+                                                    <h5 class="card-title fs-6 mb-1 manga-title" data-bs-toggle="tooltip"
+                                                        title="{{ $daily->title }}">
+                                                        {{ $daily->title }}
                                                     </h5>
-                                                    <p class="card-text sidebar-text m-0">
-                                                        <small class="text-secondary">Genres:</small>&nbsp;
-                                                        <small class="text-light">Action, Adventure, Comedy</small>
+                                                    <p class="card-text text-secondary small mb-0">
+                                                        Action, Adventure
                                                     </p>
                                                 </div>
                                             </div>
@@ -214,22 +279,26 @@
                                 </a>
                             @endforeach
                         </div>
+
                         <div class="tab-pane fade" id="daily" role="tabpanel" aria-labelledby="daily-pill">
                             @foreach ($trendingWeekly as $weekly)
                                 <a href="{{ route('manga.show', $weekly->slug) }}" class="text-decoration-none">
-                                    <div class="card mb-1">
+                                    <div class="card mb-2 trending-card border-0 overflow-hidden">
                                         <div class="row g-0">
-                                            <div class="col-4">
-                                                <img src="{{ $weekly->detail->cover }}"
-                                                    class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
+                                            <div class="col-3 trending-img-container">
+                                                <div class="manga-cover-wrapper">
+                                                    <img src="{{ $weekly->detail->cover }}" class="trending-img"
+                                                        alt="{{ $weekly->title }}">
+                                                </div>
                                             </div>
-                                            <div class="col-8 d-flex align-items-center">
-                                                <div class="card-body sidebar-text">
-                                                    <h5 class="card-title m-0">{{ Str::limit($weekly->title, 40, '...') }}
+                                            <div class="col-9 d-flex align-items-center">
+                                                <div class="card-body py-1 px-2">
+                                                    <h5 class="card-title fs-6 mb-1 manga-title" data-bs-toggle="tooltip"
+                                                        title="{{ $weekly->title }}">
+                                                        {{ $weekly->title }}
                                                     </h5>
-                                                    <p class="card-text sidebar-text m-0">
-                                                        <small class="text-secondary">Genres:</small>&nbsp;
-                                                        <small class="text-light">Action, Adventure, Comedy</small>
+                                                    <p class="card-text text-secondary small mb-0">
+                                                        Action, Adventure
                                                     </p>
                                                 </div>
                                             </div>
@@ -238,23 +307,26 @@
                                 </a>
                             @endforeach
                         </div>
+
                         <div class="tab-pane fade" id="weekly" role="tabpanel" aria-labelledby="weekly-pill">
                             @foreach ($trendingMonthly as $monthly)
                                 <a href="{{ route('manga.show', $monthly->slug) }}" class="text-decoration-none">
-                                    <div class="card mb-1">
+                                    <div class="card mb-2 trending-card border-0 overflow-hidden">
                                         <div class="row g-0">
-                                            <div class="col-4">
-                                                <img src="{{ $monthly->detail->cover }}"
-                                                    class="img-fluid rounded-start fixed-size-trending" alt="Manga title">
+                                            <div class="col-3 trending-img-container">
+                                                <div class="manga-cover-wrapper">
+                                                    <img src="{{ $monthly->detail->cover }}" class="trending-img"
+                                                        alt="{{ $monthly->title }}">
+                                                </div>
                                             </div>
-                                            <div class="col-8 d-flex align-items-center">
-                                                <div class="card-body">
-                                                    <h5 class="card-title sidebar-text m-0">
-                                                        {{ Str::limit($monthly->title, 40, '...') }}
+                                            <div class="col-9 d-flex align-items-center">
+                                                <div class="card-body py-1 px-2">
+                                                    <h5 class="card-title fs-6 mb-1 manga-title" data-bs-toggle="tooltip"
+                                                        title="{{ $monthly->title }}">
+                                                        {{ $monthly->title }}
                                                     </h5>
-                                                    <p class="card-text sidebar-text m-0">
-                                                        <small class="text-secondary">Genres:</small>&nbsp;
-                                                        <small class="text-light">Action, Adventure, Comedy</small>
+                                                    <p class="card-text text-secondary small mb-0">
+                                                        Action, Adventure
                                                     </p>
                                                 </div>
                                             </div>
