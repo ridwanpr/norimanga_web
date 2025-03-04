@@ -54,7 +54,7 @@
         </div>
     </div>
 </nav>
-<div class="container my-3">
+<div class="container mt-3">
     <form class="d-flex" role="search" action="{{ route('manga.grid-list') }}" method="GET">
         <input class="form-control me-2" type="search" name="search" placeholder="Cari Komik" aria-label="Search">
         <button class="btn btn-grey" type="submit">
@@ -63,4 +63,3 @@
     </form>
 </div>
 <hr>
-    
