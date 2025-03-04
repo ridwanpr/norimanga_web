@@ -26,7 +26,7 @@
     </main>
 
     <div class="float-container">
-        <a href="https://trakteer.id/noricomic/tip?open=true" target="_blank" class="float-button trakteer">
+        <a href="https://trakteer.id/panelesia/tip?open=true" target="_blank" class="float-button trakteer">
             Trakteer
         </a>
         <a href="https://saweria.co/noricomic" target="_blank" class="float-button saweria">
