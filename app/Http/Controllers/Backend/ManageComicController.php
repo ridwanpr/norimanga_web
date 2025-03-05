@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Manga;
 use App\Models\MangaDetail;
-use App\Services\BucketManager;
 use Illuminate\Http\Request;
+use App\Services\BucketManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 
 class ManageComicController extends Controller
 {
@@ -112,6 +113,8 @@ class ManageComicController extends Controller
                     return redirect()->back()->withErrors(['error' => 'Failed to save comic details. Please try again.']);
                 }
 
+                Cache::flush();
+
                 return redirect()->route('manage-comic.index')->with('success', 'Comic created successfully.');
             } catch (\Exception $e) {
                 Log::error("Manga creation failed: " . $e->getMessage());
@@ -191,6 +194,8 @@ class ManageComicController extends Controller
                 'bucket' => $bucket,
             ]);
 
+            Cache::flush();
+
             return redirect()->route('manage-comic.index')->with('success', 'Comic updated successfully.');
         });
     }
@@ -205,6 +210,8 @@ class ManageComicController extends Controller
 
                 $manage_comic->detail()->delete();
                 $manage_comic->delete();
+
+                Cache::flush();
 
                 return redirect()->route('manage-comic.index')->with('success', 'Comic deleted successfully.');
             } catch (\Exception $e) {
