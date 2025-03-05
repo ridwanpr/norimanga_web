@@ -17,7 +17,15 @@ class HomeController extends Controller
         $latestUpdate = Cache::remember('latest_update', now()->addMinutes(15), function () {
             return Manga::query()
                 ->join('manga_detail', 'manga.id', '=', 'manga_detail.manga_id')
-                ->select('manga.id', 'manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.updated_at')
+                ->select(
+                    'manga.id',
+                    'manga.title',
+                    'manga.slug',
+                    'manga_detail.cover',
+                    'manga_detail.type',
+                    'manga_detail.status',
+                    'manga_detail.updated_at'
+                )
                 ->where('manga.is_project', false)
                 ->whereExists(function ($query) {
                     $query->select(DB::raw(1))
@@ -35,7 +43,7 @@ class HomeController extends Controller
                             ->take(2);
                     }
                 ])
-                ->latest('manga_detail.updated_at')
+                ->orderBy('manga_detail.updated_at', 'desc') 
                 ->take(20)
                 ->get()
                 ->map(function ($manga) {
