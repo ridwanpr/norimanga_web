@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Models\Manga;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use App\Models\MangaChapter;
 use Illuminate\Http\Request;
@@ -50,9 +51,11 @@ class ChapterController extends Controller
             $bucketManager = new BucketManager();
             $imagePaths = [];
 
-            foreach ($request->file('images') as $image) {
-                $path = 'manga/' . $mangaId . '/chapter/' . $chapter->id . '/' . $image->hashName();
-                $uploadedImage = $bucketManager->storeFile($path, file_get_contents($image), $request->bucket, ['visibility' => 'public']);
+            foreach ($request->file('images') as $index => $image) {
+                $extension = $image->getClientOriginalExtension() ?: 'jpg';
+                $fileName = "chapters/{$mangaId}/{$chapter->id}/{$index}.{$extension}";
+
+                $uploadedImage = $bucketManager->storeFile($fileName, file_get_contents($image), $request->bucket, ['visibility' => 'public']);
                 $imagePaths[] = $uploadedImage['url'];
             }
 
@@ -94,19 +97,26 @@ class ChapterController extends Controller
             $bucketManager = new BucketManager();
 
             foreach (json_decode($chapter->image, true) as $oldImage) {
-                $bucketManager->deleteFile($chapter->bucket, $oldImage);
+                $pathParts = parse_url($oldImage);
+                $relativePath = ltrim($pathParts['path'], '/');
+                $bucketManager->deleteFile($chapter->bucket, $relativePath);
             }
 
             $imagePaths = [];
-            foreach ($request->file('images') as $image) {
-                $path = 'manga/' . $mangaId . '/chapter/' . $chapterId . '/' . $image->hashName();
-                $uploadedImage = $bucketManager->storeFile($path, file_get_contents($image), $request->bucket, ['visibility' => 'public']);
+            foreach ($request->file('images') as $index => $image) {
+                $extension = $image->getClientOriginalExtension() ?: 'jpg';
+                $fileName = "chapters/{$mangaId}/{$chapterId}/{$index}.{$extension}";
+
+                $uploadedImage = $bucketManager->storeFile($fileName, file_get_contents($image), $request->bucket, ['visibility' => 'public']);
                 $imagePaths[] = $uploadedImage['url'];
             }
 
             $chapter->update(['image' => json_encode($imagePaths)]);
         }
 
+        Cache::flush();
+
         return redirect()->route('chapter.index', $mangaId)->with('success', 'Chapter updated successfully.');
     }
+
 }
