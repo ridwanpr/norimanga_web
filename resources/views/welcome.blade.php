@@ -201,9 +201,9 @@
                                         <div
                                             class="d-flex justify-content-between text-decoration-none bg-body-tertiary p-2 text-body mb-1 rounded border">
                                             <small
-                                                style="font-size: 11px">{{ \Str::limit($chapter->title, 18, '') }}</small>
+                                                style="font-size: 12px">{{ \Str::limit($chapter->title, 18, '') }}</small>
                                             <small class="text-secondary"
-                                                style="font-size: 11px">{{ $chapter->created_at->diffForHumans(['short' => true]) }}</small>
+                                                style="font-size: 12px">{{ $chapter->created_at->diffForHumans(['short' => true]) }}</small>
                                         </div>
                                     </a>
                                 @endforeach
