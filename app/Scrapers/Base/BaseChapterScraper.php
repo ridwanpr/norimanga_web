@@ -170,7 +170,7 @@ abstract class BaseChapterScraper implements MangaChapterScraperInterface
                         continue;
                     }
 
-                    $imageResponse = Http::timeout(30)->get($imageUrl);
+                    $imageResponse = Http::timeout(120)->get($imageUrl);
                     if (!$imageResponse->successful()) {
                         Log::warning("Failed to download image {$index} for chapter {$chapter->title} for manga {$chapter->manga_id}");
                         continue;
