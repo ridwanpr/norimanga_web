@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Genre;
 use App\Models\Manga;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 
 class MangaListController extends Controller
@@ -15,9 +16,14 @@ class MangaListController extends Controller
         $cacheKey = 'grid_list_' . md5(json_encode($request->all()));
 
         // Cache the query results
-        $latestUpdate = Cache::remember($cacheKey, now()->addMinutes(15), function () use ($request) {
+        $latestUpdate = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($request) {
             $query = Manga::join('manga_detail', 'manga.id', '=', 'manga_detail.manga_id')
-                ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.release_year', 'manga_detail.updated_at');
+                ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.release_year', 'manga_detail.updated_at')->whereExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('manga_chapters')
+                        ->whereColumn('manga_chapters.manga_id', 'manga.id')
+                        ->limit(1);
+                });
 
             if ($request->filled('genre')) {
                 $query->whereHas('genres', function ($q) use ($request) {
