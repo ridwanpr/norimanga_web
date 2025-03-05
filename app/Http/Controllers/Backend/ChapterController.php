@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Models\Manga;
+use App\Models\MangaDetail;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use App\Models\MangaChapter;
@@ -62,6 +63,12 @@ class ChapterController extends Controller
             $chapter->update(['image' => json_encode($imagePaths)]);
         }
 
+        MangaDetail::where('manga_id', $mangaId)->update([
+            'updated_at' => now()
+        ]);
+
+        Cache::flush();
+
         return redirect()->route('chapter.index', $mangaId)->with('success', 'Chapter created successfully.');
     }
 
@@ -113,6 +120,10 @@ class ChapterController extends Controller
 
             $chapter->update(['image' => json_encode($imagePaths)]);
         }
+
+        MangaDetail::where('manga_id', $mangaId)->update([
+            'updated_at' => now()
+        ]);
 
         Cache::flush();
 
