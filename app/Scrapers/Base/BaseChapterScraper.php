@@ -208,7 +208,7 @@ abstract class BaseChapterScraper implements MangaChapterScraperInterface
                 return $storedImages;
             } catch (\Exception $e) {
                 DB::rollBack();
-                Log::error('error process chapter image: ' / $e);
+                Log::error('error process chapter image: ' . $e);
 
                 if (!empty($storedImages)) {
                     foreach ($storedImages as $url) {
