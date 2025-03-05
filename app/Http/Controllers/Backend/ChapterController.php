@@ -42,7 +42,7 @@ class ChapterController extends Controller
             'manga_id' => $mangaId,
             'title' => $request->title,
             'chapter_number' => $request->chapter_number,
-            'slug' => Str::slug($request->slug),
+            'slug' => $request->slug,
             'bucket' => $request->bucket,
             'image' => json_encode([]),
         ]);
@@ -89,7 +89,7 @@ class ChapterController extends Controller
         $chapter->update([
             'title' => $request->title,
             'chapter_number' => $request->chapter_number,
-            'slug' => Str::slug($request->title . '-' . $request->chapter_number),
+            'slug' => $request->slug,
             'bucket' => $request->bucket,
         ]);
 
