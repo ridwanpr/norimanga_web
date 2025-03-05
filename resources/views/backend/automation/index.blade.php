@@ -109,7 +109,7 @@
                 <div class="col-12 col-md-6">
                     <div class="card">
                         <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
-                            <span>Latest Chaoter</span>
+                            <span>Latest Chapter</span>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

@@ -18,6 +18,10 @@
         <a class="nav-link me-1 {{ Route::is('manage-comic.index') || Route::is('manage-comic.create') ? 'active' : '' }}"
             href="{{ route('manage-comic.index') }}"><i class="bi bi-book-fill"></i> Manage Comics</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link me-1 {{ Route::is('update.index') ? 'active' : '' }}"
+            href="{{ route('update.index') }}"><i class="bi bi-book-fill"></i> Update</a>
+    </li>
     {{-- <li class="nav-item">
         <a class="nav-link me-1" href="{{ route('manga-chapters.index') }}">Manage Chapters</a>
     </li> --}}

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\ChapterController;
+use App\Http\Controllers\Backend\UpdateInfoController;
 use App\Jobs\SyncBucketUsageJob;
 use App\Jobs\UpdateBucketUsageJob;
 use Illuminate\Support\Facades\Route;
@@ -71,6 +72,8 @@ Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
     Route::get('/manga/search', [AutoMationController::class, 'search'])->name('automation.chapter.search');
     Route::post('automation/fetch-manga', [AutoMationController::class, 'fetchManga'])->name('automation.fetch.manga');
     Route::post('automation/fetch-chapter', [AutoMationController::class, 'fetchChapter'])->name('automation.fetch.chapter');
+
+    Route::get('manga-update', [UpdateInfoController::class, 'index'])->name('update.index');
 
     Route::get('refresh-cache', function () {
         Artisan::call('cache:clear');
