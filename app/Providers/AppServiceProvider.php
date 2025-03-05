@@ -31,11 +31,6 @@ class AppServiceProvider extends ServiceProvider
         if (app()->isProduction()) {
             URL::forceScheme('https');
         }
-
-        Gate::define('viewPulse', function (User $user) {
-            return $user->email === 'admin@nori.my';
-        });
-
         Gate::define('viewLogViewer', function (?User $user) {
             return $user->email === 'admin@nori.my';
         });
