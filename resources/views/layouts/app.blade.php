@@ -25,14 +25,17 @@
         @yield('content')
     </main>
 
-    <div class="float-container">
-        <a href="https://trakteer.id/panelesia/tip?open=true" target="_blank" class="float-button trakteer">
-            Trakteer
-        </a>
-        <a href="https://saweria.co/noricomic" target="_blank" class="float-button saweria">
-            Saweria
-        </a>
-    </div>
+    @if (!Route::is('login') && !Route::is('register'))
+        <div class="float-container" style="z-index: 9999">
+            <a href="https://trakteer.id/panelesia/tip?open=true" target="_blank" class="float-button trakteer">
+                Trakteer
+            </a>
+            <a href="https://saweria.co/noricomic" target="_blank" class="float-button saweria">
+                Saweria
+            </a>
+        </div>
+    @endif
+
     <button id="backToTop" class="btn btn-grey position-fixed" style="bottom: 20px; left: 20px; display: none;">
         <i class="bi bi-chevron-up"></i>
     </button>
