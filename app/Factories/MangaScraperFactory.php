@@ -2,6 +2,7 @@
 
 namespace App\Factories;
 
+use App\Scrapers\KiryuuScraper;
 use DOMXPath;
 use App\Scrapers\WestMangaScraper;
 use App\Scrapers\ApkomikScraper;
@@ -26,6 +27,8 @@ class MangaScraperFactory
       return new ManhwaIDScraper($xpath, $url);
     } else if (str_contains($domain, 'comicaso')) {
       return new WestMangaScraper($xpath, $url);
+    } else if (str_contains($domain, 'kiryuu01')) {
+        return new KiryuuScraper($xpath, $url);
     } else {
       return new ManhwaindoScraper($xpath, $url);
     }
