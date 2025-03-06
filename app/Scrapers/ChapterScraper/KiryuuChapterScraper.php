@@ -17,7 +17,7 @@ class KiryuuChapterScraper extends BaseChapterScraper
      */
     protected function getMangaUrl(Manga $manga): string
     {
-        return "https://{$manga->source}/series/{$manga->slug}/";
+        return "https://{$manga->source}/manga/{$manga->slug}/";
     }
 
     /**
