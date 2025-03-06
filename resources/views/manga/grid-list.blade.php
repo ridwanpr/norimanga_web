@@ -19,7 +19,7 @@
                 action="{{ route('manga.grid-list') }}">
                 <div class="col">
                     <select name="genre" id="genre" class="form-select">
-                        <option value="">&nbsp;Genre</option>
+                        <option value="">Genre</option>
                         @foreach ($genres as $genre)
                             <option value="{{ $genre->slug }}" {{ request('genre') == $genre->slug ? 'selected' : '' }}>
                                 {{ $genre->name }}
@@ -28,13 +28,10 @@
                     </select>
                 </div>
                 <div class="col">
-                    <select name="year" id="year" class="form-select">
-                        <option value="">&nbsp;Tahun</option>
-                        @for ($year = date('Y'); $year >= 2010; $year--)
-                            <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
-                                {{ $year }}
-                            </option>
-                        @endfor
+                    <select name="order_by" id="order_by" class="form-select">
+                        <option value="latest" {{ request('order_by') == 'latest' ? 'selected' : '' }}>Latest
+                        </option>
+                        <option value="popular" {{ request('order_by') == 'popular' ? 'selected' : '' }}>Popular</option>
                     </select>
                 </div>
                 <div class="col">
@@ -98,17 +95,6 @@
     <script>
         $(document).ready(function() {
             $('#genre').select2({
-                theme: 'bootstrap-5',
-                dropdownAutoWidth: true,
-                width: '100%',
-                maximumInputLength: 50,
-            }).on('select2:open', function() {
-                $('.select2-dropdown').css('max-height', '300px').css('overflow-y', 'auto');
-            });
-        });
-
-        $(document).ready(function() {
-            $('#year').select2({
                 theme: 'bootstrap-5',
                 dropdownAutoWidth: true,
                 width: '100%',

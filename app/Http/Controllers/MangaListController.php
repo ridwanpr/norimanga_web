@@ -16,7 +16,8 @@ class MangaListController extends Controller
 
         $latestUpdate = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($request) {
             $query = Manga::join('manga_detail', 'manga.id', '=', 'manga_detail.manga_id')
-                ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.release_year', 'manga_detail.updated_at')->whereExists(function ($query) {
+                ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.views', 'manga_detail.updated_at')
+                ->whereExists(function ($query) {
                     $query->select(DB::raw(1))
                         ->from('manga_chapters')
                         ->whereColumn('manga_chapters.manga_id', 'manga.id')
@@ -33,10 +34,6 @@ class MangaListController extends Controller
                 $query->whereRaw('LOWER(manga.title) LIKE ?', ['%' . strtolower($request->search) . '%']);
             }
 
-            if ($request->filled('year')) {
-                $query->where('manga_detail.release_year', $request->year);
-            }
-
             if ($request->filled('type')) {
                 $query->where('manga_detail.type', $request->type);
             }
@@ -45,8 +42,13 @@ class MangaListController extends Controller
                 $query->where('manga_detail.status', $request->status);
             }
 
-            return $query->orderBy('manga_detail.updated_at', 'desc')
-                ->paginate(24)
+            if ($request->order_by === 'popular') {
+                $query->orderBy('manga_detail.views', 'desc');
+            } else {
+                $query->orderBy('manga_detail.updated_at', 'desc');
+            }
+
+            return $query->paginate(24)
                 ->withQueryString()
                 ->through(function ($manga) {
                     $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);

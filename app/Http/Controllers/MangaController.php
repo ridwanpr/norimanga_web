@@ -70,6 +70,8 @@ class MangaController extends Controller
                 'ip' => $ip,
                 'created_at' => now(),
             ]);
+
+            MangaDetail::where('manga_id', $manga->id)->increment('views');
         }
 
         $isBookmarked = Bookmark::where('user_id', Auth::id())->where('manga_id', $manga->id)->exists();
