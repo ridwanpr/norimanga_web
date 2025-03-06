@@ -111,6 +111,20 @@ return [
             'throw' => false,
             'report' => false,
         ],
+
+        's5' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID_5'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY_5'),
+            'region' => env('AWS_DEFAULT_REGION_5'),
+            'bucket' => env('AWS_BUCKET_5'),
+            'url' => env('AWS_URL_5'),
+            'endpoint' => env('AWS_ENDPOINT_5'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+            'report' => false,
+        ],
+
     ],
 
     /*
