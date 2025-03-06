@@ -54,9 +54,13 @@ class FetchChapterImageJobSingle implements ShouldQueue
             $html = $response->body();
             $domain = parse_url($url, PHP_URL_HOST);
 
-            $imageUrls = str_contains($domain, 'comicaso')
-                ? $this->imageChapterExtractor->comicasoExtractImageUrls($html)
-                : $this->imageChapterExtractor->extractImageUrls($html);
+            if (str_contains($domain, 'comicaso')) {
+                $imageUrls = $this->imageChapterExtractor->comicasoExtractImageUrls($html);
+            } elseif (str_contains($domain, 'kiryuu01')) {
+                $imageUrls = $this->imageChapterExtractor->kiryuuExtractImageUrls($html);
+            } else {
+                $imageUrls = $this->imageChapterExtractor->extractImageUrls($html);
+            }
 
             if (empty($imageUrls)) {
                 Log::warning("No images found for {$this->title}");

@@ -71,4 +71,39 @@ class ImageChapterExtractor
 
         return [];
     }
+
+    public function kiryuuExtractImageUrls(string $html): array
+    {
+        preg_match('/<script>\s*ts_reader\.run\((.*?)\);\s*<\/script>/s', $html, $matches);
+
+        if (!isset($matches[1])) {
+            preg_match('/ts_reader\.run\((.*?)\);/s', $html, $matches);
+
+            if (!isset($matches[1])) {
+                \Illuminate\Support\Facades\Log::warning("ts_reader.run pattern not found");
+                return [];
+            }
+        }
+
+        try {
+            $jsonData = json_decode($matches[1], true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                \Illuminate\Support\Facades\Log::error("JSON decode error: " . json_last_error_msg());
+                return [];
+            }
+
+            if (!$jsonData || !isset($jsonData['sources'][0]['images'])) {
+                \Illuminate\Support\Facades\Log::warning("Expected JSON structure not found");
+                return [];
+            }
+
+            \Illuminate\Support\Facades\Log::info("Successfully extracted " . count($jsonData['sources'][0]['images']) . " image URLs");
+
+            return $jsonData['sources'][0]['images'];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error("Error extracting image URLs: " . $e->getMessage());
+            return [];
+        }
+    }
 }

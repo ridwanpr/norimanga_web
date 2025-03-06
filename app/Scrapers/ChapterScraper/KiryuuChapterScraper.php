@@ -71,7 +71,6 @@ class KiryuuChapterScraper extends BaseChapterScraper
      */
     protected function extractImageUrls(string $html): array
     {
-        // Improved regex pattern that matches the complete script content
         preg_match('/<script>\s*ts_reader\.run\((.*?)\);\s*<\/script>/s', $html, $matches);
 
         if (!isset($matches[1])) {

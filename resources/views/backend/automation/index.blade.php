@@ -18,6 +18,7 @@
                                     ['name' => 'ManhwaIndo', 'url' => 'manhwaindo.one', 'color' => '#6f42c1'],
                                     ['name' => 'Comicaso', 'url' => 'comicaso.id', 'color' => '#20c997'],
                                     ['name' => 'ManhwaID', 'url' => 'manhwaid.id', 'color' => '#0d6efd'],
+                                    ['name' => 'Kiryuu', 'url' => 'kiryuu01.com', 'color' => '#6e4f9d'],
                                 ];
                             @endphp
                             @foreach ($sources as $source)
