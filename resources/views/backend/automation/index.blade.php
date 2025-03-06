@@ -6,12 +6,12 @@
 
         <div class="container">
             <div class="row mt-4">
-                <div class="col-12 my-3">
-                    <div class="card p-3 shadow-sm text-center">
+                <div class="col-12 my-2 mb-3">
+                    <div class="card p-2 shadow-sm text-center">
                         <h5 class="fw-bold">Auto Fetch Komik & Chapter</h5>
-                        <p class="text-muted mb-3">Sistem ini mendukung pengambilan data otomatis dari berbagai sumber. Harap
-                            lakukan fetching secara moderat untuk menghindari pemblokiran IP.</p>
-                        <div class="row g-2">
+                        <p class="text-muted small">Ambil data otomatis dari berbagai sumber. Gunakan secara wajar untuk
+                            menghindari pemblokiran IP.</p>
+                        <div class="d-flex flex-wrap justify-content-center">
                             @php
                                 $sources = [
                                     ['name' => 'WestManga', 'url' => 'westmanga.fun', 'color' => '#dc3545'],
@@ -22,11 +22,10 @@
                                 ];
                             @endphp
                             @foreach ($sources as $source)
-                                <div class="col-6 col-md-3">
-                                    <div class="p-2 rounded text-white" style="background-color: {{ $source['color'] }};">
-                                        <h6 class="fw-bold mb-1">{{ $source['name'] }}</h6>
-                                        <p class="mb-0">{{ $source['url'] }}</p>
-                                    </div>
+                                <div class="p-2 m-1 flex-fill text-white rounded text-center"
+                                    style="background-color: {{ $source['color'] }}; min-width: 18%;">
+                                    <strong>{{ $source['name'] }}</strong><br>
+                                    <span class="small">{{ $source['url'] }}</span>
                                 </div>
                             @endforeach
                         </div>
