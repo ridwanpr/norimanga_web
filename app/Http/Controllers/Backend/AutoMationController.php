@@ -51,6 +51,23 @@ class AutoMationController extends Controller
         return back()->with('success', 'Job dispatched successfully.');
     }
 
+    public function fetchChapter(Request $request)
+    {
+        $id = $request->input('manga_id');
+        $bucket = $request->input('bucket');
+
+        $request->validate([
+            'manga_id' => 'required|exists:mangas,id',
+            'bucket' => 'required|string',
+        ]);
+
+        $manga = Manga::findOrFail($id);
+
+        dispatch(new FetchChapterJob($manga, $bucket));
+
+        return back()->with('success', "Job dispatched successfully to bucket: {$bucket}");
+    }
+
     public function fetchChapterImage(Request $request)
     {
         $manga_id = $request->input('manga_id');
