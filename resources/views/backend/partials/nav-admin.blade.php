@@ -20,7 +20,7 @@
     </li>
     <li class="nav-item">
         <a class="nav-link me-1 {{ Route::is('update.index') ? 'active' : '' }}" href="{{ route('update.index') }}"><i
-                class="bi bi-arrow-repeat"></i> Update</a>
+                class="bi bi-arrow-repeat"></i> Update Info</a>
     </li>
     {{-- <li class="nav-item">
         <a class="nav-link me-1" href="{{ route('manga-chapters.index') }}">Manage Chapters</a>

@@ -7,38 +7,31 @@
         <div class="container">
             <div class="row mt-4">
                 <div class="col-12 my-3">
-                    <div class="card p-3 shadow-sm">
-                        <h5 class="text-center fw-bold">Auto Fetch Komik & Chapter</h5>
-                        <p class="text-center text-muted">Sistem ini mendukung pengambilan data otomatis dari berbagai
-                            sumber. Harap lakukan fetching secara moderat untuk menghindari pemblokiran IP.</p>
-                        <div class="row text-center">
-                            <div class="col-md-3 my-2">
-                                <div class="p-3 rounded text-white" style="background-color: #dc3545;">
-                                    <h6 class="fw-bold">WestManga</h6>
-                                    <p class="mb-0">westmanga.fun</p>
+                    <div class="card p-3 shadow-sm text-center">
+                        <h5 class="fw-bold">Auto Fetch Komik & Chapter</h5>
+                        <p class="text-muted mb-3">Sistem ini mendukung pengambilan data otomatis dari berbagai sumber. Harap
+                            lakukan fetching secara moderat untuk menghindari pemblokiran IP.</p>
+                        <div class="row g-2">
+                            @php
+                                $sources = [
+                                    ['name' => 'WestManga', 'url' => 'westmanga.fun', 'color' => '#dc3545'],
+                                    ['name' => 'ManhwaIndo', 'url' => 'manhwaindo.one', 'color' => '#6f42c1'],
+                                    ['name' => 'Comicaso', 'url' => 'comicaso.id', 'color' => '#20c997'],
+                                    ['name' => 'ManhwaID', 'url' => 'manhwaid.id', 'color' => '#0d6efd'],
+                                ];
+                            @endphp
+                            @foreach ($sources as $source)
+                                <div class="col-6 col-md-3">
+                                    <div class="p-2 rounded text-white" style="background-color: {{ $source['color'] }};">
+                                        <h6 class="fw-bold mb-1">{{ $source['name'] }}</h6>
+                                        <p class="mb-0">{{ $source['url'] }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3 my-2">
-                                <div class="p-3 rounded text-white" style="background-color: #6f42c1;">
-                                    <h6 class="fw-bold">ManhwaIndo</h6>
-                                    <p class="mb-0">manhwaindo.one</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3 my-2">
-                                <div class="p-3 rounded text-white" style="background-color: #20c997;">
-                                    <h6 class="fw-bold">Comicaso</h6>
-                                    <p class="mb-0">comicaso.id</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3 my-2">
-                                <div class="p-3 rounded text-white" style="background-color: #0d6efd;">
-                                    <h6 class="fw-bold">ManhwaID</h6>
-                                    <p class="mb-0">manhwaid.id</p>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
+
 
                 <div class="col-12 col-md-5 mt-2 mt-md-0">
                     <div class="card">
@@ -130,12 +123,12 @@
                                             placeholder="Chapter url">
                                     </div>
                                     <div class="col-12 col-md">
-                                        <input type="text" name="chapter_title" id="chapter_title"
-                                            class="form-control" placeholder="Chapter title">
+                                        <input type="text" name="chapter_title" id="chapter_title" class="form-control"
+                                            placeholder="Chapter title">
                                     </div>
                                     <div class="col-12 col-md">
-                                        <input type="text" name="chapter_number" id="chapter_number"
-                                            class="form-control" placeholder="Chapter number">
+                                        <input type="text" name="chapter_number" id="chapter_number" class="form-control"
+                                            placeholder="Chapter number">
                                     </div>
                                     <div class="col-12 col-md">
                                         <select name="bucket" class="form-select">

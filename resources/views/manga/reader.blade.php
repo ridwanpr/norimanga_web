@@ -119,6 +119,9 @@
                     <a href="javascript:void(0)" class="btn btn-grey setting-btn d-none">
                         <i class="bi bi-gear"></i>
                     </a>
+                    <a href="javascript:void(0)" id="report-error" class="btn btn-danger setting-btn ms-1 text-white">
+                        <i class="bi bi-exclamation-circle"></i>
+                    </a>
                 </div>
 
                 @if ($nextChapter)
@@ -201,4 +204,45 @@
 @endsection
 @push('js')
     @vite('resources/js/reader.js')
+    <script>
+        document.getElementById("report-error").addEventListener("click", function() {
+            let url = window.location.href;
+            let button = this;
+
+            if (sessionStorage.getItem("reported")) {
+                alert("Kamu baru saja membuat laporan. Tunggu beberapa saat jika ingin membuat laporan baru.");
+                return;
+            }
+
+            if (confirm("Yakin mau lapor error di chapter ini?")) {
+                button.disabled = true;
+
+                fetch("{{ route('report.chapter') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({
+                            url: url,
+                            desc: "Gambar tidak lengkap atau tidak muncul.",
+                            honeypot: ""
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        sessionStorage.setItem("reported", "true");
+                        setTimeout(() => {
+                            button.disabled = false;
+                            sessionStorage.removeItem("reported");
+                        }, 300000);
+                    })
+                    .catch(() => {
+                        alert("Gagal mengirim laporan. Coba lagi nanti.");
+                        button.disabled = false;
+                    });
+            }
+        });
+    </script>
 @endpush

@@ -40,7 +40,7 @@ class UpdateInfoController extends Controller
                 ->where('manga_detail.updated_at', '<=', $now->copy()->subWeeks(2))
                 ->where('manga_detail.updated_at', '>', $now->copy()->subWeeks(3))
                 ->orderBy('manga_detail.updated_at', 'asc')
-                ->limit(5)
+                ->limit(10)
                 ->get(),
 
             'threeWeeks' => Manga::join('manga_detail', 'manga_detail.id', 'manga.id')
@@ -48,14 +48,14 @@ class UpdateInfoController extends Controller
                 ->where('manga_detail.updated_at', '<=', $now->copy()->subWeeks(3))
                 ->where('manga_detail.updated_at', '>', $now->copy()->subMonth())
                 ->orderBy('manga_detail.updated_at', 'asc')
-                ->limit(5)
+                ->limit(10)
                 ->get(),
 
             'oneMonth' => Manga::join('manga_detail', 'manga_detail.id', 'manga.id')
                 ->select('manga.title', 'manga_detail.updated_at', 'manga.id')
                 ->where('manga_detail.updated_at', '<=', $now->copy()->subMonth())
                 ->orderBy('manga_detail.updated_at', 'asc')
-                ->limit(5)
+                ->limit(10)
                 ->get()
         ];
 
