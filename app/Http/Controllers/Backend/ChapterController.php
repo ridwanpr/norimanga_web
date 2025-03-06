@@ -13,15 +13,24 @@ use App\Http\Controllers\Controller;
 
 class ChapterController extends Controller
 {
-    public function index($mangaId)
+    public function index(Request $request, $mangaId)
     {
         $manga = Manga::findOrFail($mangaId);
-        $chapters = MangaChapter::with('manga')->where('manga_id', $mangaId)
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
+        $query = MangaChapter::with('manga')->where('manga_id', $mangaId);
+
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%$search%")
+                    ->orWhere('chapter_number', 'like', "%$search%");
+            });
+        }
+
+        $chapters = $query->orderBy('chapter_number', 'desc')->paginate(20);
 
         return view('backend.comics.chapter.index', compact('chapters', 'manga'));
     }
+
 
     public function create($mangaId)
     {

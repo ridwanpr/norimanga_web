@@ -5,10 +5,19 @@
         @include('backend.partials.nav-admin')
 
         <div class="card shadow-sm mt-4">
-            <div class="card-header">
-                Manage Chapter | <strong>{{ $manga->title }}</strong>
-                <a href="{{ route('chapter.create', $manga->id) }}" class="btn btn-sm btn-primary float-end"><i class="bi bi-plus-circle"></i> Add Chapter</a>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    Manage Chapter | <strong>{{ $manga->title }}</strong>
+                </div>
+                <form method="GET" action="{{ route('chapter.index', $manga->id) }}" class="d-flex">
+                    <input type="text" name="search" class="form-control form-control-sm me-2"
+                        placeholder="Search chapter..." value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-sm btn-secondary"><i class="bi bi-search"></i></button>
+                </form>
+                <a href="{{ route('chapter.create', $manga->id) }}" class="btn btn-sm btn-primary"><i
+                        class="bi bi-plus-circle"></i> Add Chapter</a>
             </div>
+
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-striped mb-0">
@@ -22,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($chapters as $chapter)
+                            @forelse ($chapters as $chapter)
                                 <tr>
                                     <td>{{ ($chapters->currentPage() - 1) * $chapters->perPage() + $loop->iteration }}</td>
                                     <td>{{ Str::limit($chapter->title, 40) }}</td>
@@ -41,13 +50,17 @@
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">No chapters found.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="card-footer">
-                {{ $chapters->links() }}
+                {{ $chapters->appends(['search' => request('search')])->links() }}
             </div>
         </div>
     </div>
