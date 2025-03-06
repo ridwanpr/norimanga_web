@@ -71,7 +71,7 @@ class MangaController extends Controller
                 'created_at' => now(),
             ]);
 
-            MangaDetail::where('manga_id', $manga->id)->increment('views');
+            MangaDetail::where('manga_id', $manga->id)->increment('views', 1, ['updated_at' => MangaDetail::raw('updated_at')]);
         }
 
         $isBookmarked = Bookmark::where('user_id', Auth::id())->where('manga_id', $manga->id)->exists();
