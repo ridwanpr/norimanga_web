@@ -116,7 +116,7 @@
                     <a href="{{ route('manga.show', $chapter->manga->slug) }}" class="btn btn-grey">
                         <i class="bi bi-list"></i>
                     </a>
-                    <a href="javascript:void(0)" class="btn btn-grey setting-btn">
+                    <a href="javascript:void(0)" class="btn btn-grey setting-btn d-none">
                         <i class="bi bi-gear"></i>
                     </a>
                 </div>
