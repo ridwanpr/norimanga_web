@@ -20,10 +20,10 @@
                                         placeholder="Input manga url">
                                     <select name="bucket" class="form-select mt-2">
                                         <option value="">Select Bucket</option>
-                                        <option value="s1">s1</option>
-                                        <option value="s2">s2</option>
-                                        <option value="s3">s3</option>
-                                        <option value="s4">s4</option>
+                                        @foreach (\App\Helpers\Bucket::all() as $key => $value)
+                                            <option value="{{ $key }}">{{ $value }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-grey">
@@ -47,10 +47,10 @@
                                         placeholder="Search manga">
                                     <select name="bucket" class="form-select mt-2">
                                         <option value="">Select Bucket</option>
-                                        <option value="s1">s1</option>
-                                        <option value="s2">s2</option>
-                                        <option value="s3">s3</option>
-                                        <option value="s4">s4</option>
+                                        @foreach (\App\Helpers\Bucket::all() as $key => $value)
+                                            <option value="{{ $key }}">{{ $value }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     <input type="hidden" name="manga_id" id="manga-id">
                                     <div id="manga-results" class="dropdown-menu show w-100"></div>

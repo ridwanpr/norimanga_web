@@ -100,10 +100,10 @@
                 <label class="form-label">Bucket Image</label>
                 <select name="bucket" class="form-select" required>
                     <option value="">Select Bucket</option>
-                    <option value="s1" {{ $manage_comic->detail->bucket == 's1' ? 'selected' : '' }}>s1</option>
-                    <option value="s2" {{ $manage_comic->detail->bucket == 's2' ? 'selected' : '' }}>s2</option>
-                    <option value="s3" {{ $manage_comic->detail->bucket == 's3' ? 'selected' : '' }}>s3</option>
-                    <option value="s4" {{ $manage_comic->detail->bucket == 's4' ? 'selected' : '' }}>s4</option>
+                    @foreach (\App\Helpers\Bucket::all() as $key => $value)
+                        <option value="{{ $key }}" {{ $manage_comic->detail->bucket == $key ? 'selected' : '' }}>
+                            {{ $value }}</option>
+                    @endforeach
                 </select>
             </div>
 

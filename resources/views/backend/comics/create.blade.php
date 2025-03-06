@@ -68,10 +68,10 @@
                         <label class="form-label">Bucket Image</label>
                         <select name="bucket" class="form-select" required>
                             <option value="">Select Bucket</option>
-                            <option value="s1">s1</option>
-                            <option value="s2">s2</option>
-                            <option value="s3">s3</option>
-                            <option value="s4">s4</option>
+                            @foreach (\App\Helpers\Bucket::all() as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 

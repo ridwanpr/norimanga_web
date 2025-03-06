@@ -7,7 +7,8 @@
         <div class="card shadow-sm mt-4">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Edit Chapter | <span class="fw-bold">{{ $chapter->manga->title }}</span></h5>
-                <a href="{{ route('chapter.index', $chapter->manga_id) }}" class="btn btn-sm btn-outline-secondary text-white">Back to Chapter
+                <a href="{{ route('chapter.index', $chapter->manga_id) }}"
+                    class="btn btn-sm btn-outline-secondary text-white">Back to Chapter
                     List</a>
             </div>
             <div class="card-body">
@@ -29,18 +30,19 @@
 
                     <div class="mb-3">
                         <label for="slug" class="form-label">Slug</label>
-                        <input type="text" name="slug" class="form-control"
-                            value="{{ old('slug', $chapter->slug) }}" required>
+                        <input type="text" name="slug" class="form-control" value="{{ old('slug', $chapter->slug) }}"
+                            required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Bucket Image</label>
                         <select name="bucket" class="form-select" required>
                             <option value="">Select Bucket</option>
-                            <option value="s1" {{ $chapter->bucket == 's1' ? 'selected' : '' }}>s1</option>
-                            <option value="s2" {{ $chapter->bucket == 's2' ? 'selected' : '' }}>s2</option>
-                            <option value="s3" {{ $chapter->bucket == 's3' ? 'selected' : '' }}>s3</option>
-                            <option value="s4" {{ $chapter->bucket == 's4' ? 'selected' : '' }}>s4</option>
+                            @foreach (\App\Helpers\Bucket::all() as $key => $value)
+                                <option value="{{ $key }}"
+                                    {{ $chapter->bucket == $key ? 'selected' : '' }}>{{ $value }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
