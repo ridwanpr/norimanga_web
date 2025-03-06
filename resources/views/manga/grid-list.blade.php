@@ -62,7 +62,8 @@
                     <a href="{{ route('manga.show', $manga->slug) }}" class="text-decoration-none">
                         <div class="image-container position-relative mb-1">
                             <img src="{{ $manga->cover }}" onerror="this.src='{{ asset('assets/img/no-image.png') }}'"
-                                class="img-fluid rounded fixed-size-latest" alt="{{ $manga->title ?? '' }}">
+                                class="img-fluid rounded fixed-size-latest" alt="{{ $manga->title ?? '' }}"
+                                @if ($key > 11) loading="lazy" @endif>
                             <div class="image-title">
                                 {{ \Str::limit($manga->title, 40, '...') }}
                             </div>
