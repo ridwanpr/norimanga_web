@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bookmark;
 use Carbon\Carbon;
 use App\Models\Manga;
+use App\Models\Bookmark;
 use App\Models\MangaView;
 use App\Models\MangaDetail;
 use App\Models\MangaChapter;
-use App\Services\UserActivityService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Services\UserActivityService;
 use Illuminate\Support\Facades\Cache;
 
 class MangaController extends Controller
@@ -71,7 +72,7 @@ class MangaController extends Controller
                 'created_at' => now(),
             ]);
 
-            MangaDetail::where('manga_id', $manga->id)->increment('views', 1, ['updated_at' => MangaDetail::raw('updated_at')]);
+            MangaDetail::where('manga_id', $manga->id)->increment('views', 1, ['updated_at' => DB::raw('updated_at')]);
         }
 
         $isBookmarked = Bookmark::where('user_id', Auth::id())->where('manga_id', $manga->id)->exists();
