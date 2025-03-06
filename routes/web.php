@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
     Route::get('/manga/search', [AutoMationController::class, 'search'])->name('automation.chapter.search');
     Route::post('automation/fetch-manga', [AutoMationController::class, 'fetchManga'])->name('automation.fetch.manga');
     Route::post('automation/fetch-chapter', [AutoMationController::class, 'fetchChapter'])->name('automation.fetch.chapter');
+    Route::post('automation/fetch-chapter-image', [AutoMationController::class, 'fetchChapterImage'])->name('automation.fetch.chapter-image');
 
     Route::get('manga-update', [UpdateInfoController::class, 'index'])->name('update.index');
 

@@ -6,7 +6,41 @@
 
         <div class="container">
             <div class="row mt-4">
-                <div class="col-12 col-md-5">
+                <div class="col-12 my-3">
+                    <div class="card p-3 shadow-sm">
+                        <h5 class="text-center fw-bold">Auto Fetch Komik & Chapter</h5>
+                        <p class="text-center text-muted">Sistem ini mendukung pengambilan data otomatis dari berbagai
+                            sumber. Harap lakukan fetching secara moderat untuk menghindari pemblokiran IP.</p>
+                        <div class="row text-center">
+                            <div class="col-md-3 my-2">
+                                <div class="p-3 rounded text-white" style="background-color: #dc3545;">
+                                    <h6 class="fw-bold">WestManga</h6>
+                                    <p class="mb-0">westmanga.fun</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 my-2">
+                                <div class="p-3 rounded text-white" style="background-color: #6f42c1;">
+                                    <h6 class="fw-bold">ManhwaIndo</h6>
+                                    <p class="mb-0">manhwaindo.one</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 my-2">
+                                <div class="p-3 rounded text-white" style="background-color: #20c997;">
+                                    <h6 class="fw-bold">Comicaso</h6>
+                                    <p class="mb-0">comicaso.id</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 my-2">
+                                <div class="p-3 rounded text-white" style="background-color: #0d6efd;">
+                                    <h6 class="fw-bold">ManhwaID</h6>
+                                    <p class="mb-0">manhwaid.id</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-5 mt-2 mt-md-0">
                     <div class="card">
                         <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
                             <span>Auto Fetch</span>
@@ -33,7 +67,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-5">
+                <div class="col-12 col-md-5 mt-2 mt-md-0">
                     <div class="card">
                         <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
                             <span>Auto Chapter</span>
@@ -53,7 +87,7 @@
                                         @endforeach
                                     </select>
                                     <input type="hidden" name="manga_id" id="manga-id">
-                                    <div id="manga-results" class="dropdown-menu show w-100"></div>
+                                    <div id="manga-results" class="manga-results dropdown-menu show w-100"></div>
                                 </div>
                                 <button type="submit" class="btn btn-grey">
                                     <i class="bi bi-cloud-download"></i> Fetch
@@ -62,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-2">
+                <div class="col-12 col-md-2 mt-2 mt-md-0">
                     <div class="card">
                         <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
                             <span>Tools</span>
@@ -77,6 +111,54 @@
                     </div>
                 </div>
             </div>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                            <span>Auto Single Chapter</span>
+                        </div>
+                        <div class="card-body">
+                            <form action="{{ route('automation.fetch.chapter-image') }}" method="POST">
+                                @csrf
+                                <div class="row g-2">
+                                    <div class="col-12 col-md">
+                                        <input type="text" name="search_manga" id="search-manga-chapter"
+                                            class="form-control" placeholder="Search manga">
+                                    </div>
+                                    <div class="col-12 col-md">
+                                        <input type="text" name="chapter_url" id="chapter_url" class="form-control"
+                                            placeholder="Chapter url">
+                                    </div>
+                                    <div class="col-12 col-md">
+                                        <input type="text" name="chapter_title" id="chapter_title"
+                                            class="form-control" placeholder="Chapter title">
+                                    </div>
+                                    <div class="col-12 col-md">
+                                        <input type="text" name="chapter_number" id="chapter_number"
+                                            class="form-control" placeholder="Chapter number">
+                                    </div>
+                                    <div class="col-12 col-md">
+                                        <select name="bucket" class="form-select">
+                                            <option value="">Select Bucket</option>
+                                            @foreach (\App\Helpers\Bucket::all() as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <input type="hidden" name="manga_id" id="manga-id-chapter">
+                                    <div id="manga-results-chapter" class="manga-results dropdown-menu show w-100"></div>
+                                    <div class="col-12 col-md-auto">
+                                        <button type="submit" class="btn btn-grey w-100">
+                                            <i class="bi bi-cloud-download"></i> Fetch
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row mt-4">
                 <div class="col-12 col-md-6">
                     <div class="card">
@@ -142,7 +224,7 @@
 
 @push('css')
     <style>
-        #manga-results {
+        .manga-results {
             background: var(--bs-card-bg);
             border: 1px solid var(--bs-border-color);
             border-radius: var(--bs-btn-border-radius);
@@ -177,6 +259,12 @@
 
 @push('js')
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".manga-results").forEach(resultsContainer => {
+                resultsContainer.style.display = "none";
+            });
+        });
+
         function debounce(func, delay) {
             let timer;
             return function() {
@@ -185,51 +273,62 @@
             };
         }
 
-        function searchManga() {
-            let query = document.getElementById('search-manga').value;
-            let resultsContainer = document.getElementById('manga-results');
+        function searchManga(inputId, resultsId, mangaIdField) {
+            let inputElement = document.getElementById(inputId);
+            let resultsContainer = document.getElementById(resultsId);
+            let mangaIdElement = document.getElementById(mangaIdField);
 
-            if (query.length > 2) {
-                fetch("{{ route('automation.chapter.search') }}?query=" + encodeURIComponent(query))
+            if (!resultsContainer || !mangaIdElement) {
+                console.error(`Error: Missing element. resultsContainer=${resultsId}, mangaIdElement=${mangaIdField}`);
+                return;
+            }
+
+            if (inputElement.value.length > 2) {
+                fetch("{{ route('automation.chapter.search') }}?query=" + encodeURIComponent(inputElement.value))
                     .then(response => {
                         if (!response.ok) {
-                            throw new Error('Network response was not ok');
+                            throw new Error("Network response was not ok");
                         }
                         return response.json();
                     })
                     .then(data => {
                         resultsContainer.innerHTML = "";
-                        resultsContainer.style.display = "block";
                         if (data.length > 0) {
+                            resultsContainer.style.display = "block";
                             data.forEach(manga => {
-                                let item = document.createElement('div');
+                                let item = document.createElement("div");
                                 item.textContent = manga.title;
-                                item.classList.add('manga-item');
-                                item.addEventListener('click', function() {
-                                    document.getElementById('search-manga').value = manga.title;
-                                    document.getElementById('manga-id').value = manga.id;
+                                item.classList.add("manga-item");
+                                item.addEventListener("click", function() {
+                                    inputElement.value = manga.title;
+                                    mangaIdElement.value = manga.id;
                                     resultsContainer.style.display = "none";
                                 });
                                 resultsContainer.appendChild(item);
                             });
                         } else {
-                            resultsContainer.innerHTML = `<div class="manga-item">No results found</div>`;
+                            resultsContainer.style.display = "none";
                         }
                     })
-                    .catch(error => console.error('Error fetching manga:', error));
+                    .catch(error => console.error("Error fetching manga:", error));
             } else {
                 resultsContainer.style.display = "none";
             }
         }
 
-        document.getElementById('search-manga').addEventListener('keyup', debounce(searchManga, 300));
+
+        document.getElementById('search-manga').addEventListener('keyup', debounce(() => searchManga('search-manga',
+            'manga-results', 'manga-id'), 300));
+        document.getElementById('search-manga-chapter').addEventListener('keyup', debounce(() => searchManga(
+            'search-manga-chapter', 'manga-results-chapter', 'manga-id-chapter'), 300));
 
         document.addEventListener('click', function(event) {
-            let resultsContainer = document.getElementById('manga-results');
-            if (!document.getElementById('search-manga').contains(event.target) && !resultsContainer.contains(event
-                    .target)) {
-                resultsContainer.style.display = "none";
-            }
+            document.querySelectorAll('.manga-results').forEach(resultsContainer => {
+                if (!resultsContainer.previousElementSibling.contains(event.target) && !resultsContainer
+                    .contains(event.target)) {
+                    resultsContainer.style.display = "none";
+                }
+            });
         });
     </script>
 @endpush

@@ -98,16 +98,16 @@
                                 $color = $colors[$loop->index % 5];
                             @endphp
                             <li
-                                class="me-3 mt-2 mb-1 {{ $color }} {{ $color }} bg-opacity-10 rounded-3 px-2 py-1">
+                                class="me-3 mt-2 mb-1 {{ $color }} {{ $color }} text-white rounded-3 px-2 py-1">
                                 {{ $genre->name }}</li>
                         @endforeach
                     </ul>
                     <div class="d-flex mt-3">
                         @if ($manga->chapters->isNotEmpty())
                             <a href="{{ route('manga.reader', [$manga->slug, $manga->firstChapter->slug]) }}"
-                                class="btn bg-primary me-2 watch-now-btn">Chapter 1</a>
+                                class="btn btn-secondary me-2 border watch-now-btn">First Chapter</a>
                             <a href="{{ route('manga.reader', [$manga->slug, $manga->lastChapter->slug]) }}"
-                                class="btn bg-primary me-2 watch-now-btn">Last Chapter</a>
+                                class="btn btn-secondary me-2 border watch-now-btn">Last Chapter</a>
                         @endif
                     </div>
                 </div>

@@ -6,17 +6,18 @@ use App\Models\Manga;
 use App\Jobs\FetchMangaJob;
 use App\Models\MangaChapter;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Jobs\FetchChapterJob;
 use App\Jobs\SyncBucketUsageJob;
+use App\Http\Controllers\Controller;
+use App\Jobs\FetchChapterImageJobSingle;
 
 class AutoMationController extends Controller
 {
     public function index()
     {
-        $latestManga = Manga::whereHas('detail')->latest()->take(10)->get();
-        $latestChapter = MangaChapter::with('manga')->whereJsonLength('image', '>', 0)->orderBy('updated_at', 'desc')->take(10)->get();
-        
+        $latestManga = Manga::whereHas('detail')->latest()->take(15)->get();
+        $latestChapter = MangaChapter::with('manga')->whereJsonLength('image', '>', 0)->orderBy('updated_at', 'desc')->take(15)->get();
+
         return view('backend.automation.index', compact('latestManga', 'latestChapter'));
     }
 
@@ -50,19 +51,27 @@ class AutoMationController extends Controller
         return back()->with('success', 'Job dispatched successfully.');
     }
 
-    public function fetchChapter(Request $request)
+    public function fetchChapterImage(Request $request)
     {
-        $id = $request->input('manga_id');
+        $manga_id = $request->input('manga_id');
         $bucket = $request->input('bucket');
+        $title = $request->input('chapter_title');
+        $chapter_number = $request->input('chapter_number');
+        $chapter_url = $request->input('chapter_url');
+
+        // dd($request->all());
 
         $request->validate([
             'manga_id' => 'required',
             'bucket' => 'required|string',
+            'chapter_title' => 'required',
+            'chapter_number' => 'required',
+            'chapter_url' => 'required'
         ]);
 
-        $manga = Manga::findOrFail($id);
+        $manga = Manga::findOrFail($manga_id);
 
-        dispatch(new FetchChapterJob($manga, $bucket));
+        dispatch(new FetchChapterImageJobSingle($manga_id, $bucket, $title, $chapter_number, $chapter_url));
 
         return back()->with('success', "Job dispatched successfully to bucket: {$bucket}");
     }

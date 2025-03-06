@@ -12,10 +12,8 @@ class MangaListController extends Controller
 {
     public function gridList(Request $request)
     {
-        // Generate a unique cache key based on request parameters
         $cacheKey = 'grid_list_' . md5(json_encode($request->all()));
 
-        // Cache the query results
         $latestUpdate = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($request) {
             $query = Manga::join('manga_detail', 'manga.id', '=', 'manga_detail.manga_id')
                 ->select('manga.title', 'manga.slug', 'manga_detail.cover', 'manga_detail.type', 'manga_detail.status', 'manga_detail.release_year', 'manga_detail.updated_at')->whereExists(function ($query) {
@@ -56,7 +54,6 @@ class MangaListController extends Controller
                 });
         });
 
-        // Cache the genres list separately
         $genres = Cache::remember('genre.list', now()->addHours(1), function () {
             return Genre::select('name', 'slug')->orderBy('name')->get();
         });
