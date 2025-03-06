@@ -206,11 +206,12 @@
     @vite('resources/js/reader.js')
     <script>
         document.getElementById("report-error").addEventListener("click", function() {
-            let url = window.location.href;
-            let button = this;
+            const url = window.location.href;
+            const button = this;
+            const reportedKey = "reported_" + btoa(url);
 
-            if (sessionStorage.getItem("reported")) {
-                alert("Kamu baru saja membuat laporan. Tunggu beberapa saat jika ingin membuat laporan baru.");
+            if (sessionStorage.getItem(reportedKey)) {
+                alert("Kamu sudah melaporkan error di chapter ini. Tunggu beberapa saat sebelum melapor lagi.");
                 return;
             }
 
@@ -232,11 +233,11 @@
                     .then(response => response.json())
                     .then(data => {
                         alert(data.message);
-                        sessionStorage.setItem("reported", "true");
+                        sessionStorage.setItem(reportedKey, "true");
                         setTimeout(() => {
                             button.disabled = false;
-                            sessionStorage.removeItem("reported");
-                        }, 300000);
+                            sessionStorage.removeItem(reportedKey);
+                        }, 600000);
                     })
                     .catch(() => {
                         alert("Gagal mengirim laporan. Coba lagi nanti.");

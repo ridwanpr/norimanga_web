@@ -78,6 +78,9 @@ Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
 
     Route::get('manga-update', [UpdateInfoController::class, 'index'])->name('update.index');
 
+    Route::get('usser-issue', [\App\Http\Controllers\Backend\UserIssueController::class, 'index'])->name('backend.user-issue.index');
+    Route::post('user-issue/solve', [\App\Http\Controllers\Backend\UserIssueController::class, 'solve'])->name('backend.user-issue.solve');
+
     Route::get('refresh-cache', function () {
         Artisan::call('cache:clear');
         return back()->with('success', 'Cache cleared successfully.');

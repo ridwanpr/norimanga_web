@@ -3,11 +3,12 @@
 namespace App\Jobs;
 
 use App\Models\MangaChapter;
-use App\Scrapers\ImageChapterExtractor;
 use App\Services\BucketManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
+use App\Scrapers\ImageChapterExtractor;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -37,7 +38,7 @@ class FetchChapterImageJobSingle implements ShouldQueue
     public function handle(): void
     {
         $url = $this->chapter_url;
-        Log::info("Processing chapter: {$this->title}");
+        Log::info("Processing chapter: {$this->title}, {$this->chapter_url}");
 
         try {
             $response = Http::withHeaders([
@@ -123,6 +124,8 @@ class FetchChapterImageJobSingle implements ShouldQueue
                 }
 
                 DB::commit();
+
+                Cache::flush();
                 Log::info("Processed {$chapter->title} with " . count($storedImages) . " images.");
             } catch (\Exception $e) {
                 DB::rollBack();

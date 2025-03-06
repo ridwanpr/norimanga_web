@@ -8,6 +8,6 @@ class UserIssue extends Model
 {
     protected $table = 'user_issues';
     protected $fillable = [
-        'url', 'desc', 'created_at'
+        'url', 'desc', 'created_at', 'is_solved', 'updated_at'
     ];
 }
