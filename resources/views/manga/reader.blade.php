@@ -142,7 +142,7 @@
             <div class="reader-container">
                 <div class="reader-img">
                     <img src="https://s2.panelesia.my.id/panelesia.my.id.webp" alt="panelesia baca komik" class="img-fluid">
-                    <img src="{{ asset('assets/img/panelesia-kelebihan-fitur.png') }}" class="img-fluid" alt="fitur dan kelebihan panelesia">
+                    <img src="{{ asset('assets/img/panelesia-kelebihan-fitur.png') }}" class="img-fluid my-1" alt="fitur dan kelebihan panelesia">
                     @foreach ($images as $index => $image)
                         <img src="{{ $image }}" class="img-fluid"
                             alt="{{ $chapter->manga->title }} {{ $chapter->title }}"

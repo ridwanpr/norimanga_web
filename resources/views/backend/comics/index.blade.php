@@ -28,6 +28,7 @@
                                 <th>Title</th>
                                 <th>Slug</th>
                                 <th>Status</th>
+                                <th>Views</th>
                                 <th>Featured</th>
                                 <th>Project</th>
                                 <th>Actions</th>
@@ -40,6 +41,7 @@
                                     <td>{{ Str::limit($comic->title, 40) }}</td>
                                     <td>{{ Str::limit($comic->slug, 40) }}</td>
                                     <td>{{ $comic->detail->status ?? 'N/A' }}</td>
+                                    <td>{{ $comic->detail->views }}</td>
                                     <td>{{ $comic->is_featured ? 'Yes' : 'No' }}</td>
                                     <td>{{ $comic->is_project ? 'Yes' : 'No' }}</td>
                                     <td>
