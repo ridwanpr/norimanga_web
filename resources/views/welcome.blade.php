@@ -192,10 +192,10 @@
                                             </div>
                                             <div class="col-9 d-flex align-items-center">
                                                 <div class="card-body py-1 px-2">
-                                                    <h5 class="card-title fs-6 mb-1 manga-title" data-bs-toggle="tooltip"
+                                                    <h3 class="card-title fs-6 mb-1 manga-title" data-bs-toggle="tooltip"
                                                         title="{{ $daily->title }}">
                                                         {{ $daily->title }}
-                                                    </h5>
+                                                    </h3>
                                                     <p class="card-text text-secondary small mb-0">
                                                         @foreach (array_slice($daily->genres->toArray(), 0, 8) as $index => $dailyGenre)
                                                             {{ $dailyGenre['name'] }}{{ $index < count(array_slice($daily->genres->toArray(), 0, 8)) - 1 ? ',' : '' }}
@@ -222,10 +222,10 @@
                                             </div>
                                             <div class="col-9 d-flex align-items-center">
                                                 <div class="card-body py-1 px-2">
-                                                    <h5 class="card-title fs-6 mb-1 manga-title" data-bs-toggle="tooltip"
+                                                    <h3 class="card-title fs-6 mb-1 manga-title" data-bs-toggle="tooltip"
                                                         title="{{ $weekly->title }}">
                                                         {{ $weekly->title }}
-                                                    </h5>
+                                                    </h3>
                                                     <p class="card-text text-secondary small mb-0">
                                                         @foreach (array_slice($weekly->genres->toArray(), 0, 8) as $index => $weeklyGenre)
                                                             {{ $weeklyGenre['name'] }}{{ $index < count(array_slice($weekly->genres->toArray(), 0, 8)) - 1 ? ',' : '' }}
@@ -252,10 +252,10 @@
                                             </div>
                                             <div class="col-9 d-flex align-items-center">
                                                 <div class="card-body py-1 px-2">
-                                                    <h5 class="card-title fs-6 mb-1 manga-title" data-bs-toggle="tooltip"
+                                                    <h3 class="card-title fs-6 mb-1 manga-title" data-bs-toggle="tooltip"
                                                         title="{{ $monthly->title }}">
                                                         {{ $monthly->title }}
-                                                    </h5>
+                                                    </h3>
                                                     <p class="card-text text-secondary small mb-0">
                                                         @foreach (array_slice($monthly->genres->toArray(), 0, 8) as $index => $monthlyGenre)
                                                             {{ $monthlyGenre['name'] }}{{ $index < count(array_slice($monthly->genres->toArray(), 0, 8)) - 1 ? ',' : '' }}
