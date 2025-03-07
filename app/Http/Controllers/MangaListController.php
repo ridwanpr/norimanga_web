@@ -31,7 +31,12 @@ class MangaListController extends Controller
             }
 
             if ($request->filled('search')) {
-                $query->whereRaw('LOWER(manga.title) LIKE ?', ['%' . strtolower($request->search) . '%']);
+                $searchTerm = preg_replace('/[^a-zA-Z0-9\s]/', ' ', strtolower($request->search));
+
+                $query->where(function ($q) use ($searchTerm) {
+                    $q->whereRaw("MATCH(title) AGAINST(? IN NATURAL LANGUAGE MODE)", [$searchTerm])
+                        ->orWhereRaw("LOWER(REGEXP_REPLACE(manga.title, '[^a-zA-Z0-9]', ' ')) LIKE ?", ['%' . $searchTerm . '%']);
+                });
             }
 
             if ($request->filled('type')) {
