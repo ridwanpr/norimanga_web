@@ -105,10 +105,8 @@
                             <a href="{{ route('manga.reader', [$latestCh->manga->slug, $latestCh->chapter->slug]) }}"
                                 class="list-group-item list-group-item-action py-2 px-0 d-flex align-items-center border-bottom">
                                 <div class="d-flex flex-column">
-                                    <span class="small fw-medium text-truncate">{{ $latestCh->manga->title }}</span>
+                                    <span class="small fw-medium text-truncate">{{ $latestCh->chapter->title }}</span>
                                     <span class="d-flex align-items-center">
-                                        <small class="text-muted">{{ $latestCh->chapter->title }}</small>
-                                        <small class="text-muted ms-2">·</small>
                                         <small class="text-muted ms-2">{{ $latestCh->created_at->diffForHumans() }}</small>
                                     </span>
                                 </div>
