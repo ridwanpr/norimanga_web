@@ -226,7 +226,7 @@
 
         document.addEventListener("click", function(event) {
             if (event.target.closest("a, button")) return;
-            let scrollAmount = window.innerHeight * 0.6;
+            let scrollAmount = window.innerHeight * 0.7;
             if (event.shiftKey) {
                 window.scrollBy({
                     top: -scrollAmount,
