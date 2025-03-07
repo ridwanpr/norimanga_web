@@ -157,7 +157,7 @@
                         <div class="manga-card">
                             <a href="{{ route('manga.show', $manga->slug) }}">
                                 <img src="{{ $manga->detail->cover }}" alt="{{ $manga->title }}"
-                                    onerror="this.src='https://placehold.co/250x300';">
+                                    onerror="this.src='https://placehold.co/250x300';" loading="lazy">
                                 <div class="manga-info">
                                     <h5 class="manga-title">{{ $manga->title }}</h5>
                                     <span class="manga-genre">
