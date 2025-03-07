@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     @foreach ($mangas as $manga)
         <url>
-            <loc>{{ url('/manga/' . $manga->slug) }}</loc>
+            <loc>{{ url('/komik/' . $manga->slug) }}</loc>
             <lastmod>{{ $manga->updated_at->toAtomString() }}</lastmod>
             <changefreq>weekly</changefreq>
             <priority>0.8</priority>
