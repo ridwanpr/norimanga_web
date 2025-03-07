@@ -52,7 +52,7 @@ class SitemapController extends Controller
         $page = max(1, $request->get('page', 1));
         $perPage = 1000;
 
-        $chapters = MangaChapter::select('id', 'manga_id', 'chapter_number', 'updated_at')
+        $chapters = MangaChapter::select('id', 'manga_id', 'chapter_number', 'updated_at', 'slug')
             ->with([
                 'manga' => function ($query) {
                     $query->select('id', 'slug');
