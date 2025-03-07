@@ -223,5 +223,21 @@
                     });
             }
         });
+
+        document.addEventListener("click", function(event) {
+            if (event.target.closest("a, button")) return;
+            let scrollAmount = window.innerHeight * 0.6;
+            if (event.shiftKey) {
+                window.scrollBy({
+                    top: -scrollAmount,
+                    behavior: "smooth"
+                });
+            } else {
+                window.scrollBy({
+                    top: scrollAmount,
+                    behavior: "smooth"
+                });
+            }
+        });
     </script>
 @endpush
