@@ -109,7 +109,6 @@ Route::get('mn92xc4go67', 'App\Http\Controllers\DatabaseBackupController@backup'
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 Route::get('/sitemap-manga.xml', [SitemapController::class, 'manga']);
 Route::get('/sitemap-chapters.xml', [SitemapController::class, 'chapters']);
-Route::get('/sitemap-genres.xml', [SitemapController::class, 'genres']);
 
 Route::get('{path}', function ($path) {
     abort(403);
