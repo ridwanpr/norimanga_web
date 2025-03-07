@@ -14,6 +14,7 @@
         "opcodesio/log-viewer": "^3.15",
         "predis/predis": "^2.3",
         "ryangjchandler/laravel-cloudflare-turnstile": "^1.1",
+        "spatie/laravel-backup": "^9.2",
         "spiral/roadrunner-cli": "^2.6.0",
         "spiral/roadrunner-http": "^3.3.0"
     },
