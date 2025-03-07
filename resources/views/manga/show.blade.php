@@ -107,7 +107,7 @@
                                 <div class="d-flex flex-column">
                                     <span class="small fw-medium text-truncate">{{ $latestCh->chapter->title }}</span>
                                     <span class="d-flex align-items-center">
-                                        <small class="text-muted ms-2">{{ $latestCh->created_at->diffForHumans() }}</small>
+                                        <small class="text-muted">{{ $latestCh->created_at->diffForHumans() }}</small>
                                     </span>
                                 </div>
                                 <i class="bi bi-chevron-right ms-auto fs-6 text-muted"></i>
