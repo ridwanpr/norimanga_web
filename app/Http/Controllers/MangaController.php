@@ -89,14 +89,14 @@ class MangaController extends Controller
 
         $prevChapter = Cache::remember("prev_chapter_{$slug}_{$chapter_slug}", now()->addHours(4), function () use ($chapter) {
             return MangaChapter::where('manga_id', $chapter->manga_id)
-                ->where('slug', '<', $chapter->chapter_number)
+                ->where('chapter_number', '<', $chapter->chapter_number)
                 ->orderBy('chapter_number', 'desc')
                 ->first();
         });
 
         $nextChapter = Cache::remember("next_chapter_{$slug}_{$chapter_slug}", now()->addHours(4), function () use ($chapter) {
             return MangaChapter::where('manga_id', $chapter->manga_id)
-                ->where('slug', '>', $chapter->chapter_number)
+                ->where('chapter_number', '>', $chapter->chapter_number)
                 ->orderBy('chapter_number', 'asc')
                 ->first();
         });
