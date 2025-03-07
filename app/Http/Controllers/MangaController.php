@@ -89,17 +89,18 @@ class MangaController extends Controller
 
         $prevChapter = Cache::remember("prev_chapter_{$slug}_{$chapter_slug}", now()->addHours(4), function () use ($chapter) {
             return MangaChapter::where('manga_id', $chapter->manga_id)
-                ->where('chapter_number', '<', $chapter->chapter_number)
-                ->orderBy('chapter_number', 'desc')
+                ->whereRaw("CAST(REGEXP_SUBSTR(chapter_number, '[0-9]+(?:\.[0-9]+)?') AS DECIMAL) < CAST(REGEXP_SUBSTR(?, '[0-9]+(?:\.[0-9]+)?') AS DECIMAL)", [$chapter->chapter_number])
+                ->orderByRaw("CAST(REGEXP_SUBSTR(chapter_number, '[0-9]+(?:\.[0-9]+)?') AS DECIMAL) DESC")
                 ->first();
         });
 
         $nextChapter = Cache::remember("next_chapter_{$slug}_{$chapter_slug}", now()->addHours(4), function () use ($chapter) {
             return MangaChapter::where('manga_id', $chapter->manga_id)
-                ->where('chapter_number', '>', $chapter->chapter_number)
-                ->orderBy('chapter_number', 'asc')
+                ->whereRaw("CAST(REGEXP_SUBSTR(chapter_number, '[0-9]+(?:\.[0-9]+)?') AS DECIMAL) > CAST(REGEXP_SUBSTR(?, '[0-9]+(?:\.[0-9]+)?') AS DECIMAL)", [$chapter->chapter_number])
+                ->orderByRaw("CAST(REGEXP_SUBSTR(chapter_number, '[0-9]+(?:\.[0-9]+)?') AS DECIMAL) ASC")
                 ->first();
         });
+
 
         $images = Cache::remember("images_{$slug}_{$chapter_slug}", now()->addHours(4), function () use ($chapter) {
             return $chapter->getFormattedImages();
