@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('meta')
     <meta name="description"
-        content="Baca Komik {{ $manga->detail->type }} {{ $manga->title }} di Panelesia! Terjemahan Bahasa Indonesia, dan update tercepat gratis.">
+        content="Baca Komik {{ $manga->detail->type }} {{ $manga->title }} di Panelesia! Terjemahan Bahasa Indonesia, dan update tercepat gratis. {{ $manga->detail->type }} {{ $manga->title }} selalu diupdate di Panelesia.">
     <meta property="og:title" content="{{ $manga->title }} - Read Online Free">
     <meta property="og:description" content="{{ Str::limit($manga->detail->synopsis, 150) }}">
     <meta property="og:image" content="{{ $manga->detail->cover }}">
@@ -10,54 +10,7 @@
 @endsection
 @section('title', "$manga->title Bahasa Indonesia - Panelesia - Manga Indonesia")
 @push('css')
-    <style>
-        .cover-img {
-            object-fit: cover;
-            height: 235px;
-            width: 160px;
-        }
-
-        .also-read-wrapper {
-            height: 100px;
-        }
-
-        .also-read-img-wrapper {
-            height: 100px;
-        }
-
-        .also-read-img {
-            object-fit: cover;
-            object-position: top;
-            height: 100%;
-            width: 100%;
-        }
-
-        .genre-text {
-            font-size: 14px;
-        }
-
-        @media (min-width: 768px) {
-            .cover-img {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .watch-now-btn {
-                width: 100%;
-            }
-
-            .genre-text {
-                font-size: 13px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .custom-full-width {
-                width: 100%;
-            }
-        }
-    </style>
+    @vite('resources/css/manga-show.css')
 @endpush
 
 @section('content')
@@ -80,26 +33,22 @@
                                     <span>Bookmark</span>
                                 </button>
                             @else
-                                <a href="{{ route('login') }}" class="btn bg-success custom-full-width">
+                                <a href="{{ route('bookmark.index') }}" class="btn bg-success custom-full-width">
                                     <i class="bi bi-bookmark-fill me-2"></i>
-                                    <span>Login to Bookmark</span>
+                                    <span>Bookmark</span>
                                 </a>
                             @endauth
                         @endif
                     </div>
                 </div>
                 <div class="col-12 col-md-6 mb-3 mb-md-0">
-                    <h2 class="h4 mb-3">{{ $manga->title }}</h2>
+                    <h1 class="h4 mb-3">{{ $manga->title }}</h1>
                     <p class="text-muted">{{ $manga->detail->synopsis }}</p>
-                    <ul class="list-unstyled d-flex flex-wrap mb-0">
+                    <ul class="genre-tags d-flex flex-wrap gap-2 mb-0">
                         @foreach ($manga->genres as $genre)
-                            @php
-                                $colors = ['bg-primary', 'bg-success', 'bg-info', 'bg-warning', 'bg-danger'];
-                                $color = $colors[$loop->index % 5];
-                            @endphp
-                            <li
-                                class="me-3 mt-2 mb-1 {{ $color }} {{ $color }} text-white rounded-3 px-2 py-1">
-                                {{ $genre->name }}</li>
+                            <li class="genre-tag">
+                                <span class="text-capitalize">{{ $genre->name }}</span>
+                            </li>
                         @endforeach
                     </ul>
                     <div class="d-flex mt-3">
@@ -139,13 +88,6 @@
                                     </span>
                                 </li>
                                 </li>
-                                {{-- <li class="mb-2">
-                                    <strong>Rating:</strong>
-                                    <span class="text-warning">
-                                        ★★★★<span class="text-muted">★</span>
-                                    </span>
-                                    <small class="text-muted">(4.5)</small>
-                                </li> --}}
                             </ul>
                         </div>
                     </div>
@@ -155,20 +97,54 @@
     </div>
     <div class="container">
         <div class="row mt-4">
-            <div>
-                <h1 class="fs-4 mb-3 fw-bold">Chapter List</h1>
-            </div>
             <div class="col-12 col-md-8">
+                <div class="latest-read-wrapper mt-3 mb-3">
+                    <h2 class="border-start border-3 border-primary ps-2 mb-2 fs-4 mb-3 fw-bold">Riwayat Baca</h2>
+                    <div class="list-group list-group-flush">
+                        @forelse ($latestReadChapter as $latestCh)
+                            <a href="{{ route('manga.reader', [$latestCh->manga->slug, $latestCh->chapter->slug]) }}"
+                                class="list-group-item list-group-item-action py-2 px-0 d-flex align-items-center border-bottom">
+                                <div class="d-flex flex-column">
+                                    <span class="small fw-medium text-truncate">{{ $latestCh->manga->title }}</span>
+                                    <span class="d-flex align-items-center">
+                                        <small class="text-muted">{{ $latestCh->chapter->title }}</small>
+                                        <small class="text-muted ms-2">·</small>
+                                        <small class="text-muted ms-2">{{ $latestCh->created_at->diffForHumans() }}</small>
+                                    </span>
+                                </div>
+                                <i class="bi bi-chevron-right ms-auto fs-6 text-muted"></i>
+                            </a>
+                        @empty
+                            <div class="small text-muted py-2">
+                                <i class="bi bi-book-half me-1"></i>@auth
+                                No reading history
+                                @else
+                                <a href="{{ route('login') }}" class="text-decoration-none">Login</a> untuk menyimpan riwayat baca.
+                                @endauth
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="fs-4 mb-3 fw-bold border-start border-3 border-primary ps-2 ">Chapter List</h2>
+                </div>
                 <input type="text" id="chapterSearch" class="form-control mb-3" placeholder="Search Chapter...">
                 <div class="chapter-list border rounded p-3" style="max-height: 420px; overflow-y: auto;">
                     <div class="row g-2" id="chapterContainer">
                         @foreach ($sortedChapters as $chapter)
                             <div class="col-6 col-md-3">
                                 <a href="{{ route('manga.reader', [$manga->slug, $chapter->slug]) }}"
-                                    class="btn border w-100">
+                                    class="btn border w-100 position-relative {{ in_array($chapter->id, $readChapters ?? []) ? 'read-chapter' : '' }}">
                                     {{ $chapter->title }}
                                     <br>
                                     <small class="small text-muted">{{ $chapter->created_at->format('d M Y') }}</small>
+
+                                    @if (in_array($chapter->id, $readChapters ?? []))
+                                        <span class="position-absolute top-0 end-0 p-1">
+                                            <i class="bi bi-check-circle-fill text-success small"></i>
+                                        </span>
+                                    @endif
                                 </a>
                             </div>
                         @endforeach
@@ -176,13 +152,13 @@
                 </div>
 
                 <div class="comments bg-body-tertiary mt-4 py-1 px-3 rounded">
-                    <h1 class="fs-4 mb-3 fw-bold mt-2">Komentar</h1>
+                    <h2 class="fs-4 mb-3 fw-bold mt-2">Komentar</h2>
                     @include('layouts.partials.disqus-comment')
                 </div>
             </div>
 
             <div class="col-12 col-md-4 mt-4 mt-md-0">
-                <h1 class="fs-4 mb-3 fw-bold">Baca Juga</h1>
+                <h2 class="fs-4 mb-3 fw-bold border-start border-3 border-primary ps-2 ">Baca Juga</h2>
                 @foreach ($alsoRead as $item)
                     <a href="{{ route('manga.show', $item->slug) }}"
                         class="card also-read-wrapper mb-1 text-decoration-none">

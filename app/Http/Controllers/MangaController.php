@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserActivity;
 use Carbon\Carbon;
 use App\Models\Manga;
 use App\Models\Bookmark;
@@ -18,19 +19,19 @@ class MangaController extends Controller
 {
     public function show($slug)
     {
-        $manga = Manga::where('slug', $slug)
-            ->with('detail', 'genres', 'chapters')
-            ->firstOrFail();
+        $manga = Cache::remember("manga_{$slug}", now()->addHours(2), function () use ($slug) {
+            return Manga::where('slug', $slug)
+                ->with('detail', 'genres', 'chapters')
+                ->firstOrFail();
+        });
 
         $sortedChapters = $manga->chapters->sortByDesc(function ($chapter) {
-            // Extract numeric part and convert to float
             preg_match('/(\d+(\.\d+)?)/', $chapter->chapter_number, $matches);
             return isset($matches[1]) ? (float) $matches[1] : 0;
         });
 
         $firstChapter = $sortedChapters->last();
         $lastChapter = $sortedChapters->first();
-
         $manga->firstChapter = $firstChapter;
         $manga->lastChapter = $lastChapter;
 
@@ -72,11 +73,41 @@ class MangaController extends Controller
                 'created_at' => now(),
             ]);
 
-            MangaDetail::where('manga_id', $manga->id)->increment('views', 1, ['updated_at' => DB::raw('updated_at')]);
+            MangaDetail::where('manga_id', $manga->id)
+                ->increment('views', 1, ['updated_at' => DB::raw('updated_at')]);
         }
 
-        $isBookmarked = Bookmark::where('user_id', Auth::id())->where('manga_id', $manga->id)->exists();
-        return view('manga.show', compact('manga', 'alsoRead', 'sortedChapters', 'isBookmarked'));
+        $readChapters = [];
+        $latestReadChapter = [];
+
+        if (Auth::check()) {
+            $latestReadChapter = UserActivity::with('chapter', 'manga')
+                ->where('user_id', Auth::id())
+                ->where('manga_id', $manga->id)
+                ->orderBy('created_at', 'desc')
+                ->take(3)
+                ->get();
+
+            $readChapters = UserActivity::where('user_id', Auth::id())
+                ->where('manga_id', $manga->id)
+                ->pluck('chapter_id')
+                ->toArray();
+
+            $isBookmarked = Bookmark::where('user_id', Auth::id())
+                ->where('manga_id', $manga->id)
+                ->exists();
+        } else {
+            $isBookmarked = false;
+        }
+
+        return view('manga.show', compact(
+            'manga',
+            'alsoRead',
+            'sortedChapters',
+            'isBookmarked',
+            'latestReadChapter',
+            'readChapters'
+        ));
     }
 
     public function reader($slug, $chapter_slug)

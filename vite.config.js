@@ -13,6 +13,7 @@ export default defineConfig({
                 'resources/js/bookmark.js',
                 'resources/css/reader.css',
                 'resources/css/welcome.css',
+                'resources/css/manga-show.css'
             ],
             refresh: true,
         }),

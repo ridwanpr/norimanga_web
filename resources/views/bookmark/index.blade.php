@@ -107,9 +107,9 @@
         @else
             <div class="text-center my-5">
                 <h3>Anda belum login</h3>
-                <p>Silakan login untuk melihat bookmark Anda.</p>
+                <p>Silakan login untuk menggunakan fitur bookmark.</p>
                 <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
-                <a href="{{ route('register') }}" class="btn btn-outline-primary">Daftar</a>
+                <a href="{{ route('register') }}" class="btn btn-outline-success">Daftar</a>
             </div>
         @endauth
     </div>
