@@ -127,7 +127,7 @@
                 </div>
 
                 <div>
-                    <h2 class="fs-4 mb-3 fw-bold border-start border-3 border-primary ps-2 ">Chapter List</h2>
+                    <h2 class="fs-4 mb-3 mt-2 fw-bold border-start border-3 border-primary ps-2 ">Chapter List</h2>
                 </div>
                 <input type="text" id="chapterSearch" class="form-control mb-3" placeholder="Search Chapter...">
                 <div class="chapter-list border rounded p-3" style="max-height: 420px; overflow-y: auto;">
