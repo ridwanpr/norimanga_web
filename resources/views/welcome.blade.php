@@ -5,73 +5,7 @@
         content="Baca manga, manhwa, manhua terbaru di Panelesia! Koleksi lengkap, update harian, gratis dan terjemahan Bahasa Indonesia terbaik.">
 @endsection
 @push('css')
-    <style>
-        .sidebar-text {
-            font-size: 15px;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar-text {
-                font-size: 13px;
-            }
-        }
-
-        .trending-card {
-            transition: all 0.2s ease;
-            border-radius: 0.5rem;
-        }
-
-        .trending-img-container {
-            padding: 7px 0 7px 7px;
-            height: 70px;
-        }
-
-        .manga-cover-wrapper {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            border-radius: 0.375rem;
-        }
-
-        .trending-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .manga-title {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            line-height: 1.2;
-            max-height: 2.4em;
-            font-size: 0.85rem !important;
-            margin-bottom: 0.2rem !important;
-        }
-
-        .card-text {
-            font-size: 0.7rem;
-            line-height: 1;
-        }
-
-        .nav-pills .nav-link {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.8rem;
-        }
-
-        .trendings .nav-pills {
-            margin-bottom: 0.75rem !important;
-        }
-
-        .trendings h2 {
-            margin-bottom: 0.5rem !important;
-        }
-    </style>
+    @vite('resources/css/welcome.css')
 @endpush
 @section('content')
     <div class="container py-1">
@@ -111,12 +45,6 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-8">
-                {{-- <div class="alert alert-danger" role="alert">
-                    <i class="bi bi-info-circle-fill text-danger"></i> <strong>Bookmark</strong> web <a
-                        href="https://noricomic.pages.dev/" class="text-decoration-none fw-bold"
-                        target="_blank">Noricomic</a> untuk
-                    selalu dapatkan akses ke domain terbaru.
-                </div> --}}
                 @if ($projects->count() > 0)
                     <section class="latest-project">
                         <h2 class="fs-4 fw-bold mb-3"><span class="text-primary">Project</span> Update</h2>

@@ -10,55 +10,7 @@
 @endsection
 @section('title', "Baca {$chapter->manga->title} {$chapter->title} Bahasa Indonesia - Panelesia - Manga Indonesia")
 @push('css')
-    <style>
-        .breadcrumb-item,
-        .breadcrumb-item a {
-            text-transform: capitalize;
-            font-size: 13px;
-        }
-
-        .reader-img {
-            width: 100%;
-        }
-
-        @media (min-width: 768px) {
-
-            .breadcrumb-item,
-            .breadcrumb-item a {
-                font-size: 13px;
-            }
-
-            .reader-container {
-                display: flex;
-                justify-content: center;
-            }
-
-            .reader-img {
-                width: 800px;
-            }
-
-            .reader-img img {
-                width: 100%;
-            }
-        }
-
-        #scrollProgressBar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 5px;
-            background: #007bff;
-            transition: width 0.1s linear;
-            z-index: 9999;
-        }
-
-        img:hover {
-            filter: none;
-            transform: none;
-            opacity: 1;
-        }
-    </style>
+    @vite('resources/css/reader.css')
 @endpush
 
 @section('content')
@@ -142,7 +94,8 @@
             <div class="reader-container">
                 <div class="reader-img">
                     <img src="https://s2.panelesia.my.id/panelesia.my.id.webp" alt="panelesia baca komik" class="img-fluid">
-                    <img src="{{ asset('assets/img/panelesia-kelebihan-fitur.png') }}" class="img-fluid my-1" alt="fitur dan kelebihan panelesia">
+                    <img src="{{ asset('assets/img/panelesia-kelebihan-fitur.png') }}" class="img-fluid my-1"
+                        alt="fitur dan kelebihan panelesia">
                     @foreach ($images as $index => $image)
                         <img src="{{ $image }}" class="img-fluid"
                             alt="{{ $chapter->manga->title }} {{ $chapter->title }}"
@@ -195,6 +148,30 @@
                 {{ $chapter->manga->title }} {{ $chapter->title }} high quality, {{ $chapter->manga->title }}
                 {{ $chapter->title }} manga scan, {{ now()->format('F d, Y') }}, Panelesia</small>
         </div>
+
+        <div class="container my-4">
+            <h2 class="fs-4 mb-3 fw-bold"><span class="text-primary">Kamu</span> Mungkin Suka</h2>
+            <div class="scroll-wrapper">
+                <div class="scroll-content">
+                    @foreach ($alsoRead as $manga)
+                        <div class="manga-card">
+                            <a href="{{ route('manga.show', $manga->slug) }}">
+                                <img src="{{ $manga->detail->cover }}" alt="{{ $manga->title }}"
+                                    onerror="this.src='https://placehold.co/250x300';">
+                                <div class="manga-info">
+                                    <h5 class="manga-title">{{ $manga->title }}</h5>
+                                    <span class="manga-genre">
+                                        {{ $manga->genres->pluck('name')->join(', ') }}
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+
         <div class="comments bg-body-tertiary mt-4 py-1 px-3 rounded">
             <h1 class="fs-4 mb-3 fw-bold mt-2">Komentar</h1>
             @include('layouts.partials.disqus-comment')

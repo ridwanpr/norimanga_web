@@ -11,6 +11,8 @@ export default defineConfig({
                 'resources/js/reader.js',
                 'resources/css/select2.css',
                 'resources/js/bookmark.js',
+                'resources/css/reader.css',
+                'resources/css/welcome.css',
             ],
             refresh: true,
         }),

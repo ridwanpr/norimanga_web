@@ -81,27 +81,27 @@ class MangaController extends Controller
 
     public function reader($slug, $chapter_slug)
     {
-        $chapter = Cache::remember("chapter_{$slug}_{$chapter_slug}", now()->addHours(12), function () use ($chapter_slug) {
+        $chapter = Cache::remember("chapter_{$slug}_{$chapter_slug}", now()->addHours(4), function () use ($chapter_slug) {
             return MangaChapter::where('slug', $chapter_slug)
                 ->with('manga')
                 ->firstOrFail();
         });
 
-        $prevChapter = Cache::remember("prev_chapter_{$slug}_{$chapter_slug}", now()->addHours(12), function () use ($chapter) {
+        $prevChapter = Cache::remember("prev_chapter_{$slug}_{$chapter_slug}", now()->addHours(4), function () use ($chapter) {
             return MangaChapter::where('manga_id', $chapter->manga_id)
                 ->where('slug', '<', $chapter->slug)
                 ->orderBy('slug', 'desc')
                 ->first();
         });
 
-        $nextChapter = Cache::remember("next_chapter_{$slug}_{$chapter_slug}", now()->addHours(12), function () use ($chapter) {
+        $nextChapter = Cache::remember("next_chapter_{$slug}_{$chapter_slug}", now()->addHours(4), function () use ($chapter) {
             return MangaChapter::where('manga_id', $chapter->manga_id)
                 ->where('slug', '>', $chapter->slug)
                 ->orderBy('slug', 'asc')
                 ->first();
         });
 
-        $images = Cache::remember("images_{$slug}_{$chapter_slug}", now()->addHours(12), function () use ($chapter) {
+        $images = Cache::remember("images_{$slug}_{$chapter_slug}", now()->addHours(4), function () use ($chapter) {
             return $chapter->getFormattedImages();
         });
 
@@ -110,6 +110,14 @@ class MangaController extends Controller
             $userActiviyService->storeUserActivity(Auth::id(), $chapter->manga_id, $chapter->id);
         }
 
-        return view('manga.reader', compact('chapter', 'images', 'prevChapter', 'nextChapter'));
+        $alsoRead = Cache::remember("also_read_{$slug}_{$chapter_slug}", now()->addHours(4), function () {
+            return Manga::with('detail', 'genres')->inRandomOrder()->limit(10)
+                ->get()->map(function ($manga) {
+                    $manga->detail->cover = str_replace('.s3.tebi.io', '', $manga->detail->cover);
+                    return $manga;
+                });
+        });
+
+        return view('manga.reader', compact('chapter', 'images', 'prevChapter', 'nextChapter', 'alsoRead'));
     }
 }
