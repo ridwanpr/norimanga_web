@@ -46,7 +46,7 @@ class KomikIndoChapterScraper extends BaseChapterScraper
     protected function extractImageUrls(string $html): array
     {
         $imageUrls = [];
-        preg_match_all('/<img src=["\'](https?:\/\/(?!blogger\.googleusercontent\.com)[^"\']+)["\']/', $html, $matches);
+        preg_match_all('/<img src=["\'](https?:\/\/(?!blogger\.googleusercontent\.com)(?![^"\']*wp-content\/uploads)[^"\']+)["\']/', $html, $matches);
 
         if (!empty($matches[1])) {
             $imageUrls = array_unique($matches[1]);
