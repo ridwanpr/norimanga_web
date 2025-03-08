@@ -9,9 +9,7 @@
                 <div class="col-12 my-2 mb-3">
                     <div class="card p-2 shadow-sm text-center">
                         <h5 class="fw-bold">Auto Fetch Komik & Chapter</h5>
-                        <p class="text-muted small">Ambil data otomatis dari berbagai sumber. Gunakan secara wajar untuk
-                            menghindari pemblokiran IP.</p>
-                        <div class="d-flex flex-wrap justify-content-center">
+                        <div class="d-flex flex-wrap justify-content-center mt-1">
                             @php
                                 $sources = [
                                     ['name' => 'WestManga', 'url' => 'westmanga.fun', 'color' => '#dc3545'],
@@ -20,10 +18,11 @@
                                     ['name' => 'ManhwaID', 'url' => 'manhwaid.id', 'color' => '#0d6efd'],
                                     ['name' => 'Kiryuu', 'url' => 'kiryuu01.com', 'color' => '#6e4f9d'],
                                     ['name' => 'Komikindo', 'url' => 'komikindo2.com', 'color' => '#007aff'],
+                                    ['name' => 'Maid', 'url' => 'maid.my.id', 'color' => '#3a6595'],
                                 ];
                             @endphp
                             @foreach ($sources as $source)
-                                <div class="p-2 m-1 flex-fill text-white rounded text-center"
+                                <div class="p-1 m-1 flex-fill text-white rounded text-center"
                                     style="background-color: {{ $source['color'] }}; min-width: 10%;">
                                     <strong>{{ $source['name'] }}</strong><br>
                                     <span class="small">{{ $source['url'] }}</span>
@@ -32,8 +31,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="col-12 col-md-5 mt-2 mt-md-0">
                     <div class="card">
                         <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">

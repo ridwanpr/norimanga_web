@@ -7,6 +7,7 @@ use App\Scrapers\ChapterScraper\KiryuuChapterScraper;
 use App\Scrapers\ChapterScraper\ApkomikChapterScraper;
 use App\Scrapers\ChapterScraper\ComicasoChapterScraper;
 use App\Scrapers\ChapterScraper\KomikIndoChapterScraper;
+use App\Scrapers\ChapterScraper\MaidMangaChapterScraper;
 use App\Scrapers\ChapterScraper\ManhwaIDChapterScraper;
 use App\Scrapers\ChapterScraper\WestMangaChapterScraper;
 use App\Scrapers\ChapterScraper\ManhwaindoChapterScraper;
@@ -38,6 +39,8 @@ class ChapterScraperFactory
                 return new KiryuuChapterScraper();
             case 'komikindo2.com':
                 return new KomikIndoChapterScraper();
+            case 'www.maid.my.id':
+                return new MaidMangaChapterScraper();
             default:
                 throw new \InvalidArgumentException("Unsupported manga source: {$manga->source}");
         }

@@ -59,6 +59,7 @@ class BackupDB extends Command
         } catch (\Exception $e) {
             $this->error('Backup upload failed.');
             Log::error('Backup upload failed: ' . $e->getMessage());
+            Log::error($e);
         }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Factories;
 
 use App\Scrapers\KiryuuScraper;
 use App\Scrapers\KomikIndoScraper;
+use App\Scrapers\MaidMangaScraper;
 use DOMXPath;
 use App\Scrapers\WestMangaScraper;
 use App\Scrapers\ApkomikScraper;
@@ -29,6 +30,8 @@ class MangaScraperFactory
             return new KiryuuScraper($xpath, $url);
         } else if (str_contains($domain, 'komikindo2.com')) {
             return new KomikIndoScraper($xpath, $url);
+        } else if (str_contains($domain, 'maid')) {
+            return new MaidMangaScraper($xpath, $url);
         } else {
             return new ManhwaindoScraper($xpath, $url);
         }
