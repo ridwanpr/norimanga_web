@@ -150,7 +150,7 @@
         </div>
 
         <div class="container my-4">
-            <h2 class="fs-4 mb-3 fw-bold"><span class="text-primary">Kamu</span> Mungkin Suka</h2>
+            <h2 class="fs-4 mb-3 fw-bold"><span class="text-primary">Baca Juga</h2>
             <div class="scroll-wrapper">
                 <div class="scroll-content">
                     @foreach ($alsoRead as $manga)

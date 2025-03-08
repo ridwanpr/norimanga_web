@@ -16,22 +16,22 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/">
-                        <i class="bi bi-house-fill me-2"></i>Beranda
+                       Beranda
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('manga.grid-list') }}">
-                        <i class="bi bi-journal-bookmark-fill me-2"></i>Daftar Komik
+                        Daftar Komik
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('bookmark.index') }}">
-                        <i class="bi bi-bookmark-star-fill me-2"></i>Bookmark
+                        Bookmark
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://forms.gle/woMnsABJ4DJhsN1B9" target="_blank">
-                        <i class="bi bi-flag-fill me-2"></i>Lapor
+                        Lapor
                     </a>
                 </li>
             </ul>
