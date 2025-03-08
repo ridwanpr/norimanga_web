@@ -150,6 +150,19 @@ return [
             'throw' => false,
             'report' => false,
         ],
+
+        's8' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID_8'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY_8'),
+            'region' => env('AWS_DEFAULT_REGION_8'),
+            'bucket' => env('AWS_BUCKET_8'),
+            'url' => env('AWS_URL_8'),
+            'endpoint' => env('AWS_ENDPOINT_8'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+            'report' => false,
+        ],
     ],
 
     /*
