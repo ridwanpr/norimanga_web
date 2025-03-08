@@ -19,11 +19,12 @@
                                     ['name' => 'Comicaso', 'url' => 'comicaso.id', 'color' => '#20c997'],
                                     ['name' => 'ManhwaID', 'url' => 'manhwaid.id', 'color' => '#0d6efd'],
                                     ['name' => 'Kiryuu', 'url' => 'kiryuu01.com', 'color' => '#6e4f9d'],
+                                    ['name' => 'Komikindo', 'url' => 'komikindo2.com', 'color' => '#007aff'],
                                 ];
                             @endphp
                             @foreach ($sources as $source)
                                 <div class="p-2 m-1 flex-fill text-white rounded text-center"
-                                    style="background-color: {{ $source['color'] }}; min-width: 18%;">
+                                    style="background-color: {{ $source['color'] }}; min-width: 10%;">
                                     <strong>{{ $source['name'] }}</strong><br>
                                     <span class="small">{{ $source['url'] }}</span>
                                 </div>
