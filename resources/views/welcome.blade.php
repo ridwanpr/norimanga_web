@@ -73,6 +73,10 @@
                 z-index: 5;
             }
         }
+
+        .slick-dots, .carousel-indicators {
+            display: none !important;
+        }
     </style>
 @endpush
 @section('content')
