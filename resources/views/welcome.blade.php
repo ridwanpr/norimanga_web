@@ -6,9 +6,144 @@
 @endsection
 @push('css')
     @vite('resources/css/welcome.css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"
+        integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"
+        integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        #komikCarousel .carousel-indicators {
+            margin-bottom: 0.5rem;
+            z-index: 5;
+        }
+
+        #komikCarousel .carousel-indicators button {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin: 0 4px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        #komikCarousel .carousel-indicators button.active {
+            background-color: #4caf50;
+        }
+
+        .manga-synopsis {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        #komikCarousel .carousel-control-prev,
+        #komikCarousel .carousel-control-next {
+            opacity: 0.8;
+            width: 10%;
+        }
+
+        #komikCarousel .carousel-control-prev:hover,
+        #komikCarousel .carousel-control-next:hover {
+            opacity: 1;
+        }
+
+        .carousel {
+            touch-action: pan-y;
+        }
+
+        @media (max-width: 768px) {
+            .manga-slide {
+                height: 400px;
+            }
+
+            #komikCarousel .col-md-6:first-child {
+                padding-bottom: 2rem;
+            }
+
+            #komikCarousel .col-md-6:last-child {
+                clip-path: none;
+                height: 200px;
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                opacity: 0.3;
+            }
+
+            .manga-info {
+                position: relative;
+                z-index: 5;
+            }
+        }
+    </style>
 @endpush
 @section('content')
     <div class="container py-1">
+        <div id="komikCarousel" class="carousel slide mb-3" data-bs-touch="true" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                @foreach ($carouselManga as $c => $carousel)
+                    <button type="button" data-bs-target="#komikCarousel" data-bs-slide-to="{{ $c }}"
+                        class="{{ $c == 0 ? 'active' : '' }}" aria-current="{{ $c == 0 ? 'true' : 'false' }}"
+                        aria-label="Slide {{ $c + 1 }}"></button>
+                @endforeach
+            </div>
+
+            <div class="carousel-inner slick-carousel rounded">
+                @foreach ($carouselManga as $c => $carousel)
+                    <div class="carousel-item {{ $c == 0 ? 'active' : '' }}">
+                        <div class="manga-slide" style="height: 380px; position: relative; overflow: hidden;">
+                            <div class="slide-bg"
+                                style="
+                                position: absolute;
+                                width: 100%;
+                                height: 100%;
+                                background: linear-gradient(135deg, rgba(76, 175, 80, 0.9) 0%, rgba(120, 52, 160, 0.8) 100%),
+                                            url('{{ $carousel->detail->cover }}') center center/cover no-repeat;
+                                filter: blur(5px);
+                                z-index: 1;
+                            ">
+                            </div>
+
+                            <div class="container-fluid h-100 position-relative" style="z-index: 2;">
+                                <div class="row h-100">
+                                    <div class="col-md-6 d-flex flex-column justify-content-center text-white p-4">
+                                        <div class="manga-info">
+                                            <h2 class="fw-bold">{{ $carousel->title }}</h2>
+                                            <p class="my-2 manga-synopsis">
+                                                {{ Str::limit($carousel->detail->synopsis, 120) }}</p>
+                                            <div class="genre-tags mb-3">
+                                                @if (isset($carousel->genres))
+                                                    @foreach ($carousel->genres as $genre)
+                                                        <span class="badge bg-dark me-1">{{ $genre->name }}</span>
+                                                    @endforeach
+                                                @else
+                                                    <span class="badge bg-dark me-1">Action</span>
+                                                    <span class="badge bg-dark me-1">Drama</span>
+                                                    <span class="badge bg-dark me-1">Shounen</span>
+                                                @endif
+                                            </div>
+                                            <a href="{{ route('manga.show', $carousel->slug) }}"
+                                                class="btn btn-warning text-dark fw-bold px-4 py-2">
+                                                Mulai Baca →
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 p-0 h-100"
+                                        style="clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);">
+                                        <div class="cover-image h-100 w-100"
+                                            style="
+                                            background: url('{{ $carousel->detail->cover }}') center center/contain no-repeat;
+                                            background-position: right center;
+                                            padding-left: 10%;
+                                        ">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
         {{-- <div class="hero-bg"></div> --}}
         <section class="featured">
             <div class="row mb-2">
@@ -91,7 +226,8 @@
                             <div class="col-6 col-md-4 col-lg-3">
                                 <a href="{{ route('manga.show', $update->slug) }}" class="text-decoration-none">
                                     <div class="position-relative">
-                                        <img src="{{ $update->cover }}" onerror="this.src='https://placehold.co/250x300';"
+                                        <img src="{{ $update->cover }}"
+                                            onerror="this.src='https://placehold.co/250x300';"
                                             class="img-fluid rounded mb-1 fixed-size-latest"
                                             alt="{{ $update->title }} cover image" loading="lazy">
                                         @switch($update->type)
@@ -156,8 +292,8 @@
                     <ul class="nav nav-pills nav-fill mb-3 bg-dark rounded p-1" id="trendingPills" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active btn-sm d-flex align-items-center justify-content-center"
-                                id="today-pill" data-bs-toggle="pill" data-bs-target="#today" type="button" role="tab"
-                                aria-controls="today" aria-selected="true">
+                                id="today-pill" data-bs-toggle="pill" data-bs-target="#today" type="button"
+                                role="tab" aria-controls="today" aria-selected="true">
                                 <i class="bi bi-calendar-date me-1"></i> Today
                             </button>
                         </li>
@@ -287,3 +423,29 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
+        integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function() {
+            $('.slick-carousel').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: true,
+                arrows: true,
+                infinite: true,
+                adaptiveHeight: true,
+                autoplay: true,
+                autoplaySpeed: 3000,
+                prevArrow: '<button type="button" class="slick-prev">&lt;</button>',
+                nextArrow: '<button type="button" class="slick-next">&gt;</button>',
+            });
+
+            $('#komikCarousel').removeClass('carousel slide').removeAttr('data-bs-ride data-bs-touch');
+        });
+    </script>
+@endpush

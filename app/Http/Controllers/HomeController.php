@@ -14,6 +14,14 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $carouselManga = Cache::remember('carousel_manga', now()->addHours(8), function () {
+            return Manga::with('detail', 'genres')->inRandomOrder()->limit(5)
+                ->get()->map(function ($manga) {
+                    $manga->detail->cover = str_replace('.s3.tebi.io', '', $manga->detail->cover);
+                    return $manga;
+                });
+        });
+
         $latestUpdate = Cache::remember('latest_update', now()->addMinutes(15), function () {
             return Manga::query()
                 ->join('manga_detail', 'manga.id', '=', 'manga_detail.manga_id')
@@ -114,6 +122,6 @@ class HomeController extends Controller
                 });
         });
 
-        return view('welcome', compact('latestUpdate', 'genres', 'trendingDaily', 'trendingWeekly', 'trendingMonthly', 'projects', 'featureds'));
+        return view('welcome', compact('latestUpdate', 'genres', 'trendingDaily', 'trendingWeekly', 'trendingMonthly', 'projects', 'featureds', 'carouselManga'));
     }
 }
