@@ -108,7 +108,7 @@
                                         <div class="manga-info">
                                             <h2 class="fw-bold">{{ $carousel->title }}</h2>
                                             <p class="my-2 manga-synopsis">
-                                                {{ Str::limit($carousel->detail->synopsis, 120) }}</p>
+                                                {{ Str::limit($carousel->detail->synopsis, 250) }}</p>
                                             <div class="genre-tags mb-3">
                                                 @if (isset($carousel->genres))
                                                     @foreach ($carousel->genres as $genre)
