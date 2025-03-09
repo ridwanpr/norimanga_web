@@ -163,6 +163,19 @@ return [
             'throw' => false,
             'report' => false,
         ],
+
+        's9' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID_9'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY_9'),
+            'region' => env('AWS_DEFAULT_REGION_9'),
+            'bucket' => env('AWS_BUCKET_9'),
+            'url' => env('AWS_URL_9'),
+            'endpoint' => env('AWS_ENDPOINT_9'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+            'report' => false,
+        ],
     ],
 
     /*
