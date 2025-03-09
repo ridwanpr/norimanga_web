@@ -133,10 +133,10 @@
                         @foreach ($sortedChapters as $chapter)
                             <div class="col-6 col-md-3">
                                 <a href="{{ route('manga.reader', [$manga->slug, $chapter->slug]) }}"
-                                    class="btn border w-100 position-relative {{ in_array($chapter->id, $readChapters ?? []) ? 'read-chapter' : '' }}">
+                                    class="btn border w-100 position-relative {{ in_array($chapter->id, $readChapters ?? []) ? 'read-chapter' : '' }}" style="font-size: 13px">
                                     {{ $chapter->title }}
                                     <br>
-                                    <small class="small text-muted">{{ $chapter->created_at->format('d M Y') }}</small>
+                                    <small class="small text-muted" style="font-size: 12px">{{ $chapter->created_at->format('d M Y') }}</small>
 
                                     @if (in_array($chapter->id, $readChapters ?? []))
                                         <span class="position-absolute top-0 end-0 p-1">

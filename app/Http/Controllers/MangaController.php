@@ -51,7 +51,7 @@ class MangaController extends Controller
                     'manga_detail.type'
                 )
                 ->inRandomOrder()
-                ->limit(5)
+                ->limit(8)
                 ->get()
                 ->map(function ($manga) {
                     $manga->cover = str_replace('.s3.tebi.io', '', $manga->cover);
