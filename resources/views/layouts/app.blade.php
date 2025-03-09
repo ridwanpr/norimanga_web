@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/css/nori.css', 'resources/js/app.js'])
     @stack('css')
+    @speculationRulesApi
 </head>
 
 <body>

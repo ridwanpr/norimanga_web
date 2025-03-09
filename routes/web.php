@@ -23,18 +23,18 @@ use App\Http\Controllers\Backend\ManageComicController;
 use App\Http\Controllers\Backend\BucketStatusController;
 use App\Http\Controllers\Backend\MangaChapterController;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('daftar-komik', [MangaListController::class, 'gridList'])->name('manga.grid-list');
-Route::get('daftar-komik/text', [MangaListController::class, 'textList'])->name('manga.text-list');
+Route::get('/', [HomeController::class, 'index'])->name('home')->prerender();
+Route::get('daftar-komik', [MangaListController::class, 'gridList'])->name('manga.grid-list')->prerender();
+Route::get('daftar-komik/text', [MangaListController::class, 'textList'])->name('manga.text-list')->prerender();
 
-Route::get('komik/{slug}', [MangaController::class, 'show'])->name('manga.show');
-Route::get('komik/{slug}/{chapter_slug}', [MangaController::class, 'reader'])->name('manga.reader');
+Route::get('komik/{slug}', [MangaController::class, 'show'])->name('manga.show')->prefetch();
+Route::get('komik/{slug}/{chapter_slug}', [MangaController::class, 'reader'])->name('manga.reader')->prefetch();
 Route::post('chapter-issue', [UserIssueController::class, 'store'])->name('report.chapter');
 Route::get('blog', [BlogController::class, 'index'])->name('blog.index');
 
 Route::middleware('guest')->group(function () {
-    Route::get('login', [AuthController::class, 'login'])->name('login');
-    Route::get('register', [AuthController::class, 'register'])->name('register');
+    Route::get('login', [AuthController::class, 'login'])->name('login')->prerender();
+    Route::get('register', [AuthController::class, 'register'])->name('register')->prerender();
     Route::post('login', [AuthController::class, 'postLogin'])->name('login.post');
     Route::post('register', [AuthController::class, 'postRegister'])->name('register.post');
 });
@@ -44,19 +44,19 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['middleware' => ['auth', 'checkRoles:user']], function () {
-    Route::get('my-account', [UserAccountController::class, 'myAccount'])->name('my-account');
+    Route::get('my-account', [UserAccountController::class, 'myAccount'])->name('my-account')->prerender();
     Route::put('update-profile/{id}', [UserAccountController::class, 'updateProfile'])->name('update-profile');
 
-    Route::get('stats', [StatsController::class, 'index'])->name('stats.index');
+    Route::get('stats', [StatsController::class, 'index'])->name('stats.index')->prerender();
 
     Route::post('/bookmark/toggle', [BookmarkController::class, 'toggle']);
     Route::delete('/bookmark/destroy', [BookmarkController::class, 'destroy'])->name('bookmark.destroy');
 });
 
-Route::get('bookmark', [BookmarkController::class, 'index'])->name('bookmark.index');
+Route::get('bookmark', [BookmarkController::class, 'index'])->name('bookmark.index')->prerender();
 
 Route::group(['middleware' => ['auth', 'checkRoles:admin']], function () {
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard')->prerender();
     Route::prefix('admin/users')->group(function () {
         Route::get('/', [ManageUserController::class, 'index'])->name('admin.users.index');
         Route::post('/ban/{id}', [ManageUserController::class, 'banUser'])->name('admin.users.ban');
