@@ -17,7 +17,7 @@
     <div class="bg-body-tertiary py-3 py-md-5">
         <div class="container">
             <div class="row">
-                <div class="col-12 col-md-2 mb-3 mb-md-0 text-center">
+                <div class="col-12 col-md-3 col-lg-2 mb-3 mb-md-0 text-center">
                     <img src="{{ $manga->detail->cover }}" alt="{{ $manga->title }}"
                         class="img-fluid rounded shadow-sm cover-img">
                     <div class="mt-3">
@@ -41,7 +41,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                <div class="col-12 col-md-5 col-lg-6 mb-3 mb-md-0">
                     <h1 class="h4 mb-3">{{ $manga->title }}</h1>
                     <p class="text-muted">{{ $manga->detail->synopsis }}</p>
                     <ul class="genre-tags d-flex flex-wrap gap-2 mb-0">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
-                    <div class="card border-0 shadow-sm">
+                    <div class="card border-0 mt-2 shadow-sm">
                         <div class="card-body">
                             <ul class="list-unstyled">
                                 <li class="mb-2"><strong>Type:</strong> <span

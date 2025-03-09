@@ -43,7 +43,7 @@ class HomeController extends Controller
                             ->take(2);
                     }
                 ])
-                ->orderBy('manga_detail.updated_at', 'desc') 
+                ->orderBy('manga_detail.updated_at', 'desc')
                 ->take(20)
                 ->get()
                 ->map(function ($manga) {

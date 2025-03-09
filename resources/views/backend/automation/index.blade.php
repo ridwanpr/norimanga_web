@@ -19,6 +19,7 @@
                                     ['name' => 'Kiryuu', 'url' => 'kiryuu01.com', 'color' => '#6e4f9d'],
                                     ['name' => 'Komikindo', 'url' => 'komikindo2.com', 'color' => '#007aff'],
                                     ['name' => 'Maid', 'url' => 'maid.my.id', 'color' => '#3a6595'],
+                                    ['name' => 'Komiksin', 'url' => 'komiksin.id', 'color' => '#c21b0a'],
                                 ];
                             @endphp
                             @foreach ($sources as $source)

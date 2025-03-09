@@ -32,6 +32,8 @@ class MangaScraperFactory
             return new KomikIndoScraper($xpath, $url);
         } else if (str_contains($domain, 'maid')) {
             return new MaidMangaScraper($xpath, $url);
+        } else if (str_contains($domain, 'komiksin')) {
+            return new WestMangaScraper($xpath, $url);
         } else {
             return new ManhwaindoScraper($xpath, $url);
         }

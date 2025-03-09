@@ -29,6 +29,11 @@
                         Bookmark
                     </a>
                 </li>
+                {{-- <li class="nav-item">
+                    <a class="nav-link" href="{{ route('blog.index') }}">
+                        Blog
+                    </a>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link" href="https://forms.gle/woMnsABJ4DJhsN1B9" target="_blank">
                         Lapor

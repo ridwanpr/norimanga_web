@@ -41,6 +41,8 @@ class ChapterScraperFactory
                 return new KomikIndoChapterScraper();
             case 'www.maid.my.id':
                 return new MaidMangaChapterScraper();
+            case 'komiksin.id':
+                return new WestMangaChapterScraper();
             default:
                 throw new \InvalidArgumentException("Unsupported manga source: {$manga->source}");
         }

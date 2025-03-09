@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\ChapterController;
 use App\Http\Controllers\Backend\UpdateInfoController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\UserIssueController;
 use App\Jobs\SyncBucketUsageJob;
 use App\Jobs\UpdateBucketUsageJob;
@@ -29,6 +30,7 @@ Route::get('daftar-komik/text', [MangaListController::class, 'textList'])->name(
 Route::get('komik/{slug}', [MangaController::class, 'show'])->name('manga.show');
 Route::get('komik/{slug}/{chapter_slug}', [MangaController::class, 'reader'])->name('manga.reader');
 Route::post('chapter-issue', [UserIssueController::class, 'store'])->name('report.chapter');
+Route::get('blog', [BlogController::class, 'index'])->name('blog.index');
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('login');

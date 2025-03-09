@@ -18,7 +18,7 @@
             </div>
             <div class="row g-2">
                 @foreach ($featureds as $featured)
-                    <div class="col-4 col-md-2">
+                    <div class="col-4 col-md-3 col-lg-2">
                         <div class="image-container">
                             <a href="{{ route('manga.show', $featured->slug) }}">
                                 <img src="{{ $featured->cover }}" class="img-fluid rounded fixed-size-img"
@@ -88,7 +88,7 @@
                     <h2 class="fs-4 mb-3 fw-bold"><span class="text-primary">Update</span> Terbaru</h2>
                     <div class="row g-2">
                         @foreach ($latestUpdate as $update)
-                            <div class="col-6 col-md-3">
+                            <div class="col-6 col-md-4 col-lg-3">
                                 <a href="{{ route('manga.show', $update->slug) }}" class="text-decoration-none">
                                     <div class="position-relative">
                                         <img src="{{ $update->cover }}" onerror="this.src='https://placehold.co/250x300';"
