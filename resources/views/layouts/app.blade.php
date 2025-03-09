@@ -17,7 +17,134 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/css/nori.css', 'resources/js/app.js'])
     @stack('css')
-    @speculationRulesApi
+    <script type="speculationrules">{
+        "prerender": [
+            {
+                "where": {
+                    "and": [
+                        {
+                            "href_matches": "\/"
+                        }
+                    ]
+                },
+                "eagerness": "moderate"
+            },
+            {
+                "where": {
+                    "and": [
+                        {
+                            "href_matches": "daftar-komik"
+                        }
+                    ]
+                },
+                "eagerness": "moderate"
+            },
+            {
+                "where": {
+                    "and": [
+                        {
+                            "href_matches": "daftar-komik\/text"
+                        }
+                    ]
+                },
+                "eagerness": "moderate"
+            },
+            {
+                "where": {
+                    "and": [
+                        {
+                            "href_matches": "login"
+                        }
+                    ]
+                },
+                "eagerness": "moderate"
+            },
+            {
+                "where": {
+                    "and": [
+                        {
+                            "href_matches": "register"
+                        }
+                    ]
+                },
+                "eagerness": "moderate"
+            },
+            {
+                "where": {
+                    "and": [
+                        {
+                            "href_matches": "my-account"
+                        }
+                    ]
+                },
+                "eagerness": "moderate"
+            },
+            {
+                "where": {
+                    "and": [
+                        {
+                            "href_matches": "stats"
+                        }
+                    ]
+                },
+                "eagerness": "moderate"
+            },
+            {
+                "where": {
+                    "and": [
+                        {
+                            "href_matches": "bookmark"
+                        }
+                    ]
+                },
+                "eagerness": "moderate"
+            },
+            {
+                "where": {
+                    "and": [
+                        {
+                            "href_matches": "dashboard"
+                        }
+                    ]
+                },
+                "eagerness": "moderate"
+            }
+        ],
+        "prefetch": [
+            {
+                "where": {
+                    "and": [
+                        {
+                            "href_matches": "\/komik\/*"
+                        },
+                        {
+                            "not": {
+                                "href_matches": "\/komik\/*\/*"
+                            }
+                        }
+                    ]
+                },
+                "eagerness": "moderate",
+                "referrer_policy": "no-referrer"
+            },
+            {
+                "where": {
+                    "and": [
+                        {
+                            "href_matches": "\/komik\/*\/*"
+                        },
+                        {
+                            "not": {
+                                "href_matches": "\/komik\/*\/*\/*"
+                            }
+                        }
+                    ]
+                },
+                "eagerness": "moderate",
+                "referrer_policy": "no-referrer"
+            }
+        ]
+    }</script>
 </head>
 
 <body>
