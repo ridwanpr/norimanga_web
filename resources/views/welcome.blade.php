@@ -77,7 +77,7 @@
 @endpush
 @section('content')
     <div class="container py-1">
-        <div id="komikCarousel" class="carousel slide mb-3" data-bs-touch="true" data-bs-ride="carousel">
+        <div id="komikCarousel" class="carousel slide mb-2" data-bs-touch="true" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 @foreach ($carouselManga as $c => $carousel)
                     <button type="button" data-bs-target="#komikCarousel" data-bs-slide-to="{{ $c }}"
@@ -86,7 +86,7 @@
                 @endforeach
             </div>
 
-            <div class="carousel-inner slick-carousel rounded">
+            <div class="carousel-inner mb-1 slick-carousel rounded">
                 @foreach ($carouselManga as $c => $carousel)
                     <div class="carousel-item {{ $c == 0 ? 'active' : '' }}">
                         <div class="manga-slide" style="height: 380px; position: relative; overflow: hidden;">
@@ -101,7 +101,6 @@
                                 z-index: 1;
                             ">
                             </div>
-
                             <div class="container-fluid h-100 position-relative" style="z-index: 2;">
                                 <div class="row h-100">
                                     <div class="col-md-6 d-flex flex-column justify-content-center text-white p-4">
@@ -112,12 +111,10 @@
                                             <div class="genre-tags mb-3">
                                                 @if (isset($carousel->genres))
                                                     @foreach ($carousel->genres as $genre)
-                                                        <span class="badge bg-dark me-1">{{ $genre->name }}</span>
+                                                        <span
+                                                            class="badge border border-white text-white me-1">{{ $genre->name }}</span>
                                                     @endforeach
                                                 @else
-                                                    <span class="badge bg-dark me-1">Action</span>
-                                                    <span class="badge bg-dark me-1">Drama</span>
-                                                    <span class="badge bg-dark me-1">Shounen</span>
                                                 @endif
                                             </div>
                                             <a href="{{ route('manga.show', $carousel->slug) }}"
@@ -226,8 +223,7 @@
                             <div class="col-6 col-md-4 col-lg-3">
                                 <a href="{{ route('manga.show', $update->slug) }}" class="text-decoration-none">
                                     <div class="position-relative">
-                                        <img src="{{ $update->cover }}"
-                                            onerror="this.src='https://placehold.co/250x300';"
+                                        <img src="{{ $update->cover }}" onerror="this.src='https://placehold.co/250x300';"
                                             class="img-fluid rounded mb-1 fixed-size-latest"
                                             alt="{{ $update->title }} cover image" loading="lazy">
                                         @switch($update->type)
