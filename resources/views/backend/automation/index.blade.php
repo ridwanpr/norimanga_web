@@ -14,7 +14,7 @@
                                 $sources = [
                                     ['name' => 'WestManga', 'url' => 'westmanga.fun', 'color' => '#dc3545'],
                                     ['name' => 'ManhwaIndo', 'url' => 'manhwaindo.one', 'color' => '#6f42c1'],
-                                    ['name' => 'Comicaso', 'url' => 'comicaso.id', 'color' => '#20c997'],
+                                    ['name' => 'Comicaso', 'url' => 'comicaso.xyz', 'color' => '#20c997'],
                                     ['name' => 'ManhwaID', 'url' => 'manhwaid.id', 'color' => '#0d6efd'],
                                     ['name' => 'Kiryuu', 'url' => 'kiryuu01.com', 'color' => '#6e4f9d'],
                                     ['name' => 'Komikindo', 'url' => 'komikindo2.com', 'color' => '#007aff'],

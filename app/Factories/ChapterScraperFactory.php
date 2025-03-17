@@ -29,7 +29,7 @@ class ChapterScraperFactory
                 return new ManhwaindoChapterScraper();
             case 'westmanga.fun':
                 return new WestMangaChapterScraper();
-            case 'comicaso.id':
+            case 'comicaso.xyz':
                 return new ComicasoChapterScraper();
             case 'manhwaid.id':
                 return new ManhwaIDChapterScraper();
