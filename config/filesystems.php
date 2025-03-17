@@ -176,6 +176,19 @@ return [
             'throw' => false,
             'report' => false,
         ],
+
+        's10' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID_10'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY_10'),
+            'region' => env('AWS_DEFAULT_REGION_10'),
+            'bucket' => env('AWS_BUCKET_10'),
+            'url' => env('AWS_URL_10'),
+            'endpoint' => env('AWS_ENDPOINT_10'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+            'report' => false,
+        ],
     ],
 
     /*
